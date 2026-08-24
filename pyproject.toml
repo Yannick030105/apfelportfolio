@@ -1,0 +1,23 @@
+[project]
+name = "apfelportfolio"
+version = "0.1.0"
+description = "Lernspiel Apfelportfolio - Portfoliomanagement fuer Azubis"
+requires-python = ">=3.10"
+dependencies = [
+    "streamlit>=1.32",
+    "pandas>=2.0",
+    "pyarrow",
+    "altair",
+    "plotly",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pyinstaller",
+    "pytest>=7.0",
+    "invoke>=2.2",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
