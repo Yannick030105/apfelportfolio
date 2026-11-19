@@ -1,7 +1,7 @@
 /// <reference types="vitest/config" />
 import { defineConfig } from "vite";
 import { viteSingleFile } from "vite-plugin-singlefile";
-import paket from "./package.json";
+import paket from "./package.json" with { type: "json" };
 
 export default defineConfig({
   // Relative Pfade: die fertige Datei wird per Doppelklick (file://) geoeffnet.

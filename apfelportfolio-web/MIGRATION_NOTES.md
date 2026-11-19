@@ -1,6 +1,6 @@
 # MIGRATION_NOTES – Apfelportfolio Python/Streamlit → TypeScript
 
-Stand: Phase 1 abgeschlossen (Gerüst). Wird je Phase fortgeschrieben.
+Stand: Phase 2 abgeschlossen (Modelle + Level 1). Wird je Phase fortgeschrieben.
 
 ---
 
@@ -8,11 +8,16 @@ Stand: Phase 1 abgeschlossen (Gerüst). Wird je Phase fortgeschrieben.
 
 | Alt (Python, Repo-Wurzel) | Neu (`apfelportfolio-web/`) | Status |
 |---|---|---|
-| `src/apfelportfolio/domain/models.py` | `src/domain/models.ts` | offen (Phase 2) |
-| – (Zufall war in den Level-Klassen) | `src/domain/wuerfel.ts` | offen (Phase 2) |
-| – | `src/domain/runden.ts` (Python-`round()`) | offen (Phase 2) |
-| `src/apfelportfolio/levels/base.py` | `src/levels/base.ts` | offen (Phase 2) |
-| `src/apfelportfolio/levels/level1_grundlast.py` | `src/levels/level1Grundlast.ts` | offen (Phase 2) |
+| `src/apfelportfolio/domain/models.py` | `src/domain/models.ts` | **erledigt (Phase 2)** |
+| – (Zufall war in den Level-Klassen) | `src/domain/wuerfel.ts` | **erledigt (Phase 2)** |
+| Python-Builtins `round()`, `int()`, `f"{x:.Nf}"` | `src/domain/runden.ts` | **erledigt (Phase 2)** |
+| Python-Builtin `sum()` (≥ 3.12) | `src/domain/summe.ts` | **erledigt (Phase 2)** |
+| Python `repr(float)` / `str(int)` in Fehlermeldungen | `src/domain/pythonText.ts` | **erledigt (Phase 2)** |
+| `ValueError` u. a. | `src/domain/fehler.ts` | **erledigt (Phase 2)** |
+| `src/apfelportfolio/levels/base.py` | `src/levels/base.ts` | **erledigt (Phase 2)** |
+| `src/apfelportfolio/levels/level1_grundlast.py` | `src/levels/level1Grundlast.ts` | **erledigt (Phase 2)** |
+| Slider-Grenzen aus `ui/pages/1_spielen.py` (`main()`) | `eingabegrenzen_level1` in `src/levels/level1Grundlast.ts` | **erledigt (Phase 2)** |
+| – | `src/levels/registry.ts` (gemeinsame Level-Schnittstelle) | offen (Phase 3) |
 | `src/apfelportfolio/levels/level2_ereignisse.py` | `src/levels/level2Ereignisse.ts`, `src/levels/effekte.ts`, `config/ereignisse.json` | offen (Phase 3) |
 | `src/apfelportfolio/dashboard/kpis.py` | `src/dashboard/kpis.ts` | offen (Phase 4) |
 | `src/apfelportfolio/data/repository.py`, `data/schema.py`, `data/players.py`, `data_store/spiellog.csv` | `src/storage/*`, `tools/spiellog_migrieren.py` | offen (Phase 5) |
@@ -110,9 +115,52 @@ Erzeugt mit `python3 tools/referenz_erzeugen.py` (Python 3.13). Format siehe Doc
 
 ---
 
+## 3a. Phase 2 – Modelle und Level 1
+
+- **Ergebnis:** Alle 380 Level-1-Referenzfälle (1.906 Schritte inkl. 6 Fehlerschritten)
+  stimmen exakt überein – Tagesmarkt, Nachfrage, Slider-Grenzen, jede Tagesabrechnung,
+  Fehlermeldungen (wörtlich), Level-Zustand nach jedem Schritt (auch nach Fehlern) und
+  Wochenergebnis. Vergleich ohne Toleranz (`toEqual`, Object.is-Semantik).
+- **Gegenprobe (Mutationstests, nicht eingecheckt):** Eingebaute Fehler werden erkannt –
+  „reparierter“ Mosterei-Doppelabzug (374 rote Tests), naive Summe im Wochenergebnis (110),
+  vertauschte Summanden im Erlös (139), `Math.round` statt `:.0f` in der Fehlermeldung (5,
+  erst durch die Zusatztests in `tests/level1Zusatz.test.ts`).
+- **Python-Bausteine** mit eigenen Soll-Daten aus Python (`tools/python_builtins_erzeugen.py`
+  → `tests/daten/python_builtins.json`, ~17.700 Fälle, liegt bewusst nicht unter
+  `tests/referenz/`): `round(x)`, `round(x, n)` (inkl. Gleichstände wie 0.125 → 0.12,
+  2.675 → 2.67, Überlauf), `int()`, `f"{x:.Nf}"` (inkl. `-0`), `repr(float)`, `sum()`.
+- **`sum()` ist nicht trivial:** Seit Python 3.12 summiert CPython floats kompensiert
+  (Neumaier). Eine einfache Schleife ergäbe bei 196 von 680 Referenzwochen ein
+  abweichendes Wochenergebnis (letzte Binärstellen). Alle `sum()`-Stellen nutzen daher
+  `pythonSumme`.
+- **Zusatztests mit Python-Soll** (`tests/level1Zusatz.test.ts`): halbzahlige Bestände in
+  Fehlermeldungen (`122.5` → „122“, `-0.5` → „-0“), nicht ganzzahliges Wochenmarkt-Limit,
+  Slider-Grenze ohne negative Null. Soll-Werte aus einem Lauf des alten Python-Codes.
+
+---
+
 ## 4. Bewusste Abweichungen
 
-Noch keine (Spielverhalten). Infrastruktur siehe Abschnitt 3.
+Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
+
+1. **Namen wie in Python (snake_case)** für Felder, Methoden und Klassen, damit die
+   Portierung Zeile für Zeile prüfbar bleibt und Feldnamen, die als Daten vorkommen
+   (`"preis_importeur"` in Ereignis-Effekten, Referenz-JSON), unverändert passen.
+2. **Würfelwerte sind Pflichtparameter:** `erzeuge_tagesmarkt(w1)` und
+   `erzeuge_tagesnachfrage(baeckerei_menge)` würfeln nicht mehr selbst (CLAUDE.md: Zufall nur
+   über `wuerfel.ts`). Gewürfelt wird beim Aufrufer mit `wuerfleW1` /
+   `wuerfleBaeckereiMenge` – gleiche Spannen wie im Original (inkl. `int()` der Mengengrenzen).
+3. **Slider-Grenzen in der Logikschicht:** Die Berechnung aus `1_spielen.py` liegt als
+   `eingabegrenzen_level1` in `level1Grundlast.ts`, damit sie gegen `ui_grenzen` der
+   Referenzdaten getestet ist. Formel unverändert (inkl. `int()`-Abschneiden).
+4. **int/float-Unterscheidung in Fehlermeldungen:** Python setzt int-Werte ohne, float-Werte
+   mit „.0“ ein. TypeScript kennt nur `number`. Mengen aus der Oberfläche sind immer float
+   (`float(slider)`) → `pythonRepr`; Regelwerk-Limits sind in Python als int typisiert →
+   `pythonIntText` (ganzzahlig ohne „.0“, sonst repr). Einziger theoretischer Unterschied:
+   ein in `config.json` als `300.0` geschriebenes Limit erschiene in Python als „300.0“, hier
+   als „300“.
+5. **Frozen Dataclasses** → `readonly` + `Object.freeze`; `dataclasses.asdict(regelwerk)` →
+   `Regelwerk.als_dict()`.
 
 ---
 
@@ -167,14 +215,23 @@ Noch keine (Spielverhalten). Infrastruktur siehe Abschnitt 3.
     `Tagesabrechnung.ausgleichskosten` ist immer 0.
 14. **`data_store/spiellog.csv`** enthält gemischte Zahlenformate (`436.71999999999997` neben
     `120.50`) – relevant für Phase 5.
+15. **`levels/base.py` wird nicht benutzt:** `Level1Grundlast` und `Level2Ereignisse` erben
+    nicht von `Level` und haben eine eigene, tageweise Schnittstelle. `base.py`,
+    `Rundenergebnis`, `Spieldurchlauf`, `Marktpreise`, `Beschaffungsentscheidung`, `Bedarf`,
+    `Kostenaufstellung`, `TagesBedarf`, `Tagesergebnis`, `Wochenergebnis` und `Quellentyp`
+    sind toter Code. Trotzdem 1:1 portiert.
+16. **Ergebnis hängt von der Python-Version ab:** `sum()` rechnet erst ab Python 3.12
+    kompensiert. Lief die alte Anwendung mit Python 3.10/3.11 (laut `pyproject.toml` erlaubt),
+    können dort gespeicherte Wochenergebnisse in den letzten Binärstellen von den
+    Referenzwerten (Python 3.13) abweichen. Angezeigt wird ohnehin auf 2 Nachkommastellen.
 
 ---
 
 ## 6. Offene Fragen
 
-1. **Fehlertexte:** Sollen die TS-Fehlermeldungen wörtlich (inkl. Python-Zahlenformat wie
-   `301.0`) übernommen werden? Die Referenzdaten enthalten die Originaltexte; Vorschlag:
-   ja, wörtlich.
+1. **Fehlertexte:** ~~offen~~ In Phase 2 gemäß „Verhalten exakt erhalten“ wörtlich
+   übernommen (inkl. Python-Zahlenformat wie `301.0` und `:.0f`-Rundung); durch die
+   Referenztests abgesichert. Bitte widersprechen, falls freundlichere Texte gewünscht sind.
 2. **Level-2-Mosterei-Fehler (Auffälligkeit 4):** In Streamlit führt das zu einer
    Traceback-Seite, die Eingaben bleiben erhalten. Vorschlag für Phase 6: Fehlermeldung
    anzeigen, Tageszustand unverändert lassen. Die Logik bleibt unverändert.
@@ -189,3 +246,5 @@ Noch keine (Spielverhalten). Infrastruktur siehe Abschnitt 3.
    anpassen), danach Inhalt von `apfelportfolio-web/` in die Wurzel.
 6. **GitLab:** Das Repo liegt derzeit auf GitHub. Wird es nach GitLab gespiegelt/umgezogen?
    Bis dahin läuft `.gitlab-ci.yml` nirgends automatisch; lokal sind alle Jobschritte geprüft.
+7. **Python-Version der alten Anwendung:** Mit welcher Python-Version wurde die EXE gebaut
+   (siehe Auffälligkeit 16)? Relevant nur für den Vergleich alter Log-Werte in Phase 5.
