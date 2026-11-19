@@ -1,6 +1,6 @@
 # MIGRATION_NOTES – Apfelportfolio Python/Streamlit → TypeScript
 
-Stand: Phase 0 abgeschlossen (Referenzdaten erzeugt). Wird je Phase fortgeschrieben.
+Stand: Phase 1 abgeschlossen (Gerüst). Wird je Phase fortgeschrieben.
 
 ---
 
@@ -19,7 +19,9 @@ Stand: Phase 0 abgeschlossen (Referenzdaten erzeugt). Wird je Phase fortgeschrie
 | `src/apfelportfolio/data/specs_repository.py`, `config/config.json` | `src/config/laden.ts`, `src/config/pruefung.ts`, `config/config.json` | offen |
 | `src/apfelportfolio/content/translations.py` | `src/content/translations.ts` | offen (Phase 6) |
 | `src/apfelportfolio/ui/pages/*.py`, `ui/components.py`, `app.py` | `src/ui/**`, `src/main.tsx` | offen (Phase 6) |
-| `tasks.py`, `spec/*` (PyInstaller) | `package.json`, `vite.config.ts`, `.gitlab-ci.yml` | offen (Phase 1) |
+| `tasks.py`, `spec/*` (PyInstaller) | `package.json`, `vite.config.ts`, `.gitlab-ci.yml` | **erledigt (Phase 1)** |
+| `src/apfelportfolio/version.py` (leer) | `src/version.ts` (aus `package.json`) | **erledigt (Phase 1)** |
+| `config/config.json` | `config/config.json` (Kopie, eingebaute Standardwerte) | kopiert (Phase 1), Laden in Phase 5 |
 | – | `tools/referenz_erzeugen.py`, `tests/referenz/*.json` | **erledigt (Phase 0)** |
 
 ---
@@ -73,13 +75,48 @@ Erzeugt mit `python3 tools/referenz_erzeugen.py` (Python 3.13). Format siehe Doc
 
 ---
 
-## 3. Bewusste Abweichungen
+## 3. Phase 1 – Gerüst
 
-Noch keine.
+- **Abhängigkeiten** (exakt gepinnt, jeweils die neueste mindestens zwei Wochen alte
+  Version): preact 11.1.1, vega 6.4.0, vega-lite 6.5.0, vega-embed 7.3.0, marked 18.1.3,
+  vite 8.3.5, vite-plugin-singlefile 2.3.4, typescript 7.0.2, vitest **5.1.1**.
+  Ausnahme vitest: 5.1.0 (und 4.1.12) lassen sich mit npm 10 nicht installieren
+  (interner npm-Fehler `Cannot read properties of null (reading 'edgesOut')` bei der
+  Peer-Auflösung); 5.1.1 (18.11.2026) behebt das.
+- **JSX ohne Preact-Plugin:** `@preact/preset-vite` ist nicht erlaubt; Vite 8 transformiert
+  JSX mit Oxc (`oxc.jsx.importSource = "preact"`), TypeScript mit `jsxImportSource`.
+  Folge: kein Hot-Reload auf Komponentenebene im Dev-Server (voller Reload) – für den
+  Build ohne Bedeutung.
+- **Keine Node-Typen:** `@types/node` ist nicht erlaubt. Tests und `vite.config.ts` nutzen
+  deshalb keine `node:`-Module, sondern JSON-Import und `import.meta.glob` (Vite-Typen).
+  Einzige Node-Skripte sind `tools/*.mjs` (reines JavaScript, nicht typgeprüft).
+- **Build:** `dist/index.html` mit allem eingebettet (geprüft: eine Datei, keine externen
+  Verweise, startet per `file://` aus beliebigem Ordner ohne Konsolenfehler und ohne
+  Netzwerkanfragen).
+- **Referenzschutz:** `tools/referenz.sha256` (außerhalb von `tests/referenz/`) +
+  `tools/referenz_pruefen.mjs`. Prüft Prüfsummen in beide Richtungen und – mit
+  `REFERENZ_BASIS_SHA` (in CI: Basis des Merge Requests bzw. vorheriger Commit) – dass seit
+  diesem Commit weder Referenzdateien noch die Prüfsummenliste geändert, gelöscht oder
+  umbenannt wurden. Getestet: geänderte, neue, fehlende Datei sowie gemeinsame
+  Manipulation von Referenzdatei und Prüfsummenliste werden erkannt.
+- **Pipeline aus dem Unterordner:** GitLab liest `.gitlab-ci.yml` nur aus dem
+  Repo-Wurzelverzeichnis, außer der Pfad wird in den Projekteinstellungen umgestellt.
+  Die Jobs wechseln per Variable `WEB_DIR` ins richtige Verzeichnis (Standard `.`).
+- **Leere Module:** Jede Datei der Zielstruktur existiert mit Kopfkommentar (Zweck,
+  Python-Quelle, Phase). Zusätzlich `src/levels/registry.ts` (Architektur-Vorgabe).
+  `config/ereignisse.json` folgt in Phase 3, die Level-/KPI-/Storage-Tests in ihren Phasen
+  (eine leere Testdatei würde Vitest scheitern lassen). `tests/geruest.test.ts` prüft
+  Version und Lesbarkeit der Referenzdaten.
 
 ---
 
-## 4. Auffälligkeiten im Originalcode (unverändert portieren!)
+## 4. Bewusste Abweichungen
+
+Noch keine (Spielverhalten). Infrastruktur siehe Abschnitt 3.
+
+---
+
+## 5. Auffälligkeiten im Originalcode (unverändert portieren!)
 
 1. **Mosterei-Verkauf Mo–Do wird doppelt vom Bestand abgezogen.** In
    `Level1Grundlast.rechne_tag_ab` enthält `lieferung` bereits `an_mosterei`, danach wird
@@ -133,7 +170,7 @@ Noch keine.
 
 ---
 
-## 5. Offene Fragen
+## 6. Offene Fragen
 
 1. **Fehlertexte:** Sollen die TS-Fehlermeldungen wörtlich (inkl. Python-Zahlenformat wie
    `301.0`) übernommen werden? Die Referenzdaten enthalten die Originaltexte; Vorschlag:
@@ -146,3 +183,9 @@ Noch keine.
    nein, nur komplette Wochen zählen (wie bisher).
 4. **Regelwerk-Seite:** Bisher schreibt sie `config/config.json` neben die EXE. Wohin speichert
    die HTML-Version – in den gewählten Spielstand-Ordner? (Klärung bis Phase 5/6.)
+5. **Auflösen des Unterordners:** Die Zielstruktur kollidiert mit dem Legacy-Code im
+   Wurzelverzeichnis (`config/`, `src/`, `tests/`, `README.md`). Vorschlag: Legacy-Code beim
+   Auflösen nach `legacy/` verschieben (Pfad für `tools/referenz_erzeugen.py --legacy`
+   anpassen), danach Inhalt von `apfelportfolio-web/` in die Wurzel.
+6. **GitLab:** Das Repo liegt derzeit auf GitHub. Wird es nach GitLab gespiegelt/umgezogen?
+   Bis dahin läuft `.gitlab-ci.yml` nirgends automatisch; lokal sind alle Jobschritte geprüft.

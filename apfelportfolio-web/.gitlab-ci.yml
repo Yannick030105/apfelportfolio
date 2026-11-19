@@ -1,0 +1,99 @@
+# Pipeline fuer apfelportfolio-web: Referenzpruefung, Tests, Build, Release.
+#
+# Solange die Web-Version im Unterordner apfelportfolio-web/ des Python-Repos liegt:
+#   GitLab > Settings > CI/CD > General pipelines > "CI/CD configuration file"
+#   auf "apfelportfolio-web/.gitlab-ci.yml" setzen und die CI/CD-Variable
+#   WEB_DIR = "apfelportfolio-web" anlegen.
+# Nach dem Aufloesen des Unterordners liegt die Datei im Repo-Wurzelverzeichnis,
+# WEB_DIR bleibt dann beim Standardwert ".".
+
+variables:
+  WEB_DIR: "."
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
+    - if: $CI_COMMIT_TAG
+
+stages:
+  - pruefen
+  - test
+  - build
+  - release
+
+default:
+  image: node:22-bookworm
+  before_script:
+    - cd "$WEB_DIR"
+
+.npm:
+  cache:
+    key: npm
+    paths:
+      - .npm/
+
+# tests/referenz/ darf sich nie aendern (CLAUDE.md, harte Regel).
+# Prueft Pruefsummen und - per Git - dass weder Referenzdaten noch
+# Pruefsummenliste seit dem Basis-Commit angefasst wurden.
+referenz-unveraendert:
+  stage: pruefen
+  variables:
+    GIT_DEPTH: 0
+  script:
+    - |
+      if [ -n "$CI_MERGE_REQUEST_DIFF_BASE_SHA" ]; then
+        export REFERENZ_BASIS_SHA="$CI_MERGE_REQUEST_DIFF_BASE_SHA"
+      elif [ -n "$CI_COMMIT_BEFORE_SHA" ]; then
+        export REFERENZ_BASIS_SHA="$CI_COMMIT_BEFORE_SHA"
+      fi
+    - node tools/referenz_pruefen.mjs
+
+test:
+  stage: test
+  extends: .npm
+  needs: []
+  script:
+    - npm ci --no-audit --no-fund
+    - npm run typecheck
+    - npm test
+
+build:
+  stage: build
+  extends: .npm
+  needs: [test]
+  script:
+    - npm ci --no-audit --no-fund
+    - npm run build
+    - VERSION=$(node -p "require('./package.json').version")
+    - cp dist/index.html "dist/apfelportfolio-${VERSION}.html"
+    - ls -l dist/
+  artifacts:
+    name: "apfelportfolio-$CI_COMMIT_REF_SLUG"
+    paths:
+      - $WEB_DIR/dist/
+    expire_in: 30 days
+
+# Release nur fuer Tags der Form v<version> passend zu package.json.
+release:
+  stage: release
+  needs: [referenz-unveraendert, build]
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+    - VERSION=$(node -p "require('./package.json').version")
+    - |
+      if [ "$CI_COMMIT_TAG" != "v${VERSION}" ]; then
+        echo "Tag $CI_COMMIT_TAG passt nicht zu package.json-Version $VERSION (erwartet v${VERSION})."
+        exit 1
+      fi
+    - test -f "dist/apfelportfolio-${VERSION}.html"
+    - echo "Release-Datei: dist/apfelportfolio-${VERSION}.html"
+  artifacts:
+    name: "apfelportfolio-$CI_COMMIT_TAG"
+    paths:
+      - $WEB_DIR/dist/apfelportfolio-*.html
+    expire_in: never
