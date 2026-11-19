@@ -19,3 +19,7 @@
 - Phase 4: Dashboard-KPIs ohne pandas (`src/dashboard/kpis.ts`) inkl. exaktem Nachbau der
   numpy-Summation (`numpySumme`); Soll-Werte aus der alten App
   (`tools/kpi_referenz_erzeugen.py`).
+- Phase 5: Speicherung (`src/storage/`): eine JSON-Datei je Spielwoche im gemeinsamen Ordner,
+  gespeichert nach jedem Spieltag; Ordnerzugriff (File System Access API) mit gemerktem Ordner,
+  Rückfallebene per Dateidialog; Regelwerk laden/prüfen (`src/config/`); Spielernamen und
+  Log-Auswertung wie im Original; einmalige Migration `tools/spiellog_migrieren.py`.

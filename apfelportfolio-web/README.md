@@ -4,7 +4,7 @@ Lernspiel zum Portfoliomanagement in der Energiewirtschaft – TypeScript-Portie
 der Python/Streamlit-Version. Ergebnis ist **eine einzige HTML-Datei**, die per
 Doppelklick (auch vom Netzlaufwerk) im Browser läuft, ohne Server und ohne Internet.
 
-> Stand: Phase 4 (Level 1 und 2, Level-Registry und Dashboard-KPIs portiert, noch ohne Oberfläche), siehe
+> Stand: Phase 5 (Spiellogik, KPIs und Speicherung portiert, noch ohne Oberfläche), siehe
 > `CLAUDE.md` und `MIGRATION_NOTES.md`.
 
 ## Voraussetzungen
@@ -35,6 +35,28 @@ werden **nie** geändert. Erzeugt wurden sie einmalig mit
 `round()`, `sum()`, `repr()` und `:.Nf` (erzeugt mit `python3 tools/python_builtins_erzeugen.py`,
 Python ≥ 3.12). `tests/daten/kpi_referenz.json` enthält KPI-Soll-Werte aus der alten App
 (`python3 tools/kpi_referenz_erzeugen.py`, braucht pandas und das alte Projekt in `../`).
+
+## Spielstände und Einstellungen
+
+Der Spielleiter wählt einmal einen gemeinsamen Ordner (z. B. auf dem Netzlaufwerk;
+Chrome oder Edge). Darin legt das Spiel an:
+
+```
+<Ordner>/config.json              Regelwerk (optional; sonst gelten die eingebauten Werte)
+<Ordner>/spielstaende/*.json      eine Datei je Spielwoche, gespeichert nach jedem Spieltag
+```
+
+Andere Browser nutzen die Rückfallebene: Spielstände per Dateidialog laden und als
+Sammeldatei herunterladen.
+
+### Einmalige Übernahme der alten `spiellog.csv`
+
+```bash
+python3 tools/spiellog_migrieren.py --csv <pfad>/data_store/spiellog.csv --ziel <Ordner>/spielstaende
+```
+
+Das Skript überschreibt nichts, überspringt ungültige Zeilen mit Begründung und gibt am Ende
+Zeilenanzahl, Summen je Spieler (alt/neu) und 5 Stichproben aus.
 
 ## Ereignisse (Level 2)
 

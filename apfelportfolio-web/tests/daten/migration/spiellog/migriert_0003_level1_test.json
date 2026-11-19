@@ -1,0 +1,42 @@
+{
+  "format": "apfelportfolio-spielstand",
+  "formatVersion": 1,
+  "appVersion": "0.1.0",
+  "id": "migriert-0003",
+  "levelId": "level1",
+  "level": 1,
+  "spieler": "test",
+  "status": "abgeschlossen",
+  "gestartet_am": null,
+  "abgeschlossen_am": null,
+  "regelwerk": null,
+  "tage": [],
+  "zustand": null,
+  "offener_tag": null,
+  "log_zeile": {
+    "spieler": "test",
+    "datum": "2026-08-06",
+    "level": 1,
+    "endergebnis": 81.19999999999987,
+    "rest_long_short": 0.0,
+    "anteil_spot": 0.0,
+    "anteil_grundlast": 1.0,
+    "prognosefehler": null,
+    "referenzergebnis_nichthandeln": 0.0
+  },
+  "migriert": {
+    "quelle": "spiellog.csv",
+    "zeile": 3,
+    "original": {
+      "spieler": "test",
+      "datum": "2026-08-06",
+      "level": "1",
+      "endergebnis": "81.19999999999987",
+      "rest_long_short": "0.0",
+      "anteil_spot": "0.0",
+      "anteil_grundlast": "1.0",
+      "prognosefehler": "",
+      "referenzergebnis_nichthandeln": "0.0"
+    }
+  }
+}

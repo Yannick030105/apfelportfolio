@@ -1,0 +1,95 @@
+==============================================================================
+Spiellog-Migration: tests/daten/migration/spiellog_grenzfaelle.csv  ->  tests/daten/migration/grenzfaelle
+==============================================================================
+
+1) Zeilenanzahl
+   CSV-Datenzeilen:        12
+   migriert (Dateien):     5
+   uebersprungen:          7
+     - Zeile 2: kein Spielername
+     - Zeile 3: ungueltiges Level 'x'
+     - Zeile 4: ungueltiges Level '0'
+     - Zeile 5: ungueltiges Datum '05.08.2026' (erwartet JJJJ-MM-TT)
+     - Zeile 6: kein Endergebnis
+     - Zeile 7: Spalte endergebnis: keine Zahl 'abc'
+     - Zeile 11: falsche Spaltenanzahl
+   Kontrolle nach dem Schreiben: 0 abweichende Zahlenwerte
+   Endergebnisse, die die alte App eine Binaerstelle anders einlas: 0 
+   WARNUNG: Spielernamen, die die alte App als 'fehlend' las: NA
+
+2) Summen der Endergebnisse je Spieler (alt = wie die alte App eingelesen, neu = migrierte Dateien)
+Spieler     Wochen  alt      neu      alt (exakt)          neu (exakt)          Vergleich
+----------  ------  -------  -------  -------------------  -------------------  ---------
+Anna        2       -477.76  -477.76  -477.75999999999993  -477.75999999999993  gleich   
+Doe, Jane   1       12.35    12.35    12.345               12.345               gleich   
+NA          1       -50.20   -50.20   -50.199999999999996  -50.199999999999996  gleich   
+Zoë Müller  1       1000.00  1000.00  1000.0               1000.0               gleich   
+   Gesamt: alt 484.39 | neu 484.39
+
+3) Stichproben alt (CSV-Zeile) / neu (Spielstand-Datei)
+
+   Zeile 1 -> migriert_0001_level1_Anna.json
+   Feld                           alt (CSV-Text)       neu (JSON)         
+   -----------------------------  -------------------  -------------------
+   spieler                        Anna                 Anna               
+   datum                          2026-08-01           2026-08-01         
+   level                          1                    1 (level1)         
+   endergebnis                    -478.05999999999995  -478.05999999999995
+   rest_long_short                0.0                  0.0                
+   anteil_spot                    0.0                  0.0                
+   anteil_grundlast               1.0                  1.0                
+   prognosefehler                                      null               
+   referenzergebnis_nichthandeln  0.0                  0.0                
+
+   Zeile 8 -> migriert_0008_level2_NA.json
+   Feld                           alt (CSV-Text)       neu (JSON)         
+   -----------------------------  -------------------  -------------------
+   spieler                        NA                   NA                 
+   datum                          2026-08-02           2026-08-02         
+   level                          2                    2 (level2)         
+   endergebnis                    -50.199999999999996  -50.199999999999996
+   rest_long_short                                     null               
+   anteil_spot                    0.0                  0.0                
+   anteil_grundlast               1.0                  1.0                
+   prognosefehler                                      null               
+   referenzergebnis_nichthandeln  0.0                  0.0                
+
+   Zeile 9 -> migriert_0009_level2_Zoë_Müller.json
+   Feld                           alt (CSV-Text)  neu (JSON)
+   -----------------------------  --------------  ----------
+   spieler                        Zoë Müller      Zoë Müller
+   datum                          2026-08-03      2026-08-03
+   level                          2               2 (level2)
+   endergebnis                    1e3             1000.0    
+   rest_long_short                0.0             0.0       
+   anteil_spot                    0.0             0.0       
+   anteil_grundlast               1.0             1.0       
+   prognosefehler                 1.5             1.5       
+   referenzergebnis_nichthandeln  0.0             0.0       
+
+   Zeile 10 -> migriert_0010_level1_Doe__Jane.json
+   Feld                           alt (CSV-Text)  neu (JSON)
+   -----------------------------  --------------  ----------
+   spieler                        Doe, Jane       Doe, Jane 
+   datum                                          None      
+   level                          1               1 (level1)
+   endergebnis                    12.345          12.345    
+   rest_long_short                0.0             0.0       
+   anteil_spot                    0.0             0.0       
+   anteil_grundlast               1.0             1.0       
+   prognosefehler                                 null      
+   referenzergebnis_nichthandeln  0.0             0.0       
+
+   Zeile 12 -> migriert_0012_level2_Anna.json
+   Feld                           alt (CSV-Text)       neu (JSON)         
+   -----------------------------  -------------------  -------------------
+   spieler                        Anna                 Anna               
+   datum                          2026-08-05           2026-08-05         
+   level                          2                    2 (level2)         
+   endergebnis                    0.30000000000000004  0.30000000000000004
+   rest_long_short                0.0                  0.0                
+   anteil_spot                    0.0                  0.0                
+   anteil_grundlast               1.0                  1.0                
+   prognosefehler                                      null               
+   referenzergebnis_nichthandeln  0.0                  0.0                
+

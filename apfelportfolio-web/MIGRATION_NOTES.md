@@ -1,6 +1,6 @@
 # MIGRATION_NOTES – Apfelportfolio Python/Streamlit → TypeScript
 
-Stand: Phase 4 abgeschlossen (Dashboard-KPIs ohne pandas). Wird je Phase fortgeschrieben.
+Stand: Phase 5 abgeschlossen (Speicherung, Regelwerk laden, Spiellog-Migration). Wird je Phase fortgeschrieben.
 
 ---
 
@@ -24,8 +24,13 @@ Stand: Phase 4 abgeschlossen (Dashboard-KPIs ohne pandas). Wird je Phase fortges
 | Slider-Grenzen aus `ui/pages/level_2.py` (`main()`) | `eingabegrenzen_level2` in `src/levels/level2Ereignisse.ts` | **erledigt (Phase 3)** |
 | `src/apfelportfolio/dashboard/kpis.py` | `src/dashboard/kpis.ts` | **erledigt (Phase 4)** |
 | pandas `mean()`/`std()` (intern numpy `sum`) | `numpySumme` in `src/domain/summe.ts` + Hilfsfunktionen in `kpis.ts` | **erledigt (Phase 4)** |
-| `src/apfelportfolio/data/repository.py`, `data/schema.py`, `data/players.py`, `data_store/spiellog.csv` | `src/storage/*`, `tools/spiellog_migrieren.py` | offen (Phase 5) |
-| `src/apfelportfolio/data/specs_repository.py`, `config/config.json` | `src/config/laden.ts`, `src/config/pruefung.ts`, `config/config.json` | offen |
+| `src/apfelportfolio/data/schema.py` (`LogZeile`, `LOG_SPALTEN`) + Aufbau der LogZeile in `1_spielen.py`/`level_2.py` | `src/storage/schema.ts` (+ Spielstand-Format) | **erledigt (Phase 5)** |
+| `src/apfelportfolio/data/repository.py` (`LogRepository`) | `src/storage/repository.ts` (Auswertung) + `src/storage/speicher.ts`/`ordnerSpeicher.ts`/`dateiSpeicher.ts` (Ablage) | **erledigt (Phase 5)** |
+| `src/apfelportfolio/data/players.py` | `src/storage/spieler.ts` | **erledigt (Phase 5)** |
+| – (Ordner merken) | `src/storage/ordnerMerken.ts` | **erledigt (Phase 5)** |
+| `data_store/spiellog.csv` | `spielstaende/*.json` im gemeinsamen Ordner; einmalig `tools/spiellog_migrieren.py` | **erledigt (Phase 5)** |
+| `src/apfelportfolio/data/specs_repository.py` (`RegelwerkRepository`) | `src/config/laden.ts`, `src/config/pruefung.ts` | **erledigt (Phase 5)** |
+| Python `str.strip/lower`, `len(str)`, `sorted(str)` | `src/domain/pythonString.ts` | **erledigt (Phase 5)** |
 | `src/apfelportfolio/content/translations.py` | `src/content/translations.ts` | offen (Phase 6) |
 | `src/apfelportfolio/ui/pages/*.py`, `ui/components.py`, `app.py` | `src/ui/**`, `src/main.tsx` | offen (Phase 6) |
 | `tasks.py`, `spec/*` (PyInstaller) | `package.json`, `vite.config.ts`, `.gitlab-ci.yml` | **erledigt (Phase 1)** |
@@ -188,6 +193,52 @@ Erzeugt mit `python3 tools/referenz_erzeugen.py` (Python 3.13). Format siehe Doc
   (`ErgebnisTabelle`); `len(df)`/`df.empty` zählen alle Zeilen (auch NaN), `mean/max/min/std`
   überspringen NaN – wie pandas.
 
+## 3d. Phase 5 – Speicherung und Migration
+
+- **Ablage im gemeinsamen Ordner** (vom Spielleiter einmal gewählt):
+  ```
+  <Ordner>/config.json                     Regelwerk (optional, sonst eingebaut)
+  <Ordner>/spielstaende/<eine Datei je Spielwoche>.json
+  ```
+  Jede Woche ist eine eigene Datei (`<Startzeit>_<levelId>_<Spieler>_<id>.json`), geschrieben
+  nur von der Sitzung, die sie angelegt hat – mehrere Azubis können gleichzeitig vom
+  Netzlaufwerk spielen, ohne sich zu überschreiben (eine gemeinsame CSV/JSON wäre hier
+  fehleranfällig). Gespeichert wird nach jedem Spieltag (`status: "laufend"`, mit Level-Zustand
+  zum Fortsetzen) und nach dem Freitag mit Log-Zeile (`status: "abgeschlossen"`).
+  `offener_tag` hält bereits gewürfelte Werte des laufenden Tages fest (Nutzung entscheidet
+  Phase 6). Pflichtfelder laut Vorgabe: `formatVersion`, `levelId`, `appVersion`.
+- **Laden prüft streng** (`pruefe_spielstand`) und meldet je Datei verständlich, was nicht stimmt
+  (fremdes Format, neuere Formatversion, fehlende/falsche Felder, Widersprüche wie „laufend mit
+  Log-Zeile“, doppelte Kennung). Eine kaputte Datei blockiert die anderen nicht.
+- **Log-Auswertung** (`repository.ts`) liefert dieselbe Tabelle wie `LogRepository.alle_laden()`:
+  nur abgeschlossene Wochen; Reihenfolge = migrierte Zeilen in CSV-Folge, danach nach
+  Abschlusszeit. Leere Zahlen-Zellen werden wie in pandas zu NaN.
+- **Wege:** `ordnerSpeicher` (File System Access API, Chrome/Edge) mit `ordnerMerken` (Ordner in
+  IndexedDB, Schreibrecht bei Bedarf neu erbitten); `dateiSpeicher` als Rückfallebene (Dateien
+  wählen; eine Sammeldatei mit allen Ständen + config.json herunterladen).
+- **Geprüft:**
+  - Alle 772 Referenzwochen werden über die Registry gespielt, nach jedem Tag gespeichert, nach
+    Tag 2 aus der Datei in einer frischen Level-Instanz fortgesetzt; danach ist jede gespeicherte
+    Tagesabrechnung bitgleich mit der Python-Referenz, die Log-Zeile ebenfalls (damit ist auch
+    `log_zeile` aus Phase 0 jetzt abgedeckt).
+  - In echtem Chromium (Origin Private File System, gleiche Schnittstelle wie ein gewählter
+    Ordner): Speichern/Laden einer Woche bitgleich, Umlaut im Dateinamen, config.json.
+  - Per `file://` geöffnet (Doppelklick): `isSecureContext = true`, `showDirectoryPicker` und
+    IndexedDB vorhanden.
+  - Gegenprobe: Zustand beim Fortsetzen nicht wiederhergestellt (3 rote Tests), migrierte
+    Zeilen nicht zuerst (1), naive Summe für `rest_long_short` (1, Zusatzfall mit Python-Soll).
+  - **Nicht prüfbar in dieser Umgebung:** der echte Ordner-Dialog, ein Windows-Netzlaufwerk
+    und ob der gemerkte Ordner unter `file://` einen Browser-Neustart übersteht → in Phase 6
+    auf einem echten Rechner prüfen.
+- **Spiellog-Migration** (`tools/spiellog_migrieren.py`): je CSV-Zeile eine Datei
+  `migriert_<zeile>_<levelId>_<Spieler>.json` (ohne Tagesdetails, mit Log-Zeile und den
+  unveränderten Zelltexten). Zahlen = exakter Wert des CSV-Textes (Entscheidung zu offener
+  Frage 8). Ungültige Zeilen werden übersprungen und begründet; nichts wird überschrieben;
+  nach dem Schreiben wird alles zurückgelesen und gegen den CSV-Text geprüft. Bericht:
+  Zeilenanzahl, Summen je Spieler alt/neu, 5 Stichproben nebeneinander (Beispiele:
+  `tests/daten/migration/bericht_*.txt`). Echte `spiellog.csv`: 20/20 Zeilen, 0 Abweichungen,
+  1 Endergebnis las die alte App eine Binärstelle anders, Summen je Spieler identisch.
+
 ---
 
 ## 4. Bewusste Abweichungen
@@ -229,6 +280,25 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
     bitgleich (siehe 3c). Die Gruppierungen der Seiten (`groupby("spieler")...idxmax()` in
     `3_ranking.py`, `...max()` in `home.py`, Dashboard-Charts) gehören nicht zu `kpis.py` und
     werden mit den Seiten in Phase 6 portiert.
+11. **Spielstand-Dateien statt spiellog.csv** (Vorgabe): eine Datei je Woche, gespeichert nach
+    jedem Tag. Im Original ging eine laufende Woche beim Neuladen der Seite verloren; jetzt
+    lässt sie sich fortsetzen. Für Ranking/Dashboard/Namensprüfung zählen – wie bisher – nur
+    abgeschlossene Wochen.
+12. **config.json verständlich prüfen:** Gleiche Rückfall-Regeln wie `RegelwerkRepository.laden()`
+    (kaputt/kein Objekt/unbekannter Schlüssel → Standardwerte `Regelwerk()`, fehlende Felder →
+    Feld-Default, keine `validiert()`-Prüfung beim Laden), aber mit Meldungen. Abweichungen:
+    Nicht-Zahlen (z. B. `"300"`) führen zu den Standardwerten (Original: übernommen, später
+    Absturz); eine unlesbare Datei (Netzwerkfehler) führt zum eingebauten Regelwerk statt zum
+    Absturz. Ohne config.json im Ordner gilt die eingebaute config/config.json (= Datei neben der
+    alten EXE). Die Regelwerk-Seite schreibt config.json in den gemeinsamen Ordner (offene Frage 4).
+13. **config.json-Schreibweise:** `JSON.stringify` statt `json.dumps` – gleicher Aufbau, aber
+    ganzzahlige Floats erscheinen als `200` statt `200.0`. Beim Wiedereinlesen identisch.
+14. **Migration nimmt exakte Zahlenwerte** (offene Frage 8), nicht pandas' leicht verfälschte
+    Lesart (Auffälligkeit 19).
+15. **Spielernamen wie „NA“, „null“, „None“** las die alte App per pandas als „fehlend“ (Spieler
+    verschwand aus Ranking und Namensliste). Die Migration übernimmt den Namen und warnt.
+16. **Kennungen und Zeitstempel** (`neue_id`, `toISOString`) sind kein Spielzufall und laufen
+    daher nicht über `wuerfel.ts`.
 
 ---
 
@@ -320,11 +390,11 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
 2. **Level-2-Mosterei-Fehler (Auffälligkeit 4):** In Streamlit führt das zu einer
    Traceback-Seite, die Eingaben bleiben erhalten. Vorschlag für Phase 6: Fehlermeldung
    anzeigen, Tageszustand unverändert lassen. Die Logik bleibt unverändert.
-3. **Speichern nach jedem Spieltag** ist neu (bisher wurde nur die fertige Woche ins Log
-   geschrieben). Sollen unvollständige Wochen in Ranking/Dashboard auftauchen? Vorschlag:
-   nein, nur komplette Wochen zählen (wie bisher).
-4. **Regelwerk-Seite:** Bisher schreibt sie `config/config.json` neben die EXE. Wohin speichert
-   die HTML-Version – in den gewählten Spielstand-Ordner? (Klärung bis Phase 5/6.)
+3. **Speichern nach jedem Spieltag:** ~~offen~~ Umgesetzt in Phase 5: Unvollständige Wochen
+   zählen nicht für Ranking/Dashboard/Namensprüfung (wie bisher).
+4. **Regelwerk-Seite:** ~~offen~~ Phase 5: `config.json` im gemeinsamen Ordner (neben
+   `spielstaende/`); ohne Datei gilt das eingebaute Regelwerk. Bitte widersprechen, falls das
+   Regelwerk z. B. nur vom Spielleiter änderbar sein soll (dann Schutz in Phase 6).
 5. **Auflösen des Unterordners:** Die Zielstruktur kollidiert mit dem Legacy-Code im
    Wurzelverzeichnis (`config/`, `src/`, `tests/`, `README.md`). Vorschlag: Legacy-Code beim
    Auflösen nach `legacy/` verschieben (Pfad für `tools/referenz_erzeugen.py --legacy`
@@ -333,8 +403,14 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
    Bis dahin läuft `.gitlab-ci.yml` nirgends automatisch; lokal sind alle Jobschritte geprüft.
 7. **Python-Version der alten Anwendung:** Mit welcher Python-Version wurde die EXE gebaut
    (siehe Auffälligkeit 16)? Relevant nur für den Vergleich alter Log-Werte in Phase 5.
-8. **Spiellog-Migration (Phase 5) – welcher Zahlenwert gilt?** Wegen Auffälligkeit 19 gibt es
+8. ~~offen~~ **Spiellog-Migration – welcher Zahlenwert gilt?** Phase 5: exakter Text-Wert. Wegen Auffälligkeit 19 gibt es
    für ein Wochenergebnis zwei Lesarten: der exakte Wert im CSV-Text (Python `float()`,
    `round_trip`) oder der Wert, den die alte App nach `read_csv` sah (`high`). Vorschlag: der
    exakte Text-Wert (= tatsächliches Spielergebnis); die Migration weist aus, bei wie vielen
    Zeilen sich das in der letzten Binärstelle vom alten Anzeigewert unterscheidet.
+9. **Rückfallebene (Firefox/Safari):** Soll nach jedem Spieltag automatisch eine Sammeldatei
+   heruntergeladen werden (viele Downloads) oder nur per Knopf mit Hinweis „ungesichert“?
+   Vorschlag für Phase 6: Knopf + deutlicher Hinweis; Chrome/Edge (Ordnerzugriff) empfehlen.
+10. **Test auf einem echten Rechner** (spätestens in Phase 6): Ordner-Dialog auf dem
+    Netzlaufwerk, Schreibrechte für mehrere Benutzer, gemerkter Ordner nach Browser-Neustart
+    bei Start per Doppelklick.

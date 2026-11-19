@@ -1,0 +1,42 @@
+{
+  "format": "apfelportfolio-spielstand",
+  "formatVersion": 1,
+  "appVersion": "0.1.0",
+  "id": "migriert-0014",
+  "levelId": "level2",
+  "level": 2,
+  "spieler": "Clara",
+  "status": "abgeschlossen",
+  "gestartet_am": null,
+  "abgeschlossen_am": null,
+  "regelwerk": null,
+  "tage": [],
+  "zustand": null,
+  "offener_tag": null,
+  "log_zeile": {
+    "spieler": "Clara",
+    "datum": "2026-08-02",
+    "level": 2,
+    "endergebnis": 380.45,
+    "rest_long_short": 0.0,
+    "anteil_spot": 0.1,
+    "anteil_grundlast": 0.9,
+    "prognosefehler": null,
+    "referenzergebnis_nichthandeln": 0.0
+  },
+  "migriert": {
+    "quelle": "spiellog.csv",
+    "zeile": 14,
+    "original": {
+      "spieler": "Clara",
+      "datum": "2026-08-02",
+      "level": "2",
+      "endergebnis": "380.45",
+      "rest_long_short": "0.0",
+      "anteil_spot": "0.1",
+      "anteil_grundlast": "0.9",
+      "prognosefehler": "",
+      "referenzergebnis_nichthandeln": "0.0"
+    }
+  }
+}

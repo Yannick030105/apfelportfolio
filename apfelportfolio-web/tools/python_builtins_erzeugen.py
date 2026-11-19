@@ -8,6 +8,7 @@ die die TypeScript-Portierung exakt nachbilden muss:
     f"{x:.{n}f}"        -> src/domain/runden.ts  formatFixed(x, n)
     repr(x)  (float)    -> src/domain/pythonText.ts  pythonRepr(x)
     sum(xs)  (floats)   -> src/domain/summe.ts  pythonSumme(xs)
+    str.strip/lower/len, sorted(str) -> src/domain/pythonString.ts
 
 Deterministisch (fester Seed). Unabhaengig vom alten Spielcode; die Datei
 liegt bewusst NICHT unter tests/referenz/.
@@ -27,6 +28,13 @@ from pathlib import Path
 
 ZIEL = Path(__file__).resolve().parent.parent / "tests" / "daten" / "python_builtins.json"
 SEED = 31415
+
+
+STRING_BEISPIELE = [
+    "Anna", "anna", "  Ben  ", "\u00c4rne", "Zoe", "zoe", "\u00e9mile", "Emil", "\u0130lker", "\u03a3\u039f\u03a3",
+    "\x1cX\x1f", "\x85Y\xa0", "\ufeffZ", "\u3000Kai\u2029", "\U0001F34Ea", "a\U0001F34E", "\uff21", "10", "9",
+    "Stra\u00dfe", "\u1e9e", "A" * 30, " " + "B" * 31 + " ", "\U0001F34E" * 30, "\t", "", "\u00df",
+]
 
 
 def werte(rng: random.Random) -> list[float]:
@@ -85,6 +93,16 @@ def erzeugen() -> dict:
         "format_fixed": [[x, n, f"{x:.{n}f}"] for x in xs for n in (0, 1, 2) if abs(x) < 1e25],
         "repr": [[x, repr(x)] for x in xs],
         "summe": summen,
+        # Strings (Spielernamen, data/players.py): str.isspace (fuer strip()),
+        # str.lower() fuer alle Zeichen, die sich aendern, und sorted()-Beispiele.
+        "isspace": [c for c in range(0x110000) if chr(c).isspace()],
+        "lower": [[c, chr(c).lower()] for c in range(0x110000)
+                  if 0xD800 > c or c > 0xDFFF if chr(c).lower() != chr(c)],
+        "strings": [
+            [t, t.strip(), t.strip().lower(), len(t.strip())]
+            for t in STRING_BEISPIELE
+        ],
+        "sortiert": sorted(STRING_BEISPIELE),
     }
 
 

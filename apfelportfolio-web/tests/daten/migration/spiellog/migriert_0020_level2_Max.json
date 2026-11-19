@@ -1,0 +1,42 @@
+{
+  "format": "apfelportfolio-spielstand",
+  "formatVersion": 1,
+  "appVersion": "0.1.0",
+  "id": "migriert-0020",
+  "levelId": "level2",
+  "level": 2,
+  "spieler": "Max",
+  "status": "abgeschlossen",
+  "gestartet_am": null,
+  "abgeschlossen_am": null,
+  "regelwerk": null,
+  "tage": [],
+  "zustand": null,
+  "offener_tag": null,
+  "log_zeile": {
+    "spieler": "Max",
+    "datum": "2026-08-20",
+    "level": 2,
+    "endergebnis": 255.27999999999983,
+    "rest_long_short": 0.0,
+    "anteil_spot": 0.0,
+    "anteil_grundlast": 1.0,
+    "prognosefehler": null,
+    "referenzergebnis_nichthandeln": 0.0
+  },
+  "migriert": {
+    "quelle": "spiellog.csv",
+    "zeile": 20,
+    "original": {
+      "spieler": "Max",
+      "datum": "2026-08-20",
+      "level": "2",
+      "endergebnis": "255.27999999999983",
+      "rest_long_short": "0.0",
+      "anteil_spot": "0.0",
+      "anteil_grundlast": "1.0",
+      "prognosefehler": "",
+      "referenzergebnis_nichthandeln": "0.0"
+    }
+  }
+}
