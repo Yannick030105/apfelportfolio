@@ -12,3 +12,7 @@
   portiert; exakte Nachbauten von Pythons `round()`, `int()`, `sum()`, `repr()` und
   `:.Nf`-Formatierung; Würfelquelle `src/domain/wuerfel.ts`. Alle Level-1-Referenzfälle
   bestehen.
+- Phase 3: Level 2 (`src/levels/level2Ereignisse.ts`), Effekt-Bausteine
+  (`src/levels/effekte.ts`), Ereignisse als `config/ereignisse.json` und gemeinsame
+  Level-Schnittstelle mit Registry (`src/levels/registry.ts`). Alle Level-2-Referenzfälle
+  bestehen, alle Referenzfälle beider Level zusätzlich über die Registry.

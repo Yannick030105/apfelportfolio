@@ -231,6 +231,14 @@ export class Tagesmarkt {
     // Korrektur: Mosterei-Preis = 0,8 * Wochenmarktpreis (nicht Importeurpreis).
     return this.override_oder("preis_mosterei", 0.8 * this.preis_wochenmarkt);
   }
+
+  /** Python: dataclasses.replace(markt, **aenderungen) */
+  ersetzt(aenderungen: { zufallspreis?: number; preis_overrides?: Readonly<Record<string, number>> }): Tagesmarkt {
+    return new Tagesmarkt({
+      zufallspreis: aenderungen.zufallspreis ?? this.zufallspreis,
+      preis_overrides: aenderungen.preis_overrides ?? this.preis_overrides,
+    });
+  }
 }
 
 /** Ergebnis eines einzelnen Tages innerhalb einer Spielwoche. */
@@ -296,6 +304,14 @@ export class Tagesnachfrage {
   get gesamt(): number {
     return this.schulessen + this.baeckerei_bestellt;
   }
+
+  /** Python: dataclasses.replace(nachfrage, **aenderungen) */
+  ersetzt(aenderungen: { schulessen?: number; baeckerei_bestellt?: number }): Tagesnachfrage {
+    return new Tagesnachfrage({
+      schulessen: aenderungen.schulessen ?? this.schulessen,
+      baeckerei_bestellt: aenderungen.baeckerei_bestellt ?? this.baeckerei_bestellt,
+    });
+  }
 }
 
 export interface TagesabrechnungFelder {
@@ -352,6 +368,27 @@ export class Tagesabrechnung {
 
   get tagesergebnis(): number {
     return this.erloes - this.einkaufskosten;
+  }
+
+  /** Python: dataclasses.replace(abrechnung, **aenderungen) */
+  ersetzt(aenderungen: Partial<TagesabrechnungFelder>): Tagesabrechnung {
+    return new Tagesabrechnung({
+      tag: this.tag,
+      markt: this.markt,
+      einkauf: this.einkauf,
+      nachfrage: this.nachfrage,
+      an_schulessen_geliefert: this.an_schulessen_geliefert,
+      an_baeckerei_geliefert: this.an_baeckerei_geliefert,
+      bilanzkreis_saldo: this.bilanzkreis_saldo,
+      einkaufskosten: this.einkaufskosten,
+      erloes: this.erloes,
+      ausgleichskosten: this.ausgleichskosten,
+      an_mosterei_geliefert: this.an_mosterei_geliefert,
+      portfoliostand: this.portfoliostand,
+      portfolioergebnis: this.portfolioergebnis,
+      ereignis_titel: this.ereignis_titel,
+      ...aenderungen,
+    });
   }
 }
 

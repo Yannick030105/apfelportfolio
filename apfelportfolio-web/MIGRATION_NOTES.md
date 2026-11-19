@@ -1,6 +1,6 @@
 # MIGRATION_NOTES – Apfelportfolio Python/Streamlit → TypeScript
 
-Stand: Phase 2 abgeschlossen (Modelle + Level 1). Wird je Phase fortgeschrieben.
+Stand: Phase 3 abgeschlossen (Level 2 + gemeinsame Level-Schnittstelle). Wird je Phase fortgeschrieben.
 
 ---
 
@@ -17,8 +17,11 @@ Stand: Phase 2 abgeschlossen (Modelle + Level 1). Wird je Phase fortgeschrieben.
 | `src/apfelportfolio/levels/base.py` | `src/levels/base.ts` | **erledigt (Phase 2)** |
 | `src/apfelportfolio/levels/level1_grundlast.py` | `src/levels/level1Grundlast.ts` | **erledigt (Phase 2)** |
 | Slider-Grenzen aus `ui/pages/1_spielen.py` (`main()`) | `eingabegrenzen_level1` in `src/levels/level1Grundlast.ts` | **erledigt (Phase 2)** |
-| – | `src/levels/registry.ts` (gemeinsame Level-Schnittstelle) | offen (Phase 3) |
-| `src/apfelportfolio/levels/level2_ereignisse.py` | `src/levels/level2Ereignisse.ts`, `src/levels/effekte.ts`, `config/ereignisse.json` | offen (Phase 3) |
+| Tagesablauf aus `1_spielen.py` / `level_2.py` (welche Level-Methode wann) | `src/levels/registry.ts` (`SpielLevel`, Adapter, `LEVEL_REGISTRY`) | **erledigt (Phase 3)** |
+| `src/apfelportfolio/levels/level2_ereignisse.py` (Level-Klasse, `Ereignis`, `Effekt`, `waehle_ereignis`) | `src/levels/level2Ereignisse.ts` | **erledigt (Phase 3)** |
+| `Tageskontext`, `_skaliere_*`, `EFFEKT_FUNKTIONEN`, `IMPORTEUR_SLIDER_MAX` | `src/levels/effekte.ts` | **erledigt (Phase 3)** |
+| `STANDARD_EREIGNISSE` | `config/ereignisse.json` (exportiert mit `tools/ereignisse_exportieren.py`) | **erledigt (Phase 3)** |
+| Slider-Grenzen aus `ui/pages/level_2.py` (`main()`) | `eingabegrenzen_level2` in `src/levels/level2Ereignisse.ts` | **erledigt (Phase 3)** |
 | `src/apfelportfolio/dashboard/kpis.py` | `src/dashboard/kpis.ts` | offen (Phase 4) |
 | `src/apfelportfolio/data/repository.py`, `data/schema.py`, `data/players.py`, `data_store/spiellog.csv` | `src/storage/*`, `tools/spiellog_migrieren.py` | offen (Phase 5) |
 | `src/apfelportfolio/data/specs_repository.py`, `config/config.json` | `src/config/laden.ts`, `src/config/pruefung.ts`, `config/config.json` | offen |
@@ -137,6 +140,26 @@ Erzeugt mit `python3 tools/referenz_erzeugen.py` (Python 3.13). Format siehe Doc
   Fehlermeldungen (`122.5` → „122“, `-0.5` → „-0“), nicht ganzzahliges Wochenmarkt-Limit,
   Slider-Grenze ohne negative Null. Soll-Werte aus einem Lauf des alten Python-Codes.
 
+## 3b. Phase 3 – Level 2 und Level-Registry
+
+- **Ergebnis:** Alle 392 Level-2-Referenzfälle (1.991 Schritte inkl. 31 Fehlerschritten)
+  stimmen exakt – zusätzlich zu Level 1 auch Ereignis und Tageskontext je Schritt.
+  Außerdem laufen alle 772 Referenzfälle beider Level ein zweites Mal über die gemeinsame
+  Schnittstelle `SpielLevel` (`tests/registry.test.ts`). 841 Tests insgesamt.
+- **Gegenprobe (Mutationstests, nicht eingecheckt):** int/float-Typ im Limit ignoriert
+  („150“ statt „150.0“): 1 roter Test; Mosterei-Slider mit ereignisbereinigter Nachfrage
+  „repariert“: 212; Zustimmung ignoriert: 91; Effekt `wochenmarkt_limit` wirkungslos: 156;
+  Obstbauer-Menge nicht an Level 1 durchgereicht: 156.
+- **`config/ereignisse.json`** wird per `tools/ereignisse_exportieren.py` aus
+  `STANDARD_EREIGNISSE` erzeugt (`--pruefen` vergleicht). Reihenfolge = Würfel-Index, Texte
+  wörtlich (inkl. „ae/oe/ue“-Schreibweise des Originals), `wert` immer ausgeschrieben.
+- **Gemeinsame Schnittstelle (`src/levels/registry.ts`):** `SpielLevel` mit
+  `wuerfle_tag` → `bereite_tag_vor` (bei jedem Umschalten der JA/NEIN-Entscheidung neu) →
+  `eingabegrenzen` (bei jeder Slider-Bewegung neu) → `rechne_tag_ab`, dazu `neue_woche` und
+  `setze_zustand` (für Spielstände, Phase 5). Die Adapter rufen die Level-Methoden in
+  derselben Reihenfolge auf wie die Original-Seiten, ohne eigene Logik. Neue Level: Klasse +
+  Adapter + Eintrag in `LEVEL_REGISTRY`, die Spielseite bleibt gleich.
+
 ---
 
 ## 4. Bewusste Abweichungen
@@ -160,7 +183,20 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
    ein in `config.json` als `300.0` geschriebenes Limit erschiene in Python als „300.0“, hier
    als „300“.
 5. **Frozen Dataclasses** → `readonly` + `Object.freeze`; `dataclasses.asdict(regelwerk)` →
-   `Regelwerk.als_dict()`.
+   `Regelwerk.als_dict()`; `dataclasses.replace(x, ...)` → `x.ersetzt({...})`.
+6. **Tageskontext führt den Python-Typ des Wochenmarkt-Limits mit**
+   (`wochenmarkt_limit_typ: "int" | "float"`): Python setzt das Limit in die Fehlermeldung als
+   „300“ (int aus dem Regelwerk) bzw. „150.0“ (nach `int * 0.5`) ein. Ohne Regelwerk-Wert
+   (Dataclass-Default 140.0) ist es float. Reines Hilfsfeld, ändert keine Berechnung.
+7. **Ereignis-Index ist Pflichtparameter** (`erzeuge_ereignis(index)`, gewürfelt mit
+   `waehleIndex`); negative Indizes zählen wie in Python vom Ende, sonst `IndexError`.
+8. **`lade_ereignisse` prüft die Struktur** von `ereignisse.json` beim Laden (Felder, Typen) und
+   meldet Fehler verständlich. Unbekannte Effekt-Namen fallen – wie im Original – erst bei der
+   Anwendung auf (`KeyError`). Im Original waren die Ereignisse Python-Code, Strukturfehler
+   waren dort Syntax-/Typfehler.
+9. **Level-2-Ablauf über den Adapter:** Bei Ereignissen ohne Entscheidung erzwingt der Adapter
+   `zugestimmt = false` (in `level_2.py` gibt es dann keinen Schalter, der Wert bleibt False).
+   Wirkt sich nicht aus, weil solche Effekte ohnehin immer greifen.
 
 ---
 
@@ -224,6 +260,16 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
     kompensiert. Lief die alte Anwendung mit Python 3.10/3.11 (laut `pyproject.toml` erlaubt),
     können dort gespeicherte Wochenergebnisse in den letzten Binärstellen von den
     Referenzwerten (Python 3.13) abweichen. Angezeigt wird ohnehin auf 2 Nachkommastellen.
+17. **Level 2 prüft das Wochenmarkt-Limit doppelt:** zuerst gegen das heutige Limit
+    (`_pruefe_verfuegbarkeit`, Meldung „heutige Limit“), danach in Level 1 gegen
+    `regelwerk.wochenmarkt_limit_tag` (Meldung „Tageslimit“). Die Level-1-Meldung kann in
+    Level 2 nur kommen, wenn ein Ereignis das Limit *erhöht* – das tut keines der
+    Standard-Ereignisse.
+18. **Beschreibung eines Referenzfalls ist ungenau** (Fehler in Phase 0, Daten korrekt):
+    `level2_grenzfaelle.json` → `fehler_wochenmarkt_ueber_regelwerk_limit` sagt
+    „Level-1-Pruefung zuerst“; tatsächlich greift die Level-2-Prüfung zuerst (siehe 17), die
+    gespeicherte Meldung „...das heutige Limit von 300 Stueck.“ stammt aus Python und ist
+    richtig. Da `tests/referenz/` nicht geändert werden darf, bleibt der Text stehen.
 
 ---
 

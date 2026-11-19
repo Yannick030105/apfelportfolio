@@ -17,3 +17,13 @@ export class OverflowError extends Error {
 export class PythonTypeError extends Error {
   override readonly name = "TypeError";
 }
+
+/** Python KeyError (z. B. unbekannter Effekt-Name in EFFEKT_FUNKTIONEN). */
+export class KeyError extends Error {
+  override readonly name = "KeyError";
+}
+
+/** Python IndexError (z. B. Ereignis-Index ausserhalb der Liste). */
+export class IndexError extends Error {
+  override readonly name = "IndexError";
+}

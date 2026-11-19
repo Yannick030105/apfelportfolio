@@ -4,7 +4,7 @@ Lernspiel zum Portfoliomanagement in der Energiewirtschaft – TypeScript-Portie
 der Python/Streamlit-Version. Ergebnis ist **eine einzige HTML-Datei**, die per
 Doppelklick (auch vom Netzlaufwerk) im Browser läuft, ohne Server und ohne Internet.
 
-> Stand: Phase 2 (Modelle und Level 1 portiert, noch ohne Oberfläche), siehe
+> Stand: Phase 3 (Level 1 und 2 portiert, gemeinsame Level-Registry, noch ohne Oberfläche), siehe
 > `CLAUDE.md` und `MIGRATION_NOTES.md`.
 
 ## Voraussetzungen
@@ -34,6 +34,12 @@ werden **nie** geändert. Erzeugt wurden sie einmalig mit
 `tests/daten/python_builtins.json` enthält Soll-Werte für die Nachbauten von Pythons
 `round()`, `sum()`, `repr()` und `:.Nf` (erzeugt mit `python3 tools/python_builtins_erzeugen.py`,
 Python ≥ 3.12).
+
+## Ereignisse (Level 2)
+
+`config/ereignisse.json` ist aus dem alten Python-Code exportiert
+(`python3 tools/ereignisse_exportieren.py`, Prüfung mit `--pruefen`). Neue Szenarien werden
+dort ergänzt, neue Wirkungsarten einmalig in `src/levels/effekte.ts`.
 
 ## Pipeline (`.gitlab-ci.yml`)
 
