@@ -1,6 +1,6 @@
 # MIGRATION_NOTES – Apfelportfolio Python/Streamlit → TypeScript
 
-Stand: Phase 3 abgeschlossen (Level 2 + gemeinsame Level-Schnittstelle). Wird je Phase fortgeschrieben.
+Stand: Phase 4 abgeschlossen (Dashboard-KPIs ohne pandas). Wird je Phase fortgeschrieben.
 
 ---
 
@@ -22,7 +22,8 @@ Stand: Phase 3 abgeschlossen (Level 2 + gemeinsame Level-Schnittstelle). Wird je
 | `Tageskontext`, `_skaliere_*`, `EFFEKT_FUNKTIONEN`, `IMPORTEUR_SLIDER_MAX` | `src/levels/effekte.ts` | **erledigt (Phase 3)** |
 | `STANDARD_EREIGNISSE` | `config/ereignisse.json` (exportiert mit `tools/ereignisse_exportieren.py`) | **erledigt (Phase 3)** |
 | Slider-Grenzen aus `ui/pages/level_2.py` (`main()`) | `eingabegrenzen_level2` in `src/levels/level2Ereignisse.ts` | **erledigt (Phase 3)** |
-| `src/apfelportfolio/dashboard/kpis.py` | `src/dashboard/kpis.ts` | offen (Phase 4) |
+| `src/apfelportfolio/dashboard/kpis.py` | `src/dashboard/kpis.ts` | **erledigt (Phase 4)** |
+| pandas `mean()`/`std()` (intern numpy `sum`) | `numpySumme` in `src/domain/summe.ts` + Hilfsfunktionen in `kpis.ts` | **erledigt (Phase 4)** |
 | `src/apfelportfolio/data/repository.py`, `data/schema.py`, `data/players.py`, `data_store/spiellog.csv` | `src/storage/*`, `tools/spiellog_migrieren.py` | offen (Phase 5) |
 | `src/apfelportfolio/data/specs_repository.py`, `config/config.json` | `src/config/laden.ts`, `src/config/pruefung.ts`, `config/config.json` | offen |
 | `src/apfelportfolio/content/translations.py` | `src/content/translations.ts` | offen (Phase 6) |
@@ -160,6 +161,33 @@ Erzeugt mit `python3 tools/referenz_erzeugen.py` (Python 3.13). Format siehe Doc
   derselben Reihenfolge auf wie die Original-Seiten, ohne eigene Logik. Neue Level: Klasse +
   Adapter + Eintrag in `LEVEL_REGISTRY`, die Spielseite bleibt gleich.
 
+## 3c. Phase 4 – Dashboard-KPIs
+
+- **Ergebnis:** Alle 66 KPI-Szenarien stimmen exakt mit pandas überein (Durchschnitt, bestes/
+  schlechtestes Ergebnis, Streuung, Verlaufsschwelle, Badges).
+- **Soll-Werte** (`tools/kpi_referenz_erzeugen.py` → `tests/daten/kpi_referenz.json`) über die
+  echte Kette der alten App: Log-Zeilen aus den 773 kompletten Referenzwochen (+4 Zeilen ohne
+  Endergebnis, +1 Zusatzzeile) → altes `LogRepository.anhaengen` (CSV) → `alle_laden` /
+  `fuer_level` / `fuer_spieler` → alte `kpis.py`. Szenarien: leer, alle (777 Zeilen),
+  je Level, die ersten 0–12 sowie 127/128/129/136/200/257 Zeilen (Grenzen der paarweisen
+  Summation), je Spieler und Spieler×Level, Fälle mit NaN. Die Datei liegt in `tests/daten/`,
+  weil `tests/referenz/` eingefroren ist.
+- **Was pandas wirklich rechnet** (pandas 3.0.5, numpy 2.5.3, ohne bottleneck), jeweils empirisch
+  bestätigt:
+  - `mean()`: numpy-Summe (Startwert 0, *paarweise* Summation in 8er-Blöcken, Rekursion ab 129
+    Werten; NaN als 0 mitsummiert) / Anzahl gültiger Werte – 20.000 von 20.000 Fällen gleich.
+  - `std()`: Zwei-Pass-Verfahren aus `nanvar` mit `(avg - x)**2`, das numpy als `x*x` rechnet –
+    40.000 von 40.000 Fällen gleich. (Pythons `x**2` nutzt `pow()` und weicht davon ab;
+    deshalb in TypeScript bewusst Multiplikation statt `Math.pow`/`**`.)
+  - numpy summiert auch lange Arrays ohne Puffern paarweise (geprüft bis 50.000 Werte).
+- **Gegenprobe (Mutationstests):** Python-`sum` statt numpy-Summe: 25 rote Tests; einfache
+  Schleife: 34; NaN-Zeilen entfernt statt als 0 mitsummiert: 2. `Math.pow(x, 2)` statt `x*x`
+  bleibt grün – in V8 ist das bitgleich (5 Mio. Stichproben); der JS-Standard erlaubt aber
+  ungenaues `Math.pow`, daher bleibt die Multiplikation.
+- **API:** Statt DataFrame bekommen die Funktionen ein Array von Zeilen mit `endergebnis`
+  (`ErgebnisTabelle`); `len(df)`/`df.empty` zählen alle Zeilen (auch NaN), `mean/max/min/std`
+  überspringen NaN – wie pandas.
+
 ---
 
 ## 4. Bewusste Abweichungen
@@ -197,6 +225,10 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
 9. **Level-2-Ablauf über den Adapter:** Bei Ereignissen ohne Entscheidung erzwingt der Adapter
    `zugestimmt = false` (in `level_2.py` gibt es dann keinen Schalter, der Wert bleibt False).
    Wirkt sich nicht aus, weil solche Effekte ohnehin immer greifen.
+10. **KPIs ohne pandas:** Eingabe ist ein Array von Zeilen statt DataFrame; numerisch
+    bitgleich (siehe 3c). Die Gruppierungen der Seiten (`groupby("spieler")...idxmax()` in
+    `3_ranking.py`, `...max()` in `home.py`, Dashboard-Charts) gehören nicht zu `kpis.py` und
+    werden mit den Seiten in Phase 6 portiert.
 
 ---
 
@@ -270,6 +302,13 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
     „Level-1-Pruefung zuerst“; tatsächlich greift die Level-2-Prüfung zuerst (siehe 17), die
     gespeicherte Meldung „...das heutige Limit von 300 Stueck.“ stammt aus Python und ist
     richtig. Da `tests/referenz/` nicht geändert werden darf, bleibt der Text stehen.
+19. **Die alte App liest ihr eigenes Log ungenau ein:** `to_csv` schreibt Wochenergebnisse
+    exakt (Python-`repr`), aber `pd.read_csv` nutzt standardmäßig `float_precision="high"`, das
+    nicht immer korrekt rundet: Aus `-478.05999999999995` wird `-478.06` (eine Binärstelle
+    daneben). Betroffen: 193 von 773 Werten der KPI-Referenz (76 von 300 bei
+    `level1_wochen`); mit `float_precision="round_trip"` wären es 0. Ranking, Dashboard und
+    KPIs der alten App rechneten also mit minimal verfälschten Werten (bei 2 Nachkommastellen
+    unsichtbar). Die KPI-Soll-Werte enthalten genau diese eingelesenen Werte als Eingabe.
 
 ---
 
@@ -294,3 +333,8 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
    Bis dahin läuft `.gitlab-ci.yml` nirgends automatisch; lokal sind alle Jobschritte geprüft.
 7. **Python-Version der alten Anwendung:** Mit welcher Python-Version wurde die EXE gebaut
    (siehe Auffälligkeit 16)? Relevant nur für den Vergleich alter Log-Werte in Phase 5.
+8. **Spiellog-Migration (Phase 5) – welcher Zahlenwert gilt?** Wegen Auffälligkeit 19 gibt es
+   für ein Wochenergebnis zwei Lesarten: der exakte Wert im CSV-Text (Python `float()`,
+   `round_trip`) oder der Wert, den die alte App nach `read_csv` sah (`high`). Vorschlag: der
+   exakte Text-Wert (= tatsächliches Spielergebnis); die Migration weist aus, bei wie vielen
+   Zeilen sich das in der letzten Binärstelle vom alten Anzeigewert unterscheidet.

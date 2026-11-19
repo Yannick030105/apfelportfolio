@@ -4,7 +4,7 @@ Lernspiel zum Portfoliomanagement in der Energiewirtschaft – TypeScript-Portie
 der Python/Streamlit-Version. Ergebnis ist **eine einzige HTML-Datei**, die per
 Doppelklick (auch vom Netzlaufwerk) im Browser läuft, ohne Server und ohne Internet.
 
-> Stand: Phase 3 (Level 1 und 2 portiert, gemeinsame Level-Registry, noch ohne Oberfläche), siehe
+> Stand: Phase 4 (Level 1 und 2, Level-Registry und Dashboard-KPIs portiert, noch ohne Oberfläche), siehe
 > `CLAUDE.md` und `MIGRATION_NOTES.md`.
 
 ## Voraussetzungen
@@ -33,7 +33,8 @@ werden **nie** geändert. Erzeugt wurden sie einmalig mit
 
 `tests/daten/python_builtins.json` enthält Soll-Werte für die Nachbauten von Pythons
 `round()`, `sum()`, `repr()` und `:.Nf` (erzeugt mit `python3 tools/python_builtins_erzeugen.py`,
-Python ≥ 3.12).
+Python ≥ 3.12). `tests/daten/kpi_referenz.json` enthält KPI-Soll-Werte aus der alten App
+(`python3 tools/kpi_referenz_erzeugen.py`, braucht pandas und das alte Projekt in `../`).
 
 ## Ereignisse (Level 2)
 

@@ -16,3 +16,6 @@
   (`src/levels/effekte.ts`), Ereignisse als `config/ereignisse.json` und gemeinsame
   Level-Schnittstelle mit Registry (`src/levels/registry.ts`). Alle Level-2-Referenzfälle
   bestehen, alle Referenzfälle beider Level zusätzlich über die Registry.
+- Phase 4: Dashboard-KPIs ohne pandas (`src/dashboard/kpis.ts`) inkl. exaktem Nachbau der
+  numpy-Summation (`numpySumme`); Soll-Werte aus der alten App
+  (`tools/kpi_referenz_erzeugen.py`).
