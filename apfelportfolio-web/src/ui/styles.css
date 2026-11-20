@@ -226,3 +226,37 @@ body {
   font: inherit; padding: 0.35rem 0.6rem; border-radius: 8px; border: 1px solid rgba(49, 51, 63, 0.25); min-width: 14rem; background: #fff;
 }
 .aktiver-spieler { display: inline-block; background: #4caf50; color: #fff; padding: 0.3rem 0.9rem; border-radius: 999px; font-weight: 600; font-size: 0.95rem; }
+
+/* ---------- st.tabs ---------- */
+.st-tabs-leiste { display: flex; gap: 1.2rem; border-bottom: 1px solid rgba(49, 51, 63, 0.15); margin-bottom: 1rem; }
+.st-tab { font: inherit; font-size: 0.95rem; background: none; border: none; cursor: pointer; padding: 0.5rem 0.1rem; color: #31333f; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.st-tab[aria-selected="true"] { color: var(--rot); border-bottom-color: var(--rot); }
+.st-tab:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+/* ---------- Ranking (3_ranking.py, layout="centered") ---------- */
+.seite-schmal { max-width: 760px; margin: 0 auto; }
+.rk-hero { text-align: center; margin-bottom: 1.4rem; }
+.rk-hero .icon { font-size: 2.4rem; }
+.rk-hero h1 { font-family: var(--schrift-titel); font-weight: 800; font-size: 2.1rem; color: var(--braun); margin: 0.2rem 0 0.1rem 0; }
+.rk-hero p { font-family: var(--schrift-text); font-style: italic; font-weight: 600; color: var(--rost); margin: 0; }
+.ranking-seite .menu-heading { font-size: 1.2rem; text-align: center; margin: 1.5rem 0 0.8rem 0; }
+.podium { display: grid; gap: 1rem; align-items: end; }
+.podium-name { font-family: var(--schrift-titel); font-weight: 700; font-size: 1.05rem; color: var(--tinte); text-align: center; margin-bottom: 0.25rem; overflow-wrap: anywhere; }
+.podium-badges { text-align: center; font-size: 0.95rem; line-height: 1; margin-bottom: 0.35rem; min-height: 0.95rem; }
+.podium-medal { font-size: 2.3rem; text-align: center; }
+.podium-block { display: flex; align-items: flex-start; justify-content: center; border-radius: 14px 14px 4px 4px; padding-top: 0.6rem; box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.45), 0 8px 14px rgba(107, 54, 16, 0.18); }
+.podium-score { font-family: var(--schrift-zahl); font-weight: 800; font-size: 1.25rem; color: var(--tinte); }
+.rank-card { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; background: linear-gradient(160deg, #ffffff 0%, #fdf2e3 100%); border: 2px solid var(--grau-rand); border-radius: 16px; padding: 0.7rem 1.1rem; margin-bottom: 0.6rem; box-shadow: 0 3px 8px rgba(107, 54, 16, 0.05); }
+.rank-card.is-active { border-color: var(--rot); background: linear-gradient(160deg, #fff6ee 0%, #fcebd9 100%); box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.18), 0 8px 16px rgba(192, 57, 43, 0.18); }
+.rank-left { display: flex; align-items: center; gap: 0.9rem; min-width: 0; }
+.rank-num { font-family: var(--schrift-zahl); font-weight: 800; font-size: 1.05rem; color: var(--rost); min-width: 2rem; text-align: center; }
+.rank-avatar { width: 40px; height: 40px; border-radius: 50%; background: #fcebd9; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; font-size: 1.15rem; flex-shrink: 0; }
+.rank-name { font-family: var(--schrift-titel); font-weight: 700; font-size: 1.02rem; color: var(--tinte); overflow-wrap: anywhere; }
+.rank-right { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
+.rank-badges { font-size: 1.4rem; line-height: 1; }
+.rank-level { font-family: var(--schrift-zahl); font-size: 0.68rem; font-weight: 700; color: var(--braun); background: #f3e1c5; border-radius: 999px; padding: 0.1rem 0.55rem; margin-top: 0.15rem; display: inline-block; }
+.rank-score { font-family: var(--schrift-zahl); font-weight: 800; font-size: 1.05rem; color: var(--rot); }
+.stats-strip { display: flex; justify-content: center; gap: 0.6rem; margin: 0.6rem 0 1rem; flex-wrap: wrap; }
+.stats-chip { background: var(--tinte); color: #fcf6ee; border-radius: 12px; padding: 0.6rem 1.05rem; font-family: var(--schrift-text); text-align: center; min-width: 128px; }
+.stats-chip .num { font-family: var(--schrift-zahl); font-weight: 700; font-size: 1.1rem; color: var(--gold); display: block; }
+.stats-chip .cap { font-size: 0.66rem; letter-spacing: 0.4px; text-transform: uppercase; color: #c9b79e; }

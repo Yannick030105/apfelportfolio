@@ -12,6 +12,7 @@ import type { Spielzustand } from "../state/spielzustand";
 import { Platzhalter } from "./components/Platzhalter";
 import { SpeicherLeiste } from "./components/SpeicherLeiste";
 import { Home } from "./pages/Home";
+import { Ranking } from "./pages/Ranking";
 import { SEITENKOPF, Spielen } from "./pages/Spielen";
 import { starte_verbindung, type Verbindung } from "./speicherVerbindung";
 import { ZustandKontext } from "./zustandKontext";
@@ -54,6 +55,7 @@ const NAVIGATION: readonly { gruppe: string; seiten: readonly Seite[] }[] = [
 /** set_page_config(page_title, page_icon) */
 function seitenkopf(id: SeitenId): { titel: string; icon: string } {
   if (id === "level1" || id === "level2") return SEITENKOPF[id as LevelId];
+  if (id === "ranking") return { titel: "Ranking – Apfelportfolio", icon: "🥇" };
   return { titel: "Apfelportfolio", icon: "🍎" };
 }
 
@@ -115,7 +117,7 @@ export function App({ zustand }: { zustand: Spielzustand }) {
         {seite === "home" ? <Home /> : null}
         {seite === "level1" || seite === "level2" ? <Spielen key={seite} levelId={seite} /> : null}
         {seite === "dashboard" ? <Platzhalter titel="📊 Dashboard" quelle="ui/pages/2_dashboard.py" /> : null}
-        {seite === "ranking" ? <Platzhalter titel="🥇 Ranking" quelle="ui/pages/3_ranking.py" /> : null}
+        {seite === "ranking" ? <Ranking /> : null}
         {seite === "tutorial" ? <Platzhalter titel="📕 Tutorial" quelle="ui/pages/4_tutorial.py" /> : null}
         {seite === "wiki" ? <Platzhalter titel="📖 Wiki" quelle="ui/pages/5_wiki.py" /> : null}
         {seite === "regelwerk" ? <Platzhalter titel="⚙️ Regelwerk" quelle="ui/pages/6_regelwerk.py" /> : null}

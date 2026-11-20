@@ -26,3 +26,6 @@
 - Phase 6, Durchlauf 1: Oberfläche mit Reiter-Navigation, Speicherort-Leiste und der
   Spielseite für Level 1 und 2 (`src/ui/pages/Spielen.tsx`) inkl. Nachbildung des
   Streamlit-Verhaltens; Spielzustand (`src/state/`); vorläufige Spielerauswahl.
+- Phase 6, Durchlauf 2: Ranking-Seite (`src/ui/pages/Ranking.tsx`, Berechnungen in
+  `src/dashboard/ranking.ts`) mit Podium, Rangliste, eigener Statistik und Verlaufsdiagramm
+  (Vega-Lite); Soll-Werte aus der Original-Seite (`tools/ranking_referenz_erzeugen.py`).

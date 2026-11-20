@@ -1,0 +1,1793 @@
+{
+ "seed": 815,
+ "pandas": "3.0.5",
+ "zeilen": [
+  {
+   "spieler": "test",
+   "datum": "2026-08-05",
+   "level": 2,
+   "endergebnis": 8.799999999999983
+  },
+  {
+   "spieler": "test",
+   "datum": "2026-08-05",
+   "level": 1,
+   "endergebnis": 436.72
+  },
+  {
+   "spieler": "test",
+   "datum": "2026-08-06",
+   "level": 1,
+   "endergebnis": 81.19999999999987
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-08-01",
+   "level": 1,
+   "endergebnis": 120.5
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-08-02",
+   "level": 1,
+   "endergebnis": 340.2
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-08-03",
+   "level": 1,
+   "endergebnis": 275.0
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-08-01",
+   "level": 2,
+   "endergebnis": 150.0
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-08-04",
+   "level": 2,
+   "endergebnis": 410.3
+  },
+  {
+   "spieler": "Ben",
+   "datum": "2026-08-01",
+   "level": 1,
+   "endergebnis": 95.0
+  },
+  {
+   "spieler": "Ben",
+   "datum": "2026-08-02",
+   "level": 1,
+   "endergebnis": 510.75
+  },
+  {
+   "spieler": "Ben",
+   "datum": "2026-08-03",
+   "level": 2,
+   "endergebnis": -20.0
+  },
+  {
+   "spieler": "Ben",
+   "datum": "2026-08-04",
+   "level": 2,
+   "endergebnis": 220.1
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-08-01",
+   "level": 1,
+   "endergebnis": 600.0
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-08-02",
+   "level": 2,
+   "endergebnis": 380.45
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-08-03",
+   "level": 2,
+   "endergebnis": 502.9
+  },
+  {
+   "spieler": "David",
+   "datum": "2026-08-01",
+   "level": 1,
+   "endergebnis": 45.6
+  },
+  {
+   "spieler": "David",
+   "datum": "2026-08-02",
+   "level": 1,
+   "endergebnis": 88.3
+  },
+  {
+   "spieler": "David",
+   "datum": "2026-08-01",
+   "level": 2,
+   "endergebnis": 60.0
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-08-07",
+   "level": 1,
+   "endergebnis": 7.980000000000061
+  },
+  {
+   "spieler": "Max",
+   "datum": "2026-08-20",
+   "level": 2,
+   "endergebnis": 255.27999999999983
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-09-01",
+   "level": 1,
+   "endergebnis": -178.44000000000008
+  },
+  {
+   "spieler": "Zoe",
+   "datum": "2026-09-02",
+   "level": 1,
+   "endergebnis": -35.459999999999994
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-09-03",
+   "level": 1,
+   "endergebnis": -478.06
+  },
+  {
+   "spieler": "Zoe",
+   "datum": "2026-09-04",
+   "level": 1,
+   "endergebnis": -89.41999999999999
+  },
+  {
+   "spieler": "Mia",
+   "datum": "2026-09-05",
+   "level": 1,
+   "endergebnis": -50.2
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-09-06",
+   "level": 1,
+   "endergebnis": 67.81999999999994
+  },
+  {
+   "spieler": "anna",
+   "datum": "2026-09-07",
+   "level": 1,
+   "endergebnis": 152.33999999999995
+  },
+  {
+   "spieler": "anna",
+   "datum": "2026-09-08",
+   "level": 1,
+   "endergebnis": -168.62
+  },
+  {
+   "spieler": "Ben",
+   "datum": "2026-09-09",
+   "level": 1,
+   "endergebnis": -72.75999999999998
+  },
+  {
+   "spieler": "Ben",
+   "datum": "2026-09-10",
+   "level": 1,
+   "endergebnis": 232.87999999999988
+  },
+  {
+   "spieler": "Zoe",
+   "datum": "2026-09-11",
+   "level": 1,
+   "endergebnis": -161.17999999999998
+  },
+  {
+   "spieler": "Leon",
+   "datum": "2026-09-12",
+   "level": 1,
+   "endergebnis": -105.79999999999998
+  },
+  {
+   "spieler": "Ärne",
+   "datum": "2026-09-13",
+   "level": 1,
+   "endergebnis": -45.46000000000001
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-09-14",
+   "level": 1,
+   "endergebnis": -162.92000000000002
+  },
+  {
+   "spieler": "Mia",
+   "datum": "2026-09-15",
+   "level": 1,
+   "endergebnis": -233.32
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-09-16",
+   "level": 1,
+   "endergebnis": -263.31999999999994
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-09-17",
+   "level": 1,
+   "endergebnis": -527.66
+  },
+  {
+   "spieler": "Zoe",
+   "datum": "2026-09-18",
+   "level": 1,
+   "endergebnis": -17.000000000000014
+  },
+  {
+   "spieler": "Ärne",
+   "datum": "2026-09-19",
+   "level": 1,
+   "endergebnis": -75.62
+  },
+  {
+   "spieler": "Zoe",
+   "datum": "2026-09-20",
+   "level": 1,
+   "endergebnis": 132.17999999999995
+  },
+  {
+   "spieler": "Ärne",
+   "datum": "2026-09-21",
+   "level": 1,
+   "endergebnis": 88.06
+  },
+  {
+   "spieler": "anna",
+   "datum": "2026-09-22",
+   "level": 1,
+   "endergebnis": -234.06
+  },
+  {
+   "spieler": "Zoe",
+   "datum": "2026-09-23",
+   "level": 1,
+   "endergebnis": -35.47999999999998
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-09-24",
+   "level": 1,
+   "endergebnis": 150.12
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-09-25",
+   "level": 1,
+   "endergebnis": 23.11999999999999
+  },
+  {
+   "spieler": "Mia",
+   "datum": "2026-09-26",
+   "level": 1,
+   "endergebnis": 24.13999999999997
+  },
+  {
+   "spieler": "Zoe",
+   "datum": "2026-09-27",
+   "level": 1,
+   "endergebnis": -250.62
+  },
+  {
+   "spieler": "Ärne",
+   "datum": "2026-09-28",
+   "level": 1,
+   "endergebnis": 1.0400000000000205
+  },
+  {
+   "spieler": "Ärne",
+   "datum": "2026-09-29",
+   "level": 1,
+   "endergebnis": -323.75999999999993
+  },
+  {
+   "spieler": "Ärne",
+   "datum": "2026-09-30",
+   "level": 1,
+   "endergebnis": 183.78
+  },
+  {
+   "spieler": "Leon",
+   "datum": "2026-10-01",
+   "level": 1,
+   "endergebnis": -137.7
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-10-02",
+   "level": 1,
+   "endergebnis": -136.79999999999998
+  },
+  {
+   "spieler": "anna",
+   "datum": "2026-10-03",
+   "level": 1,
+   "endergebnis": 101.54000000000002
+  },
+  {
+   "spieler": "Ärne",
+   "datum": "2026-10-04",
+   "level": 1,
+   "endergebnis": -66.45999999999998
+  },
+  {
+   "spieler": "Zoe",
+   "datum": "2026-10-05",
+   "level": 1,
+   "endergebnis": -53.31999999999998
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-10-06",
+   "level": 1,
+   "endergebnis": -417.7
+  },
+  {
+   "spieler": "Ärne",
+   "datum": "2026-10-07",
+   "level": 1,
+   "endergebnis": -1.620000000000026
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-10-08",
+   "level": 1,
+   "endergebnis": -60.87999999999998
+  },
+  {
+   "spieler": "Ben",
+   "datum": "2026-10-09",
+   "level": 1,
+   "endergebnis": -142.68
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-10-10",
+   "level": 1,
+   "endergebnis": -277.82
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-10-11",
+   "level": 1,
+   "endergebnis": -142.04000000000002
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-10-12",
+   "level": 1,
+   "endergebnis": -48.48000000000006
+  },
+  {
+   "spieler": "Ben",
+   "datum": "2026-10-13",
+   "level": 1,
+   "endergebnis": -119.50000000000004
+  },
+  {
+   "spieler": "Leon",
+   "datum": "2026-10-14",
+   "level": 1,
+   "endergebnis": 59.179999999999936
+  },
+  {
+   "spieler": "Ärne",
+   "datum": "2026-10-15",
+   "level": 1,
+   "endergebnis": 140.41999999999996
+  },
+  {
+   "spieler": "Ärne",
+   "datum": "2026-10-16",
+   "level": 1,
+   "endergebnis": -82.3
+  },
+  {
+   "spieler": "Leon",
+   "datum": "2026-10-17",
+   "level": 1,
+   "endergebnis": -124.81999999999996
+  },
+  {
+   "spieler": "Leon",
+   "datum": "2026-10-18",
+   "level": 1,
+   "endergebnis": -238.46
+  },
+  {
+   "spieler": "Mia",
+   "datum": "2026-10-19",
+   "level": 1,
+   "endergebnis": -376.74
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-10-20",
+   "level": 1,
+   "endergebnis": -21.200000000000017
+  },
+  {
+   "spieler": "Mia",
+   "datum": "2026-10-21",
+   "level": 1,
+   "endergebnis": -185.04
+  },
+  {
+   "spieler": "Leon",
+   "datum": "2026-10-22",
+   "level": 1,
+   "endergebnis": 217.29999999999995
+  },
+  {
+   "spieler": "anna",
+   "datum": "2026-10-23",
+   "level": 1,
+   "endergebnis": -154.65999999999994
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-10-24",
+   "level": 1,
+   "endergebnis": -314.36
+  },
+  {
+   "spieler": "Ben",
+   "datum": "2026-10-25",
+   "level": 1,
+   "endergebnis": -67.37999999999998
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-10-26",
+   "level": 1,
+   "endergebnis": -115.95999999999998
+  },
+  {
+   "spieler": "Mia",
+   "datum": "2026-10-27",
+   "level": 1,
+   "endergebnis": -233.34
+  },
+  {
+   "spieler": "Ben",
+   "datum": "2026-10-28",
+   "level": 1,
+   "endergebnis": 24.60000000000003
+  },
+  {
+   "spieler": "Zoe",
+   "datum": "2026-10-29",
+   "level": 1,
+   "endergebnis": -87.56
+  },
+  {
+   "spieler": "Ben",
+   "datum": "2026-10-30",
+   "level": 1,
+   "endergebnis": -89.44
+  },
+  {
+   "spieler": "Leon",
+   "datum": "2026-10-31",
+   "level": 2,
+   "endergebnis": -33.27999999999996
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-11-01",
+   "level": 2,
+   "endergebnis": -115.29999999999995
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-11-02",
+   "level": 2,
+   "endergebnis": -308.19999999999993
+  },
+  {
+   "spieler": "Ärne",
+   "datum": "2026-11-03",
+   "level": 2,
+   "endergebnis": -481.1
+  },
+  {
+   "spieler": "Ärne",
+   "datum": "2026-11-04",
+   "level": 2,
+   "endergebnis": 172.2
+  },
+  {
+   "spieler": "Mia",
+   "datum": "2026-11-05",
+   "level": 2,
+   "endergebnis": -33.400000000000006
+  },
+  {
+   "spieler": "anna",
+   "datum": "2026-11-06",
+   "level": 2,
+   "endergebnis": 63.839999999999954
+  },
+  {
+   "spieler": "Zoe",
+   "datum": "2026-11-07",
+   "level": 2,
+   "endergebnis": 2.2399999999999523
+  },
+  {
+   "spieler": "Mia",
+   "datum": "2026-11-08",
+   "level": 2,
+   "endergebnis": -74.16
+  },
+  {
+   "spieler": "anna",
+   "datum": "2026-11-09",
+   "level": 2,
+   "endergebnis": -100.53399999999992
+  },
+  {
+   "spieler": "Leon",
+   "datum": "2026-11-10",
+   "level": 2,
+   "endergebnis": -42.11400000000002
+  },
+  {
+   "spieler": "Ärne",
+   "datum": "2026-11-11",
+   "level": 2,
+   "endergebnis": 15.719999999999992
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-11-12",
+   "level": 2,
+   "endergebnis": -9.410000000000018
+  },
+  {
+   "spieler": "Leon",
+   "datum": "2026-11-13",
+   "level": 2,
+   "endergebnis": 36.967999999999954
+  },
+  {
+   "spieler": "Ben",
+   "datum": "2026-11-14",
+   "level": 2,
+   "endergebnis": -95.61999999999996
+  },
+  {
+   "spieler": "anna",
+   "datum": "2026-11-15",
+   "level": 2,
+   "endergebnis": -44.900000000000006
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-11-16",
+   "level": 2,
+   "endergebnis": -99.36399999999998
+  },
+  {
+   "spieler": "Zoe",
+   "datum": "2026-11-17",
+   "level": 2,
+   "endergebnis": 157.48999999999998
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-11-18",
+   "level": 2,
+   "endergebnis": 109.66
+  },
+  {
+   "spieler": "anna",
+   "datum": "2026-11-19",
+   "level": 2,
+   "endergebnis": -216.72000000000008
+  },
+  {
+   "spieler": "Ben",
+   "datum": "2026-11-20",
+   "level": 2,
+   "endergebnis": -123.4
+  },
+  {
+   "spieler": "Leon",
+   "datum": "2026-11-21",
+   "level": 2,
+   "endergebnis": -151.2
+  },
+  {
+   "spieler": "Zoe",
+   "datum": "2026-11-22",
+   "level": 2,
+   "endergebnis": 1.8000000000000114
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-11-23",
+   "level": 2,
+   "endergebnis": -233.52
+  },
+  {
+   "spieler": "Zoe",
+   "datum": "2026-11-24",
+   "level": 2,
+   "endergebnis": -416.268
+  },
+  {
+   "spieler": "Zoe",
+   "datum": "2026-11-25",
+   "level": 2,
+   "endergebnis": -99.93999999999996
+  },
+  {
+   "spieler": "Leon",
+   "datum": "2026-11-26",
+   "level": 2,
+   "endergebnis": -46.02999999999999
+  },
+  {
+   "spieler": "Ben",
+   "datum": "2026-11-27",
+   "level": 2,
+   "endergebnis": -109.07999999999996
+  },
+  {
+   "spieler": "Zoe",
+   "datum": "2026-11-28",
+   "level": 2,
+   "endergebnis": -115.63999999999992
+  },
+  {
+   "spieler": "anna",
+   "datum": "2026-11-29",
+   "level": 2,
+   "endergebnis": -298.88
+  },
+  {
+   "spieler": "Leon",
+   "datum": "2026-11-30",
+   "level": 2,
+   "endergebnis": 52.52000000000004
+  },
+  {
+   "spieler": "Leon",
+   "datum": "2026-12-01",
+   "level": 2,
+   "endergebnis": -19.219999999999978
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-12-02",
+   "level": 2,
+   "endergebnis": 33.39999999999998
+  },
+  {
+   "spieler": "anna",
+   "datum": "2026-12-03",
+   "level": 2,
+   "endergebnis": -82.01999999999997
+  },
+  {
+   "spieler": "Ärne",
+   "datum": "2026-12-04",
+   "level": 2,
+   "endergebnis": 18.080000000000005
+  },
+  {
+   "spieler": "Ärne",
+   "datum": "2026-12-05",
+   "level": 2,
+   "endergebnis": -19.44399999999998
+  },
+  {
+   "spieler": "anna",
+   "datum": "2026-12-06",
+   "level": 2,
+   "endergebnis": 4.419999999999988
+  },
+  {
+   "spieler": "Ärne",
+   "datum": "2026-12-07",
+   "level": 2,
+   "endergebnis": 177.7039999999999
+  },
+  {
+   "spieler": "Mia",
+   "datum": "2026-12-08",
+   "level": 2,
+   "endergebnis": -169.87999999999994
+  },
+  {
+   "spieler": "Ben",
+   "datum": "2026-12-09",
+   "level": 2,
+   "endergebnis": 161.42000000000002
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-12-10",
+   "level": 2,
+   "endergebnis": 176.92799999999994
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-12-11",
+   "level": 2,
+   "endergebnis": 78.81999999999995
+  },
+  {
+   "spieler": "Leon",
+   "datum": "2026-12-12",
+   "level": 2,
+   "endergebnis": -59.47999999999999
+  },
+  {
+   "spieler": "anna",
+   "datum": "2026-12-13",
+   "level": 2,
+   "endergebnis": -195.94
+  },
+  {
+   "spieler": "anna",
+   "datum": "2026-12-14",
+   "level": 2,
+   "endergebnis": -359.89200000000005
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-12-15",
+   "level": 2,
+   "endergebnis": -107.10000000000002
+  },
+  {
+   "spieler": "anna",
+   "datum": "2026-12-16",
+   "level": 2,
+   "endergebnis": -32.05999999999995
+  },
+  {
+   "spieler": "anna",
+   "datum": "2026-12-17",
+   "level": 2,
+   "endergebnis": 44.46000000000003
+  },
+  {
+   "spieler": "Ärne",
+   "datum": "2026-12-18",
+   "level": 2,
+   "endergebnis": -272.012
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-12-19",
+   "level": 2,
+   "endergebnis": -89.77999999999997
+  },
+  {
+   "spieler": "anna",
+   "datum": "2026-12-20",
+   "level": 2,
+   "endergebnis": 12.251999999999995
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-12-21",
+   "level": 2,
+   "endergebnis": -158.35
+  },
+  {
+   "spieler": "Leon",
+   "datum": "2026-12-22",
+   "level": 2,
+   "endergebnis": -127.18999999999994
+  },
+  {
+   "spieler": "Ben",
+   "datum": "2026-12-23",
+   "level": 2,
+   "endergebnis": -43.96000000000002
+  },
+  {
+   "spieler": "Zoe",
+   "datum": "2026-12-24",
+   "level": 2,
+   "endergebnis": -44.25999999999999
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-12-25",
+   "level": 2,
+   "endergebnis": -94.48999999999998
+  },
+  {
+   "spieler": "Anna",
+   "datum": "2026-12-26",
+   "level": 2,
+   "endergebnis": -81.41999999999999
+  },
+  {
+   "spieler": "Leon",
+   "datum": "2026-12-27",
+   "level": 2,
+   "endergebnis": -20.259999999999977
+  },
+  {
+   "spieler": "Ben",
+   "datum": "2026-12-28",
+   "level": 2,
+   "endergebnis": -126.27999999999996
+  },
+  {
+   "spieler": "Clara",
+   "datum": "2026-12-29",
+   "level": 2,
+   "endergebnis": -53.69199999999998
+  }
+ ],
+ "level": [
+  {
+   "level": 1,
+   "bestenliste": [
+    {
+     "rang": 1,
+     "spieler": "Clara",
+     "endergebnis": 600.0,
+     "podium_text": "600 €",
+     "karten_text": "600.00 €"
+    },
+    {
+     "rang": 2,
+     "spieler": "Ben",
+     "endergebnis": 510.75,
+     "podium_text": "511 €",
+     "karten_text": "510.75 €"
+    },
+    {
+     "rang": 3,
+     "spieler": "test",
+     "endergebnis": 436.72,
+     "podium_text": "437 €",
+     "karten_text": "436.72 €"
+    },
+    {
+     "rang": 4,
+     "spieler": "Anna",
+     "endergebnis": 340.2,
+     "podium_text": "340 €",
+     "karten_text": "340.20 €"
+    },
+    {
+     "rang": 5,
+     "spieler": "Leon",
+     "endergebnis": 217.29999999999995,
+     "podium_text": "217 €",
+     "karten_text": "217.30 €"
+    },
+    {
+     "rang": 6,
+     "spieler": "Ärne",
+     "endergebnis": 183.78,
+     "podium_text": "184 €",
+     "karten_text": "183.78 €"
+    },
+    {
+     "rang": 7,
+     "spieler": "anna",
+     "endergebnis": 152.33999999999995,
+     "podium_text": "152 €",
+     "karten_text": "152.34 €"
+    },
+    {
+     "rang": 8,
+     "spieler": "Zoe",
+     "endergebnis": 132.17999999999995,
+     "podium_text": "132 €",
+     "karten_text": "132.18 €"
+    },
+    {
+     "rang": 9,
+     "spieler": "David",
+     "endergebnis": 88.3,
+     "podium_text": "88 €",
+     "karten_text": "88.30 €"
+    },
+    {
+     "rang": 10,
+     "spieler": "Mia",
+     "endergebnis": 24.13999999999997,
+     "podium_text": "24 €",
+     "karten_text": "24.14 €"
+    }
+   ],
+   "badges": {
+    "Clara": "🥉🥈🥇",
+    "Ben": "🥉🥇",
+    "test": "🥉",
+    "Anna": "🥉🥈",
+    "Leon": "🥉",
+    "Ärne": "🥉🥈",
+    "anna": "🥉",
+    "Zoe": "🥉",
+    "David": "🥉",
+    "Mia": "🥉"
+   },
+   "statistik": {
+    "Anna": {
+     "eigener_rang": 4,
+     "bestes_ergebnis": 340.2,
+     "gesamt": 10,
+     "meldung": "Du stehst auf Platz 4 von 10. Nur 259.80 € fehlen dir zu Platz 1 – weiterspielen lohnt sich!",
+     "abstand_text": "259.80 €",
+     "bestes_text": "340.20 €"
+    },
+    "Ben": {
+     "eigener_rang": 2,
+     "bestes_ergebnis": 510.75,
+     "gesamt": 10,
+     "meldung": "Du stehst auf Platz 2 von 10. Nur 89.25 € fehlen dir zu Platz 1 – weiterspielen lohnt sich!",
+     "abstand_text": "89.25 €",
+     "bestes_text": "510.75 €"
+    },
+    "Clara": {
+     "eigener_rang": 1,
+     "bestes_ergebnis": 600.0,
+     "gesamt": 10,
+     "meldung": "🏆 Du führst die Bestenliste in Level 1 an!",
+     "abstand_text": "0.00 €",
+     "bestes_text": "600.00 €"
+    },
+    "David": {
+     "eigener_rang": 9,
+     "bestes_ergebnis": 88.3,
+     "gesamt": 10,
+     "meldung": "Du stehst auf Platz 9 von 10. Nur 511.70 € fehlen dir zu Platz 1 – weiterspielen lohnt sich!",
+     "abstand_text": "511.70 €",
+     "bestes_text": "88.30 €"
+    },
+    "Leon": {
+     "eigener_rang": 5,
+     "bestes_ergebnis": 217.29999999999995,
+     "gesamt": 10,
+     "meldung": "Du stehst auf Platz 5 von 10. Nur 382.70 € fehlen dir zu Platz 1 – weiterspielen lohnt sich!",
+     "abstand_text": "382.70 €",
+     "bestes_text": "217.30 €"
+    },
+    "Mia": {
+     "eigener_rang": 10,
+     "bestes_ergebnis": 24.13999999999997,
+     "gesamt": 10,
+     "meldung": "Du stehst auf Platz 10 von 10. Nur 575.86 € fehlen dir zu Platz 1 – weiterspielen lohnt sich!",
+     "abstand_text": "575.86 €",
+     "bestes_text": "24.14 €"
+    },
+    "Zoe": {
+     "eigener_rang": 8,
+     "bestes_ergebnis": 132.17999999999995,
+     "gesamt": 10,
+     "meldung": "Du stehst auf Platz 8 von 10. Nur 467.82 € fehlen dir zu Platz 1 – weiterspielen lohnt sich!",
+     "abstand_text": "467.82 €",
+     "bestes_text": "132.18 €"
+    },
+    "anna": {
+     "eigener_rang": 7,
+     "bestes_ergebnis": 152.33999999999995,
+     "gesamt": 10,
+     "meldung": "Du stehst auf Platz 7 von 10. Nur 447.66 € fehlen dir zu Platz 1 – weiterspielen lohnt sich!",
+     "abstand_text": "447.66 €",
+     "bestes_text": "152.34 €"
+    },
+    "test": {
+     "eigener_rang": 3,
+     "bestes_ergebnis": 436.72,
+     "gesamt": 10,
+     "meldung": "Du stehst auf Platz 3 von 10. Nur 163.28 € fehlen dir zu Platz 1 – weiterspielen lohnt sich!",
+     "abstand_text": "163.28 €",
+     "bestes_text": "436.72 €"
+    },
+    "Ärne": {
+     "eigener_rang": 6,
+     "bestes_ergebnis": 183.78,
+     "gesamt": 10,
+     "meldung": "Du stehst auf Platz 6 von 10. Nur 416.22 € fehlen dir zu Platz 1 – weiterspielen lohnt sich!",
+     "abstand_text": "416.22 €",
+     "bestes_text": "183.78 €"
+    }
+   },
+   "verlauf": {
+    "Anna": [
+     {
+      "datum": "2026-08-01",
+      "endergebnis": 120.5
+     },
+     {
+      "datum": "2026-08-02",
+      "endergebnis": 340.2
+     },
+     {
+      "datum": "2026-08-03",
+      "endergebnis": 275.0
+     },
+     {
+      "datum": "2026-08-07",
+      "endergebnis": 7.980000000000061
+     },
+     {
+      "datum": "2026-09-01",
+      "endergebnis": -178.44000000000008
+     },
+     {
+      "datum": "2026-09-03",
+      "endergebnis": -478.06
+     },
+     {
+      "datum": "2026-09-14",
+      "endergebnis": -162.92000000000002
+     },
+     {
+      "datum": "2026-09-17",
+      "endergebnis": -527.66
+     },
+     {
+      "datum": "2026-10-06",
+      "endergebnis": -417.7
+     },
+     {
+      "datum": "2026-10-12",
+      "endergebnis": -48.48000000000006
+     },
+     {
+      "datum": "2026-10-20",
+      "endergebnis": -21.200000000000017
+     }
+    ],
+    "Ben": [
+     {
+      "datum": "2026-08-01",
+      "endergebnis": 95.0
+     },
+     {
+      "datum": "2026-08-02",
+      "endergebnis": 510.75
+     },
+     {
+      "datum": "2026-09-09",
+      "endergebnis": -72.75999999999998
+     },
+     {
+      "datum": "2026-09-10",
+      "endergebnis": 232.87999999999988
+     },
+     {
+      "datum": "2026-10-09",
+      "endergebnis": -142.68
+     },
+     {
+      "datum": "2026-10-13",
+      "endergebnis": -119.50000000000004
+     },
+     {
+      "datum": "2026-10-25",
+      "endergebnis": -67.37999999999998
+     },
+     {
+      "datum": "2026-10-28",
+      "endergebnis": 24.60000000000003
+     },
+     {
+      "datum": "2026-10-30",
+      "endergebnis": -89.44
+     }
+    ],
+    "Clara": [
+     {
+      "datum": "2026-08-01",
+      "endergebnis": 600.0
+     },
+     {
+      "datum": "2026-09-06",
+      "endergebnis": 67.81999999999994
+     },
+     {
+      "datum": "2026-09-16",
+      "endergebnis": -263.31999999999994
+     },
+     {
+      "datum": "2026-09-24",
+      "endergebnis": 150.12
+     },
+     {
+      "datum": "2026-09-25",
+      "endergebnis": 23.11999999999999
+     },
+     {
+      "datum": "2026-10-02",
+      "endergebnis": -136.79999999999998
+     },
+     {
+      "datum": "2026-10-08",
+      "endergebnis": -60.87999999999998
+     },
+     {
+      "datum": "2026-10-10",
+      "endergebnis": -277.82
+     },
+     {
+      "datum": "2026-10-11",
+      "endergebnis": -142.04000000000002
+     },
+     {
+      "datum": "2026-10-24",
+      "endergebnis": -314.36
+     },
+     {
+      "datum": "2026-10-26",
+      "endergebnis": -115.95999999999998
+     }
+    ],
+    "David": [
+     {
+      "datum": "2026-08-01",
+      "endergebnis": 45.6
+     },
+     {
+      "datum": "2026-08-02",
+      "endergebnis": 88.3
+     }
+    ],
+    "Leon": [
+     {
+      "datum": "2026-09-12",
+      "endergebnis": -105.79999999999998
+     },
+     {
+      "datum": "2026-10-01",
+      "endergebnis": -137.7
+     },
+     {
+      "datum": "2026-10-14",
+      "endergebnis": 59.179999999999936
+     },
+     {
+      "datum": "2026-10-17",
+      "endergebnis": -124.81999999999996
+     },
+     {
+      "datum": "2026-10-18",
+      "endergebnis": -238.46
+     },
+     {
+      "datum": "2026-10-22",
+      "endergebnis": 217.29999999999995
+     }
+    ],
+    "Mia": [
+     {
+      "datum": "2026-09-05",
+      "endergebnis": -50.2
+     },
+     {
+      "datum": "2026-09-15",
+      "endergebnis": -233.32
+     },
+     {
+      "datum": "2026-09-26",
+      "endergebnis": 24.13999999999997
+     },
+     {
+      "datum": "2026-10-19",
+      "endergebnis": -376.74
+     },
+     {
+      "datum": "2026-10-21",
+      "endergebnis": -185.04
+     },
+     {
+      "datum": "2026-10-27",
+      "endergebnis": -233.34
+     }
+    ],
+    "Zoe": [
+     {
+      "datum": "2026-09-02",
+      "endergebnis": -35.459999999999994
+     },
+     {
+      "datum": "2026-09-04",
+      "endergebnis": -89.41999999999999
+     },
+     {
+      "datum": "2026-09-11",
+      "endergebnis": -161.17999999999998
+     },
+     {
+      "datum": "2026-09-18",
+      "endergebnis": -17.000000000000014
+     },
+     {
+      "datum": "2026-09-20",
+      "endergebnis": 132.17999999999995
+     },
+     {
+      "datum": "2026-09-23",
+      "endergebnis": -35.47999999999998
+     },
+     {
+      "datum": "2026-09-27",
+      "endergebnis": -250.62
+     },
+     {
+      "datum": "2026-10-05",
+      "endergebnis": -53.31999999999998
+     },
+     {
+      "datum": "2026-10-29",
+      "endergebnis": -87.56
+     }
+    ],
+    "anna": [
+     {
+      "datum": "2026-09-07",
+      "endergebnis": 152.33999999999995
+     },
+     {
+      "datum": "2026-09-08",
+      "endergebnis": -168.62
+     },
+     {
+      "datum": "2026-09-22",
+      "endergebnis": -234.06
+     },
+     {
+      "datum": "2026-10-03",
+      "endergebnis": 101.54000000000002
+     },
+     {
+      "datum": "2026-10-23",
+      "endergebnis": -154.65999999999994
+     }
+    ],
+    "test": [
+     {
+      "datum": "2026-08-05",
+      "endergebnis": 436.72
+     },
+     {
+      "datum": "2026-08-06",
+      "endergebnis": 81.19999999999987
+     }
+    ],
+    "Ärne": [
+     {
+      "datum": "2026-09-13",
+      "endergebnis": -45.46000000000001
+     },
+     {
+      "datum": "2026-09-19",
+      "endergebnis": -75.62
+     },
+     {
+      "datum": "2026-09-21",
+      "endergebnis": 88.06
+     },
+     {
+      "datum": "2026-09-28",
+      "endergebnis": 1.0400000000000205
+     },
+     {
+      "datum": "2026-09-29",
+      "endergebnis": -323.75999999999993
+     },
+     {
+      "datum": "2026-09-30",
+      "endergebnis": 183.78
+     },
+     {
+      "datum": "2026-10-04",
+      "endergebnis": -66.45999999999998
+     },
+     {
+      "datum": "2026-10-07",
+      "endergebnis": -1.620000000000026
+     },
+     {
+      "datum": "2026-10-15",
+      "endergebnis": 140.41999999999996
+     },
+     {
+      "datum": "2026-10-16",
+      "endergebnis": -82.3
+     }
+    ]
+   }
+  },
+  {
+   "level": 2,
+   "bestenliste": [
+    {
+     "rang": 1,
+     "spieler": "Clara",
+     "endergebnis": 502.9,
+     "podium_text": "503 €",
+     "karten_text": "502.90 €"
+    },
+    {
+     "rang": 2,
+     "spieler": "Anna",
+     "endergebnis": 410.3,
+     "podium_text": "410 €",
+     "karten_text": "410.30 €"
+    },
+    {
+     "rang": 3,
+     "spieler": "Max",
+     "endergebnis": 255.27999999999983,
+     "podium_text": "255 €",
+     "karten_text": "255.28 €"
+    },
+    {
+     "rang": 4,
+     "spieler": "Ben",
+     "endergebnis": 220.1,
+     "podium_text": "220 €",
+     "karten_text": "220.10 €"
+    },
+    {
+     "rang": 5,
+     "spieler": "Ärne",
+     "endergebnis": 177.7039999999999,
+     "podium_text": "178 €",
+     "karten_text": "177.70 €"
+    },
+    {
+     "rang": 6,
+     "spieler": "Zoe",
+     "endergebnis": 157.48999999999998,
+     "podium_text": "157 €",
+     "karten_text": "157.49 €"
+    },
+    {
+     "rang": 7,
+     "spieler": "anna",
+     "endergebnis": 63.839999999999954,
+     "podium_text": "64 €",
+     "karten_text": "63.84 €"
+    },
+    {
+     "rang": 8,
+     "spieler": "David",
+     "endergebnis": 60.0,
+     "podium_text": "60 €",
+     "karten_text": "60.00 €"
+    },
+    {
+     "rang": 9,
+     "spieler": "Leon",
+     "endergebnis": 52.52000000000004,
+     "podium_text": "53 €",
+     "karten_text": "52.52 €"
+    },
+    {
+     "rang": 10,
+     "spieler": "test",
+     "endergebnis": 8.799999999999983,
+     "podium_text": "9 €",
+     "karten_text": "8.80 €"
+    },
+    {
+     "rang": 11,
+     "spieler": "Mia",
+     "endergebnis": -33.400000000000006,
+     "podium_text": "-33 €",
+     "karten_text": "-33.40 €"
+    }
+   ],
+   "badges": {
+    "Clara": "🥉🥈🥇",
+    "Anna": "🥉",
+    "Max": "🥉",
+    "Ben": "🥉",
+    "Ärne": "🥉",
+    "Zoe": "🥉",
+    "anna": "🥉🥈",
+    "David": "🥉",
+    "Leon": "🥉🥈",
+    "test": "🥉",
+    "Mia": "🥉"
+   },
+   "statistik": {
+    "Anna": {
+     "eigener_rang": 2,
+     "bestes_ergebnis": 410.3,
+     "gesamt": 11,
+     "meldung": "Du stehst auf Platz 2 von 11. Nur 92.60 € fehlen dir zu Platz 1 – weiterspielen lohnt sich!",
+     "abstand_text": "92.60 €",
+     "bestes_text": "410.30 €"
+    },
+    "Ben": {
+     "eigener_rang": 4,
+     "bestes_ergebnis": 220.1,
+     "gesamt": 11,
+     "meldung": "Du stehst auf Platz 4 von 11. Nur 282.80 € fehlen dir zu Platz 1 – weiterspielen lohnt sich!",
+     "abstand_text": "282.80 €",
+     "bestes_text": "220.10 €"
+    },
+    "Clara": {
+     "eigener_rang": 1,
+     "bestes_ergebnis": 502.9,
+     "gesamt": 11,
+     "meldung": "🏆 Du führst die Bestenliste in Level 2 an!",
+     "abstand_text": "0.00 €",
+     "bestes_text": "502.90 €"
+    },
+    "David": {
+     "eigener_rang": 8,
+     "bestes_ergebnis": 60.0,
+     "gesamt": 11,
+     "meldung": "Du stehst auf Platz 8 von 11. Nur 442.90 € fehlen dir zu Platz 1 – weiterspielen lohnt sich!",
+     "abstand_text": "442.90 €",
+     "bestes_text": "60.00 €"
+    },
+    "Leon": {
+     "eigener_rang": 9,
+     "bestes_ergebnis": 52.52000000000004,
+     "gesamt": 11,
+     "meldung": "Du stehst auf Platz 9 von 11. Nur 450.38 € fehlen dir zu Platz 1 – weiterspielen lohnt sich!",
+     "abstand_text": "450.38 €",
+     "bestes_text": "52.52 €"
+    },
+    "Max": {
+     "eigener_rang": 3,
+     "bestes_ergebnis": 255.27999999999983,
+     "gesamt": 11,
+     "meldung": "Du stehst auf Platz 3 von 11. Nur 247.62 € fehlen dir zu Platz 1 – weiterspielen lohnt sich!",
+     "abstand_text": "247.62 €",
+     "bestes_text": "255.28 €"
+    },
+    "Mia": {
+     "eigener_rang": 11,
+     "bestes_ergebnis": -33.400000000000006,
+     "gesamt": 11,
+     "meldung": "Du stehst auf Platz 11 von 11. Nur 536.30 € fehlen dir zu Platz 1 – weiterspielen lohnt sich!",
+     "abstand_text": "536.30 €",
+     "bestes_text": "-33.40 €"
+    },
+    "Zoe": {
+     "eigener_rang": 6,
+     "bestes_ergebnis": 157.48999999999998,
+     "gesamt": 11,
+     "meldung": "Du stehst auf Platz 6 von 11. Nur 345.41 € fehlen dir zu Platz 1 – weiterspielen lohnt sich!",
+     "abstand_text": "345.41 €",
+     "bestes_text": "157.49 €"
+    },
+    "anna": {
+     "eigener_rang": 7,
+     "bestes_ergebnis": 63.839999999999954,
+     "gesamt": 11,
+     "meldung": "Du stehst auf Platz 7 von 11. Nur 439.06 € fehlen dir zu Platz 1 – weiterspielen lohnt sich!",
+     "abstand_text": "439.06 €",
+     "bestes_text": "63.84 €"
+    },
+    "test": {
+     "eigener_rang": 10,
+     "bestes_ergebnis": 8.799999999999983,
+     "gesamt": 11,
+     "meldung": "Du stehst auf Platz 10 von 11. Nur 494.10 € fehlen dir zu Platz 1 – weiterspielen lohnt sich!",
+     "abstand_text": "494.10 €",
+     "bestes_text": "8.80 €"
+    },
+    "Ärne": {
+     "eigener_rang": 5,
+     "bestes_ergebnis": 177.7039999999999,
+     "gesamt": 11,
+     "meldung": "Du stehst auf Platz 5 von 11. Nur 325.20 € fehlen dir zu Platz 1 – weiterspielen lohnt sich!",
+     "abstand_text": "325.20 €",
+     "bestes_text": "177.70 €"
+    }
+   },
+   "verlauf": {
+    "Anna": [
+     {
+      "datum": "2026-08-01",
+      "endergebnis": 150.0
+     },
+     {
+      "datum": "2026-08-04",
+      "endergebnis": 410.3
+     },
+     {
+      "datum": "2026-11-02",
+      "endergebnis": -308.19999999999993
+     },
+     {
+      "datum": "2026-11-12",
+      "endergebnis": -9.410000000000018
+     },
+     {
+      "datum": "2026-11-18",
+      "endergebnis": 109.66
+     },
+     {
+      "datum": "2026-12-10",
+      "endergebnis": 176.92799999999994
+     },
+     {
+      "datum": "2026-12-21",
+      "endergebnis": -158.35
+     },
+     {
+      "datum": "2026-12-25",
+      "endergebnis": -94.48999999999998
+     },
+     {
+      "datum": "2026-12-26",
+      "endergebnis": -81.41999999999999
+     }
+    ],
+    "Ben": [
+     {
+      "datum": "2026-08-03",
+      "endergebnis": -20.0
+     },
+     {
+      "datum": "2026-08-04",
+      "endergebnis": 220.1
+     },
+     {
+      "datum": "2026-11-14",
+      "endergebnis": -95.61999999999996
+     },
+     {
+      "datum": "2026-11-20",
+      "endergebnis": -123.4
+     },
+     {
+      "datum": "2026-11-27",
+      "endergebnis": -109.07999999999996
+     },
+     {
+      "datum": "2026-12-09",
+      "endergebnis": 161.42000000000002
+     },
+     {
+      "datum": "2026-12-23",
+      "endergebnis": -43.96000000000002
+     },
+     {
+      "datum": "2026-12-28",
+      "endergebnis": -126.27999999999996
+     }
+    ],
+    "Clara": [
+     {
+      "datum": "2026-08-02",
+      "endergebnis": 380.45
+     },
+     {
+      "datum": "2026-08-03",
+      "endergebnis": 502.9
+     },
+     {
+      "datum": "2026-11-01",
+      "endergebnis": -115.29999999999995
+     },
+     {
+      "datum": "2026-11-16",
+      "endergebnis": -99.36399999999998
+     },
+     {
+      "datum": "2026-11-23",
+      "endergebnis": -233.52
+     },
+     {
+      "datum": "2026-12-02",
+      "endergebnis": 33.39999999999998
+     },
+     {
+      "datum": "2026-12-11",
+      "endergebnis": 78.81999999999995
+     },
+     {
+      "datum": "2026-12-15",
+      "endergebnis": -107.10000000000002
+     },
+     {
+      "datum": "2026-12-19",
+      "endergebnis": -89.77999999999997
+     },
+     {
+      "datum": "2026-12-29",
+      "endergebnis": -53.69199999999998
+     }
+    ],
+    "David": null,
+    "Leon": [
+     {
+      "datum": "2026-10-31",
+      "endergebnis": -33.27999999999996
+     },
+     {
+      "datum": "2026-11-10",
+      "endergebnis": -42.11400000000002
+     },
+     {
+      "datum": "2026-11-13",
+      "endergebnis": 36.967999999999954
+     },
+     {
+      "datum": "2026-11-21",
+      "endergebnis": -151.2
+     },
+     {
+      "datum": "2026-11-26",
+      "endergebnis": -46.02999999999999
+     },
+     {
+      "datum": "2026-11-30",
+      "endergebnis": 52.52000000000004
+     },
+     {
+      "datum": "2026-12-01",
+      "endergebnis": -19.219999999999978
+     },
+     {
+      "datum": "2026-12-12",
+      "endergebnis": -59.47999999999999
+     },
+     {
+      "datum": "2026-12-22",
+      "endergebnis": -127.18999999999994
+     },
+     {
+      "datum": "2026-12-27",
+      "endergebnis": -20.259999999999977
+     }
+    ],
+    "Max": null,
+    "Mia": [
+     {
+      "datum": "2026-11-05",
+      "endergebnis": -33.400000000000006
+     },
+     {
+      "datum": "2026-11-08",
+      "endergebnis": -74.16
+     },
+     {
+      "datum": "2026-12-08",
+      "endergebnis": -169.87999999999994
+     }
+    ],
+    "Zoe": [
+     {
+      "datum": "2026-11-07",
+      "endergebnis": 2.2399999999999523
+     },
+     {
+      "datum": "2026-11-17",
+      "endergebnis": 157.48999999999998
+     },
+     {
+      "datum": "2026-11-22",
+      "endergebnis": 1.8000000000000114
+     },
+     {
+      "datum": "2026-11-24",
+      "endergebnis": -416.268
+     },
+     {
+      "datum": "2026-11-25",
+      "endergebnis": -99.93999999999996
+     },
+     {
+      "datum": "2026-11-28",
+      "endergebnis": -115.63999999999992
+     },
+     {
+      "datum": "2026-12-24",
+      "endergebnis": -44.25999999999999
+     }
+    ],
+    "anna": [
+     {
+      "datum": "2026-11-06",
+      "endergebnis": 63.839999999999954
+     },
+     {
+      "datum": "2026-11-09",
+      "endergebnis": -100.53399999999992
+     },
+     {
+      "datum": "2026-11-15",
+      "endergebnis": -44.900000000000006
+     },
+     {
+      "datum": "2026-11-19",
+      "endergebnis": -216.72000000000008
+     },
+     {
+      "datum": "2026-11-29",
+      "endergebnis": -298.88
+     },
+     {
+      "datum": "2026-12-03",
+      "endergebnis": -82.01999999999997
+     },
+     {
+      "datum": "2026-12-06",
+      "endergebnis": 4.419999999999988
+     },
+     {
+      "datum": "2026-12-13",
+      "endergebnis": -195.94
+     },
+     {
+      "datum": "2026-12-14",
+      "endergebnis": -359.89200000000005
+     },
+     {
+      "datum": "2026-12-16",
+      "endergebnis": -32.05999999999995
+     },
+     {
+      "datum": "2026-12-17",
+      "endergebnis": 44.46000000000003
+     },
+     {
+      "datum": "2026-12-20",
+      "endergebnis": 12.251999999999995
+     }
+    ],
+    "test": null,
+    "Ärne": [
+     {
+      "datum": "2026-11-03",
+      "endergebnis": -481.1
+     },
+     {
+      "datum": "2026-11-04",
+      "endergebnis": 172.2
+     },
+     {
+      "datum": "2026-11-11",
+      "endergebnis": 15.719999999999992
+     },
+     {
+      "datum": "2026-12-04",
+      "endergebnis": 18.080000000000005
+     },
+     {
+      "datum": "2026-12-05",
+      "endergebnis": -19.44399999999998
+     },
+     {
+      "datum": "2026-12-07",
+      "endergebnis": 177.7039999999999
+     },
+     {
+      "datum": "2026-12-18",
+      "endergebnis": -272.012
+     }
+    ]
+   }
+  }
+ ]
+}

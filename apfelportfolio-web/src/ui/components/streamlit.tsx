@@ -4,6 +4,7 @@
  * st.button, st.success/error/warning/info, st.caption, st.toggle, st.slider).
  */
 import type { ComponentChildren } from "preact";
+import { useState } from "preact/hooks";
 
 export function Titel({ children }: { children: ComponentChildren }) {
   return <h1 class="st-titel">{children}</h1>;
@@ -26,12 +27,51 @@ export function Trenner() {
   return <hr class="st-divider" />;
 }
 
-export function Expander({ titel, children, offen = false }: { titel: string; children: ComponentChildren; offen?: boolean }) {
+/**
+ * st.expander. Mit erst_beim_oeffnen wird der Inhalt erst gezeichnet, wenn der
+ * Bereich offen ist (noetig fuer Diagramme, die ihre Breite messen).
+ */
+export function Expander({
+  titel,
+  children,
+  offen = false,
+  erst_beim_oeffnen = false,
+}: {
+  titel: string;
+  children: ComponentChildren;
+  offen?: boolean;
+  erst_beim_oeffnen?: boolean;
+}) {
+  const [istOffen, setOffen] = useState(offen);
   return (
-    <details class="st-expander" open={offen}>
+    <details class="st-expander" open={offen} onToggle={(e) => setOffen((e.currentTarget as HTMLDetailsElement).open)}>
       <summary>{titel}</summary>
-      <div class="st-expander-inhalt">{children}</div>
+      <div class="st-expander-inhalt">{!erst_beim_oeffnen || istOffen ? children : null}</div>
     </details>
+  );
+}
+
+/**
+ * st.tabs([...]): alle Reiter sind gezeichnet, nur der gewaehlte ist sichtbar;
+ * Umschalten loest wie in Streamlit keinen Neustart aus (Zustand bleibt).
+ */
+export function Reiter({ titel, inhalt }: { titel: readonly string[]; inhalt: (index: number) => ComponentChildren }) {
+  const [aktiv, setAktiv] = useState(0);
+  return (
+    <div class="st-tabs">
+      <div class="st-tabs-leiste" role="tablist">
+        {titel.map((t, i) => (
+          <button type="button" role="tab" key={t} aria-selected={i === aktiv} class="st-tab" onClick={() => setAktiv(i)}>
+            {t}
+          </button>
+        ))}
+      </div>
+      {titel.map((t, i) => (
+        <div role="tabpanel" key={t} hidden={i !== aktiv} class="st-tab-inhalt">
+          {inhalt(i)}
+        </div>
+      ))}
+    </div>
   );
 }
 

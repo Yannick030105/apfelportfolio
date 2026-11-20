@@ -1,6 +1,6 @@
 # MIGRATION_NOTES – Apfelportfolio Python/Streamlit → TypeScript
 
-Stand: Phase 6, Durchlauf 1 von 7 abgeschlossen (Seite „Spielen“ mit Rahmen und Spielzustand). Wird je Phase fortgeschrieben.
+Stand: Phase 6, Durchlauf 2 von 7 abgeschlossen (Seiten „Spielen“ und „Ranking“). Wird je Phase fortgeschrieben.
 
 ---
 
@@ -39,7 +39,9 @@ Stand: Phase 6, Durchlauf 1 von 7 abgeschlossen (Seite „Spielen“ mit Rahmen 
 | Streamlit-Grundelemente (`st.title`, `st.expander`, `st.slider`, …) | `src/ui/components/streamlit.tsx`, `src/ui/styles.css` | **erledigt (Phase 6/1)** |
 | `ui/components.py` (`render_player_selector`, im Original ungenutzt) | vorläufig in `src/ui/pages/Home.tsx` | vorläufig bis Durchlauf „Home“ |
 | – (Speicherort wählen) | `src/ui/components/SpeicherLeiste.tsx`, `src/ui/speicherVerbindung.ts` | **erledigt (Phase 6/1)** |
-| `ui/pages/3_ranking.py` | `src/ui/pages/Ranking.tsx` | offen (Phase 6/2) |
+| `ui/pages/3_ranking.py` (Anzeige) | `src/ui/pages/Ranking.tsx`, Diagramm `src/ui/charts/verlauf.ts` | **erledigt (Phase 6/2)** |
+| `ui/pages/3_ranking.py` (`_highscores_je_level`, `_badge_icons`, Statistik, Verlauf) | `src/dashboard/ranking.ts` | **erledigt (Phase 6/2)** |
+| Plotly (`st.plotly_chart`) | Vega-Lite über `src/ui/components/VegaDiagramm.tsx` | **erledigt (Phase 6/2)** |
 | `ui/pages/2_dashboard.py` | `src/ui/pages/Dashboard.tsx` | offen (Phase 6/3) |
 | `ui/pages/home.py` | `src/ui/pages/Home.tsx` | offen (Phase 6/4) |
 | `ui/pages/4_tutorial.py`, `5_wiki.py`, `6_regelwerk.py` | `Tutorial.tsx`, `Wiki.tsx`, `Regelwerk.tsx`, `src/content/texte/*.md` | offen (Phase 6/5–7) |
@@ -280,6 +282,35 @@ Erzeugt mit `python3 tools/referenz_erzeugen.py` (Python 3.13). Format siehe Doc
 | `st.slider` mit `min_value >= max_value` → `StreamlitAPIException` | Fehlermeldung an der Stelle des Sliders (z. B. bei Regelwerk-Limit 0). |
 | `set_page_config(page_title, page_icon)` | Browser-Titel und -Symbol je Seite („Level 1 – Apfelportfolio“ 🍎, „Level 2 – Apfelportfolio“ 🌩️). |
 
+## 3f. Phase 6, Durchlauf 2 – Seite „Ranking“
+
+- **Berechnungen** (`src/dashboard/ranking.ts`) gegen Soll-Werte aus den ORIGINAL-Funktionen von
+  `3_ranking.py` (`tools/ranking_referenz_erzeugen.py` → `tests/daten/ranking_referenz.json`;
+  streamlit/plotly werden dafür durch Attrappen ersetzt). Daten: echte `spiellog.csv` + 120
+  Referenzwochen auf 8 Spieler verteilt (inkl. „anna“/„Anna“/„Ärne“ für die Sortierung), über
+  das alte `LogRepository` geschrieben und gelesen. Geprüft je Level: Bestenliste (Rang,
+  Spieler, Ergebnis, Podium-/Kartentext), Badges je Spieler, eigene Statistik inkl.
+  Meldungstext für jeden Spieler, Verlauf je Spieler.
+- **Browser-Test** über den echten Ordner-Weg: Spielordner (Origin Private File System als
+  Ersatz für den Ordnerdialog) mit den 20 migrierten Spielständen der echten `spiellog.csv`
+  verbunden, Spieler „Anna“ gewählt: Podium (2.–1.–3.), Rangliste, Hervorhebung, Meldung
+  „Platz 4 von 5 … 259.80 €“, Statistik-Kacheln, Diagramm erst beim Aufklappen, Level-2-Reiter;
+  keine Fehler, keine Anfragen nach außen; Datumsachse auch in Zeitzone UTC−8 korrekt.
+- **Diagramm:** Plotly → Vega-Lite (rote Linie 3 px, goldene Punkte, Fläche bis 0, Höhe 260,
+  y-Titel „Endergebnis (€)“). Datum als UTC-Tag (keine Verschiebung durch die Zeitzone),
+  Achsenmarken an ganzen Tagen, Tooltip mit Datum/Ergebnis. Die Datei wächst durch Vega auf
+  rund 950 kB (gzip 325 kB).
+
+### Nachgebildetes Streamlit-Verhalten (Ranking)
+
+| Streamlit | Nachbildung |
+|---|---|
+| `repo.alle_laden()` bei jedem Seitenaufruf (Ergebnisse anderer Spieler erscheinen sofort) | Beim Öffnen der Seite werden alle Spielstände neu aus dem Ordner gelesen. |
+| `st.tabs(["Level 1", "Level 2"])`: alle Reiter gezeichnet, Umschalten ohne Rerun | `Reiter`: beide Inhalte gezeichnet, nur der gewählte sichtbar; Zustand (z. B. aufgeklappter Verlauf) bleibt beim Umschalten. |
+| `st.expander` mit `st.plotly_chart` | Diagramm wird erst beim Aufklappen gezeichnet (sonst Breite 0). |
+| `layout="centered"` | schmale Seite (max. 760 px) wie im Original. |
+| `set_page_config(page_title="Ranking – Apfelportfolio", page_icon="🥇")` | Browser-Titel/-Symbol. |
+
 ---
 
 ## 4. Bewusste Abweichungen
@@ -360,6 +391,16 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
     (`eingabegrenzen_level1`); das Original nimmt `st.session_state.regelwerk`. Beide sind
     gleich, solange das Regelwerk nicht während der Sitzung geändert wird (siehe
     Auffälligkeit 20) – endgültig zu klären im Durchlauf „Regelwerk“.
+23. **Reihenfolge bei gleichen Bestwerten (Ranking) ist festgelegt:** pandas sortiert mit
+    numpy-`quicksort`, der auf x86 mit SIMD (AVX-512/AVX2) nicht stabil ist – schon bei
+    5 Spielern weicht die Reihenfolge gleicher Werte in 79 von 350 Stichproben von einer stabilen
+    Sortierung ab, und sie hängt vom Prozessor ab. Eine exakte Nachbildung ist daher nicht
+    möglich. Hier gilt: gleiche Bestwerte in Gruppenreihenfolge (alphabetisch nach Codepoints),
+    Ränge fortlaufend. Gleiches für gleiche Daten im Verlauf (Log-Reihenfolge).
+24. **Ranking-Reiter aus der Level-Registry** statt fest „Level 1“/„Level 2“ – heute identisch,
+    ein neues Level erscheint automatisch.
+25. **Plotly → Vega-Lite** (erlaubte Abhängigkeit); Aussehen nachgebildet, Achsenbeschriftung
+    im Vega-Stil („Aug 01, 2026“).
 
 ---
 
@@ -449,6 +490,11 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
 21. **`render_player_selector()`** in `ui/components.py` wird nirgends aufgerufen (die Startseite hat
     eigene Händler-Karten); `zeige_rundenergebnis_karten()` ebenso.
 22. **Gemeinsame Session-Schlüssel der beiden Level-Seiten** – siehe Abweichung 17.
+23. **Ranking bei Gleichstand prozessorabhängig** (numpy-SIMD-Sortierung) – siehe Abweichung 23.
+24. **`groupby().idxmax()` mit nur fehlenden Endergebnissen** würfe in pandas 3 einen Fehler
+    (Seite stürzt ab). Kann mit Spielständen dieser App nicht auftreten (Endergebnis ist immer
+    gesetzt, die Migration verwirft Zeilen ohne Endergebnis); die TS-Version überspringt solche
+    Spieler.
 
 ---
 
