@@ -33,3 +33,6 @@
   `src/dashboard/dashboard.ts`) mit Profil, Level-Auswahl, KPIs, Lernkurve,
   Ergebnisentwicklung, Gewinnverteilung und Achievements; Soll-Werte aus
   `tools/dashboard_referenz_erzeugen.py`.
+- Phase 6, Durchlauf 4: Startseite (`src/ui/pages/Home.tsx`, Kennzahlen in
+  `src/dashboard/spielerKennzahlen.ts`) mit Händler-Karten, Neugründung, „Spiel starten“ und
+  Vorschau; ersetzt die vorläufige Spielerauswahl. Soll-Werte aus `tools/home_referenz_erzeugen.py`.

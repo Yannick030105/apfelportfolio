@@ -1,6 +1,6 @@
 # MIGRATION_NOTES – Apfelportfolio Python/Streamlit → TypeScript
 
-Stand: Phase 6, Durchlauf 3 von 7 abgeschlossen (Seiten „Spielen“, „Ranking“, „Dashboard“). Wird je Phase fortgeschrieben.
+Stand: Phase 6, Durchlauf 4 von 7 abgeschlossen (Seiten „Spielen“, „Ranking“, „Dashboard“, „Home“). Wird je Phase fortgeschrieben.
 
 ---
 
@@ -37,14 +37,15 @@ Stand: Phase 6, Durchlauf 3 von 7 abgeschlossen (Seiten „Spielen“, „Rankin
 | `st.session_state` (Spielseiten) | `src/state/spielzustand.ts`, Widget-Verhalten `src/state/widgetZustand.ts` | **erledigt (Phase 6/1)** |
 | `ui/components.py` (`zeige_kopfzeile`, `zeige_uebersetzungstabelle`) | `src/ui/components/allgemein.tsx` | **erledigt (Phase 6/1)** |
 | Streamlit-Grundelemente (`st.title`, `st.expander`, `st.slider`, …) | `src/ui/components/streamlit.tsx`, `src/ui/styles.css` | **erledigt (Phase 6/1)** |
-| `ui/components.py` (`render_player_selector`, im Original ungenutzt) | vorläufig in `src/ui/pages/Home.tsx` | vorläufig bis Durchlauf „Home“ |
+| `ui/components.py` (`render_player_selector`, im Original ungenutzt) | – (nicht übernommen; die vorläufige Auswahl aus Durchlauf 1 ist durch die echte Startseite ersetzt) | entfällt |
 | – (Speicherort wählen) | `src/ui/components/SpeicherLeiste.tsx`, `src/ui/speicherVerbindung.ts` | **erledigt (Phase 6/1)** |
 | `ui/pages/3_ranking.py` (Anzeige) | `src/ui/pages/Ranking.tsx`, Diagramm `src/ui/charts/verlauf.ts` | **erledigt (Phase 6/2)** |
 | `ui/pages/3_ranking.py` (`_highscores_je_level`, `_badge_icons`, Statistik, Verlauf) | `src/dashboard/ranking.ts` | **erledigt (Phase 6/2)** |
 | Plotly (`st.plotly_chart`) | Vega-Lite über `src/ui/components/VegaDiagramm.tsx` | **erledigt (Phase 6/2)** |
 | `ui/pages/2_dashboard.py` (Anzeige) | `src/ui/pages/Dashboard.tsx`, Diagramme `src/ui/charts/dashboard.ts` | **erledigt (Phase 6/3)** |
 | `ui/pages/2_dashboard.py` (Profil, Level-Auswahl, Balkenfarben, Klassenzahl) | `src/dashboard/dashboard.ts` | **erledigt (Phase 6/3)** |
-| `ui/pages/home.py` | `src/ui/pages/Home.tsx` | offen (Phase 6/4) |
+| `ui/pages/home.py` (Anzeige) | `src/ui/pages/Home.tsx` | **erledigt (Phase 6/4)** |
+| `ui/pages/home.py` (`_spieler_kennzahlen`) | `src/dashboard/spielerKennzahlen.ts` | **erledigt (Phase 6/4)** |
 | `ui/pages/4_tutorial.py`, `5_wiki.py`, `6_regelwerk.py` | `Tutorial.tsx`, `Wiki.tsx`, `Regelwerk.tsx`, `src/content/texte/*.md` | offen (Phase 6/5–7) |
 | `tasks.py`, `spec/*` (PyInstaller) | `package.json`, `vite.config.ts`, `.gitlab-ci.yml` | **erledigt (Phase 1)** |
 | `src/apfelportfolio/version.py` (leer) | `src/version.ts` (aus `package.json`) | **erledigt (Phase 1)** |
@@ -335,6 +336,31 @@ Erzeugt mit `python3 tools/referenz_erzeugen.py` (Python 3.13). Format siehe Doc
 | `st.plotly_chart(use_container_width=True)` | Vega-Lite-Diagramme in voller Spaltenbreite. |
 | `set_page_config(page_title="Dashboard – Apfelportfolio", page_icon="📊", layout="wide")` | Browser-Titel/-Symbol, Seitenbreite max. 1180 px wie im Original-CSS. |
 
+## 3h. Phase 6, Durchlauf 4 – Seite „Home“
+
+- **Händler-Kennzahlen** (`src/dashboard/spielerKennzahlen.ts`) gegen die ORIGINAL-Funktion
+  `_spieler_kennzahlen` aus `home.py` (`tools/home_referenz_erzeugen.py` →
+  `tests/daten/home_referenz.json`; gleiche Log-Zeilen wie beim Ranking, keine mehrdeutigen
+  „letzten Zeilen“). Geprüft für 12 Spieler und das leere Log: Level-Anzeige, Bestergebnis,
+  letzter Rang, letzter Gewinn, Wochen, Badges sowie die Texte von Karte und Vorschau.
+- **Browser-Test:** ohne Ordner Händler gründen (Knopf erst nach Enter, Name bleibt im Feld),
+  „Spiel starten“ mit Meldung und Ballons, die bei der nächsten Eingabe verschwinden; mit Ordner
+  (140 Spielstände) 11 Karten ohne Abweichung zur Python-Referenz, Namensprüfung („anna “ →
+  vergeben), Wechsel des aktiven Händlers samt Vorschau (#9 / 88.30 € / 3), Kartenreihenfolge auf
+  Handybreite spaltenweise; keine Fehler, keine Anfragen nach außen.
+- Die vorläufige Spielerauswahl aus Durchlauf 1 ist entfernt.
+
+### Nachgebildetes Streamlit-Verhalten (Home)
+
+| Streamlit | Nachbildung |
+|---|---|
+| `repo.alle_laden()` / `get_existing_players()` bei jedem Durchlauf | Spielstände werden beim Öffnen der Seite neu gelesen. |
+| `st.columns(3)`, Karte *i* in Spalte *i* % 3; schmal: Spalten untereinander | drei echte Spalten mit derselben Verteilung; unter 640 px untereinander (Reihenfolge 1, 4, 7, …, 2, 5, … wie in Streamlit). |
+| `st.text_input` übernimmt den Text erst bei Enter oder beim Verlassen des Feldes; der Wert bleibt bei Reruns stehen | Entwurf beim Tippen, Übernahme bei Enter/Verlassen; erst dann Prüfung, Warnung bzw. „✅ Gründen und loslegen“. Nach dem Gründen bleibt der Name im Feld. |
+| `st.button("▶ Spiel starten", disabled=kein Spieler)` → `st.success` + `st.balloons()` nur in diesem Durchlauf | Meldung und Ballons nach dem Klick, verschwinden bei der nächsten Eingabe (Karte wählen, Name übernehmen). |
+| Karten-Knopf → `current_player` setzen + `st.rerun()` | Knopf setzt den aktiven Händler; die Karte wird hervorgehoben, ihr Knopf zeigt „🎮 Aktiver Händler“ und ist deaktiviert. |
+| `set_page_config(page_title="Apfelportfolio", page_icon="🍎", layout="centered")` | Browser-Titel/-Symbol, Seitenbreite max. 780 px wie im Original-CSS. |
+
 ---
 
 ## 4. Bewusste Abweichungen
@@ -432,6 +458,12 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
     Plotly).
 27. **Dashboard-Level-Auswahl bleibt fest 1–4** wie im Original (nicht aus der Level-Registry),
     weil das Original bewusst Level 3/4 anbietet.
+28. **„Letzte Zeile“ auf der Startseite festgelegt:** `_spieler_kennzahlen` nimmt
+    `sort_values("datum").iloc[-1]`; bei mehreren Wochen am selben letzten Tag (im Unterricht
+    üblich) entscheidet numpys nicht stabile Sortierung (prozessorabhängig), welche als „letzte“
+    gilt – und damit „Letzter Gewinn“ und das Level für „Letzter Rang“. Hier: die zuletzt
+    abgeschlossene Woche (stabile Sortierung). Fehlendes Datum gilt wie bei pandas als letzte
+    Zeile.
 
 ---
 
@@ -526,6 +558,13 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
     (Seite stürzt ab). Kann mit Spielständen dieser App nicht auftreten (Endergebnis ist immer
     gesetzt, die Migration verwirft Zeilen ohne Endergebnis); die TS-Version überspringt solche
     Spieler.
+25. **„Wähle links dein Level“** (Meldung nach „Spiel starten“) verweist auf die
+    Streamlit-Seitenleiste. In der Web-Version liegt die Navigation oben; der Text ist trotzdem
+    wörtlich übernommen (siehe offene Frage 11).
+26. **Neu gegründeter Händler hat noch keine Karte:** Namen kommen nur aus abgeschlossenen
+    Wochen; bis zur ersten fertigen Woche erscheint der Händler nur in der Vorschau – und sein
+    Name gilt noch nicht als vergeben (ein zweiter Spieler könnte ihn ebenfalls gründen).
+    Unverändert übernommen.
 
 ---
 
@@ -561,3 +600,5 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
 10. **Test auf einem echten Rechner** (spätestens in Phase 6): Ordner-Dialog auf dem
     Netzlaufwerk, Schreibrechte für mehrere Benutzer, gemerkter Ordner nach Browser-Neustart
     bei Start per Doppelklick.
+11. **Text „Wähle links dein Level, um zu starten.“** (Startseite): Die Navigation liegt jetzt
+    oben. Wörtlich lassen (aktueller Stand) oder in „Wähle oben dein Level …“ ändern?

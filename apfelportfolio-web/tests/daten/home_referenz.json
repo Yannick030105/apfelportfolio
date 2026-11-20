@@ -1,0 +1,516 @@
+{
+ "pandas": "3.0.5",
+ "faelle": [
+  {
+   "spieler": "Anna",
+   "letzte_eindeutig": true,
+   "kennzahlen": {
+    "level_label": "Level 2",
+    "best": 410.3,
+    "letzter_rang": 2,
+    "letzter_gewinn": -81.41999999999999,
+    "wochen": 20,
+    "badges": [
+     {
+      "icon": "🥉",
+      "titel": "Erste Woche",
+      "beschreibung": "Spiele deinen ersten Durchlauf.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "🥈",
+      "titel": "Vielspieler",
+      "beschreibung": "Spiele mindestens 10 Durchläufe.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "🥇",
+      "titel": "Über 500 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 500 €.",
+      "freigeschaltet": false
+     },
+     {
+      "icon": "💰",
+      "titel": "Über 1000 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 1000 €.",
+      "freigeschaltet": false
+     }
+    ]
+   },
+   "texte": {
+    "best_text": "410.30 €",
+    "badge_icons": "🥉🥈",
+    "rang_text": "#2",
+    "gewinn_text": "-81.42 €",
+    "wochen_text": "20"
+   }
+  },
+  {
+   "spieler": "Ben",
+   "letzte_eindeutig": true,
+   "kennzahlen": {
+    "level_label": "Level 2",
+    "best": 510.75,
+    "letzter_rang": 4,
+    "letzter_gewinn": -126.27999999999996,
+    "wochen": 17,
+    "badges": [
+     {
+      "icon": "🥉",
+      "titel": "Erste Woche",
+      "beschreibung": "Spiele deinen ersten Durchlauf.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "🥈",
+      "titel": "Vielspieler",
+      "beschreibung": "Spiele mindestens 10 Durchläufe.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "🥇",
+      "titel": "Über 500 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 500 €.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "💰",
+      "titel": "Über 1000 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 1000 €.",
+      "freigeschaltet": false
+     }
+    ]
+   },
+   "texte": {
+    "best_text": "510.75 €",
+    "badge_icons": "🥉🥈🥇",
+    "rang_text": "#4",
+    "gewinn_text": "-126.28 €",
+    "wochen_text": "17"
+   }
+  },
+  {
+   "spieler": "Clara",
+   "letzte_eindeutig": true,
+   "kennzahlen": {
+    "level_label": "Level 2",
+    "best": 600.0,
+    "letzter_rang": 1,
+    "letzter_gewinn": -53.69199999999998,
+    "wochen": 21,
+    "badges": [
+     {
+      "icon": "🥉",
+      "titel": "Erste Woche",
+      "beschreibung": "Spiele deinen ersten Durchlauf.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "🥈",
+      "titel": "Vielspieler",
+      "beschreibung": "Spiele mindestens 10 Durchläufe.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "🥇",
+      "titel": "Über 500 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 500 €.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "💰",
+      "titel": "Über 1000 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 1000 €.",
+      "freigeschaltet": false
+     }
+    ]
+   },
+   "texte": {
+    "best_text": "600.00 €",
+    "badge_icons": "🥉🥈🥇",
+    "rang_text": "#1",
+    "gewinn_text": "-53.69 €",
+    "wochen_text": "21"
+   }
+  },
+  {
+   "spieler": "David",
+   "letzte_eindeutig": true,
+   "kennzahlen": {
+    "level_label": "Level 2",
+    "best": 88.3,
+    "letzter_rang": 9,
+    "letzter_gewinn": 88.3,
+    "wochen": 3,
+    "badges": [
+     {
+      "icon": "🥉",
+      "titel": "Erste Woche",
+      "beschreibung": "Spiele deinen ersten Durchlauf.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "🥈",
+      "titel": "Vielspieler",
+      "beschreibung": "Spiele mindestens 10 Durchläufe.",
+      "freigeschaltet": false
+     },
+     {
+      "icon": "🥇",
+      "titel": "Über 500 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 500 €.",
+      "freigeschaltet": false
+     },
+     {
+      "icon": "💰",
+      "titel": "Über 1000 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 1000 €.",
+      "freigeschaltet": false
+     }
+    ]
+   },
+   "texte": {
+    "best_text": "88.30 €",
+    "badge_icons": "🥉",
+    "rang_text": "#9",
+    "gewinn_text": "88.30 €",
+    "wochen_text": "3"
+   }
+  },
+  {
+   "spieler": "Leon",
+   "letzte_eindeutig": true,
+   "kennzahlen": {
+    "level_label": "Level 2",
+    "best": 217.29999999999995,
+    "letzter_rang": 9,
+    "letzter_gewinn": -20.259999999999977,
+    "wochen": 16,
+    "badges": [
+     {
+      "icon": "🥉",
+      "titel": "Erste Woche",
+      "beschreibung": "Spiele deinen ersten Durchlauf.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "🥈",
+      "titel": "Vielspieler",
+      "beschreibung": "Spiele mindestens 10 Durchläufe.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "🥇",
+      "titel": "Über 500 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 500 €.",
+      "freigeschaltet": false
+     },
+     {
+      "icon": "💰",
+      "titel": "Über 1000 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 1000 €.",
+      "freigeschaltet": false
+     }
+    ]
+   },
+   "texte": {
+    "best_text": "217.30 €",
+    "badge_icons": "🥉🥈",
+    "rang_text": "#9",
+    "gewinn_text": "-20.26 €",
+    "wochen_text": "16"
+   }
+  },
+  {
+   "spieler": "Max",
+   "letzte_eindeutig": true,
+   "kennzahlen": {
+    "level_label": "Level 2",
+    "best": 255.27999999999983,
+    "letzter_rang": 3,
+    "letzter_gewinn": 255.27999999999983,
+    "wochen": 1,
+    "badges": [
+     {
+      "icon": "🥉",
+      "titel": "Erste Woche",
+      "beschreibung": "Spiele deinen ersten Durchlauf.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "🥈",
+      "titel": "Vielspieler",
+      "beschreibung": "Spiele mindestens 10 Durchläufe.",
+      "freigeschaltet": false
+     },
+     {
+      "icon": "🥇",
+      "titel": "Über 500 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 500 €.",
+      "freigeschaltet": false
+     },
+     {
+      "icon": "💰",
+      "titel": "Über 1000 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 1000 €.",
+      "freigeschaltet": false
+     }
+    ]
+   },
+   "texte": {
+    "best_text": "255.28 €",
+    "badge_icons": "🥉",
+    "rang_text": "#3",
+    "gewinn_text": "255.28 €",
+    "wochen_text": "1"
+   }
+  },
+  {
+   "spieler": "Mia",
+   "letzte_eindeutig": true,
+   "kennzahlen": {
+    "level_label": "Level 2",
+    "best": 24.13999999999997,
+    "letzter_rang": 11,
+    "letzter_gewinn": -169.87999999999994,
+    "wochen": 9,
+    "badges": [
+     {
+      "icon": "🥉",
+      "titel": "Erste Woche",
+      "beschreibung": "Spiele deinen ersten Durchlauf.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "🥈",
+      "titel": "Vielspieler",
+      "beschreibung": "Spiele mindestens 10 Durchläufe.",
+      "freigeschaltet": false
+     },
+     {
+      "icon": "🥇",
+      "titel": "Über 500 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 500 €.",
+      "freigeschaltet": false
+     },
+     {
+      "icon": "💰",
+      "titel": "Über 1000 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 1000 €.",
+      "freigeschaltet": false
+     }
+    ]
+   },
+   "texte": {
+    "best_text": "24.14 €",
+    "badge_icons": "🥉",
+    "rang_text": "#11",
+    "gewinn_text": "-169.88 €",
+    "wochen_text": "9"
+   }
+  },
+  {
+   "spieler": "Zoe",
+   "letzte_eindeutig": true,
+   "kennzahlen": {
+    "level_label": "Level 2",
+    "best": 157.48999999999998,
+    "letzter_rang": 6,
+    "letzter_gewinn": -44.25999999999999,
+    "wochen": 16,
+    "badges": [
+     {
+      "icon": "🥉",
+      "titel": "Erste Woche",
+      "beschreibung": "Spiele deinen ersten Durchlauf.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "🥈",
+      "titel": "Vielspieler",
+      "beschreibung": "Spiele mindestens 10 Durchläufe.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "🥇",
+      "titel": "Über 500 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 500 €.",
+      "freigeschaltet": false
+     },
+     {
+      "icon": "💰",
+      "titel": "Über 1000 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 1000 €.",
+      "freigeschaltet": false
+     }
+    ]
+   },
+   "texte": {
+    "best_text": "157.49 €",
+    "badge_icons": "🥉🥈",
+    "rang_text": "#6",
+    "gewinn_text": "-44.26 €",
+    "wochen_text": "16"
+   }
+  },
+  {
+   "spieler": "anna",
+   "letzte_eindeutig": true,
+   "kennzahlen": {
+    "level_label": "Level 2",
+    "best": 152.33999999999995,
+    "letzter_rang": 7,
+    "letzter_gewinn": 12.251999999999995,
+    "wochen": 17,
+    "badges": [
+     {
+      "icon": "🥉",
+      "titel": "Erste Woche",
+      "beschreibung": "Spiele deinen ersten Durchlauf.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "🥈",
+      "titel": "Vielspieler",
+      "beschreibung": "Spiele mindestens 10 Durchläufe.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "🥇",
+      "titel": "Über 500 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 500 €.",
+      "freigeschaltet": false
+     },
+     {
+      "icon": "💰",
+      "titel": "Über 1000 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 1000 €.",
+      "freigeschaltet": false
+     }
+    ]
+   },
+   "texte": {
+    "best_text": "152.34 €",
+    "badge_icons": "🥉🥈",
+    "rang_text": "#7",
+    "gewinn_text": "12.25 €",
+    "wochen_text": "17"
+   }
+  },
+  {
+   "spieler": "test",
+   "letzte_eindeutig": true,
+   "kennzahlen": {
+    "level_label": "Level 2",
+    "best": 436.72,
+    "letzter_rang": 3,
+    "letzter_gewinn": 81.19999999999987,
+    "wochen": 3,
+    "badges": [
+     {
+      "icon": "🥉",
+      "titel": "Erste Woche",
+      "beschreibung": "Spiele deinen ersten Durchlauf.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "🥈",
+      "titel": "Vielspieler",
+      "beschreibung": "Spiele mindestens 10 Durchläufe.",
+      "freigeschaltet": false
+     },
+     {
+      "icon": "🥇",
+      "titel": "Über 500 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 500 €.",
+      "freigeschaltet": false
+     },
+     {
+      "icon": "💰",
+      "titel": "Über 1000 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 1000 €.",
+      "freigeschaltet": false
+     }
+    ]
+   },
+   "texte": {
+    "best_text": "436.72 €",
+    "badge_icons": "🥉",
+    "rang_text": "#3",
+    "gewinn_text": "81.20 €",
+    "wochen_text": "3"
+   }
+  },
+  {
+   "spieler": "Ärne",
+   "letzte_eindeutig": true,
+   "kennzahlen": {
+    "level_label": "Level 2",
+    "best": 183.78,
+    "letzter_rang": 5,
+    "letzter_gewinn": -272.012,
+    "wochen": 17,
+    "badges": [
+     {
+      "icon": "🥉",
+      "titel": "Erste Woche",
+      "beschreibung": "Spiele deinen ersten Durchlauf.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "🥈",
+      "titel": "Vielspieler",
+      "beschreibung": "Spiele mindestens 10 Durchläufe.",
+      "freigeschaltet": true
+     },
+     {
+      "icon": "🥇",
+      "titel": "Über 500 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 500 €.",
+      "freigeschaltet": false
+     },
+     {
+      "icon": "💰",
+      "titel": "Über 1000 €",
+      "beschreibung": "Erziele ein Ergebnis von mehr als 1000 €.",
+      "freigeschaltet": false
+     }
+    ]
+   },
+   "texte": {
+    "best_text": "183.78 €",
+    "badge_icons": "🥉🥈",
+    "rang_text": "#5",
+    "gewinn_text": "-272.01 €",
+    "wochen_text": "17"
+   }
+  },
+  {
+   "spieler": "Niemand",
+   "letzte_eindeutig": true,
+   "kennzahlen": {
+    "level_label": "Neuling",
+    "best": null,
+    "letzter_rang": null,
+    "letzter_gewinn": null,
+    "wochen": 0,
+    "badges": []
+   },
+   "texte": {
+    "best_text": "–",
+    "badge_icons": "",
+    "rang_text": "–",
+    "gewinn_text": "–",
+    "wochen_text": "0"
+   }
+  }
+ ],
+ "leeres_log": {
+  "level_label": "Neuling",
+  "best": null,
+  "letzter_rang": null,
+  "letzter_gewinn": null,
+  "wochen": 0,
+  "badges": []
+ }
+}
