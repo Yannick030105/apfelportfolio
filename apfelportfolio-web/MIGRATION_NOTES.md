@@ -1,6 +1,6 @@
 # MIGRATION_NOTES – Apfelportfolio Python/Streamlit → TypeScript
 
-Stand: Phase 6, Durchlauf 2 von 7 abgeschlossen (Seiten „Spielen“ und „Ranking“). Wird je Phase fortgeschrieben.
+Stand: Phase 6, Durchlauf 3 von 7 abgeschlossen (Seiten „Spielen“, „Ranking“, „Dashboard“). Wird je Phase fortgeschrieben.
 
 ---
 
@@ -42,7 +42,8 @@ Stand: Phase 6, Durchlauf 2 von 7 abgeschlossen (Seiten „Spielen“ und „Ran
 | `ui/pages/3_ranking.py` (Anzeige) | `src/ui/pages/Ranking.tsx`, Diagramm `src/ui/charts/verlauf.ts` | **erledigt (Phase 6/2)** |
 | `ui/pages/3_ranking.py` (`_highscores_je_level`, `_badge_icons`, Statistik, Verlauf) | `src/dashboard/ranking.ts` | **erledigt (Phase 6/2)** |
 | Plotly (`st.plotly_chart`) | Vega-Lite über `src/ui/components/VegaDiagramm.tsx` | **erledigt (Phase 6/2)** |
-| `ui/pages/2_dashboard.py` | `src/ui/pages/Dashboard.tsx` | offen (Phase 6/3) |
+| `ui/pages/2_dashboard.py` (Anzeige) | `src/ui/pages/Dashboard.tsx`, Diagramme `src/ui/charts/dashboard.ts` | **erledigt (Phase 6/3)** |
+| `ui/pages/2_dashboard.py` (Profil, Level-Auswahl, Balkenfarben, Klassenzahl) | `src/dashboard/dashboard.ts` | **erledigt (Phase 6/3)** |
 | `ui/pages/home.py` | `src/ui/pages/Home.tsx` | offen (Phase 6/4) |
 | `ui/pages/4_tutorial.py`, `5_wiki.py`, `6_regelwerk.py` | `Tutorial.tsx`, `Wiki.tsx`, `Regelwerk.tsx`, `src/content/texte/*.md` | offen (Phase 6/5–7) |
 | `tasks.py`, `spec/*` (PyInstaller) | `package.json`, `vite.config.ts`, `.gitlab-ci.yml` | **erledigt (Phase 1)** |
@@ -311,6 +312,29 @@ Erzeugt mit `python3 tools/referenz_erzeugen.py` (Python 3.13). Format siehe Doc
 | `layout="centered"` | schmale Seite (max. 760 px) wie im Original. |
 | `set_page_config(page_title="Ranking – Apfelportfolio", page_icon="🥇")` | Browser-Titel/-Symbol. |
 
+## 3g. Phase 6, Durchlauf 3 – Seite „Dashboard“
+
+- **Berechnungen** (`src/dashboard/dashboard.ts` + KPIs aus `kpis.ts`) gegen Soll-Werte aus den
+  Ausdrücken von `2_dashboard.py` mit den Original-KPI-Funktionen
+  (`tools/dashboard_referenz_erzeugen.py` → `tests/daten/dashboard_referenz.json`; gleiche
+  Log-Zeilen wie beim Ranking). Geprüft für 12 Spieler (inkl. einem ohne Durchläufe) und Level
+  1–4: Profiltexte, alle vier KPI-Texte, Lernkurven-Schwelle und -Hinweis, Reihenfolge der
+  Durchläufe, Balkenfarben, Histogramm-Klassenzahl (auch für 0–40), Achievements.
+- **Browser-Test** über den Ordner-Weg mit 140 Spielständen: Profil und KPI-Texte für Level 1
+  und 2 identisch mit den Python-Soll-Werten, drei Diagramme, Achievements frei/gesperrt,
+  Hinweis für Level 3, Auswahl steht nach Seitenwechsel wieder auf „Level 1“, keine Fehler,
+  keine Anfragen nach außen, keine Überbreite auf Handybreite.
+
+### Nachgebildetes Streamlit-Verhalten (Dashboard)
+
+| Streamlit | Nachbildung |
+|---|---|
+| `repo.alle_laden()` / `repo.fuer_level()` bei jedem Durchlauf | Spielstände werden beim Öffnen der Seite neu gelesen. |
+| `st.selectbox("Level", options=[1, 2, 3, 4])` ohne `key`: Wert bleibt bei Reruns, Startwert „Level 1“; Seitenwechsel verwirft ihn | Auswahl lebt im Zustand der Seite; beim Wiederkommen „Level 1“. Level 3 und 4 sind wie im Original wählbar und zeigen „Noch keine Durchläufe …“. |
+| `st.columns([3, 1])`, darin `st.columns(4)` bzw. `st.columns(2)` | gleiche Spaltenaufteilung; auf schmalen Bildschirmen untereinander. |
+| `st.plotly_chart(use_container_width=True)` | Vega-Lite-Diagramme in voller Spaltenbreite. |
+| `set_page_config(page_title="Dashboard – Apfelportfolio", page_icon="📊", layout="wide")` | Browser-Titel/-Symbol, Seitenbreite max. 1180 px wie im Original-CSS. |
+
 ---
 
 ## 4. Bewusste Abweichungen
@@ -401,6 +425,13 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
     ein neues Level erscheint automatisch.
 25. **Plotly → Vega-Lite** (erlaubte Abhängigkeit); Aussehen nachgebildet, Achsenbeschriftung
     im Vega-Stil („Aug 01, 2026“).
+26. **Klassengrenzen der Gewinnverteilung:** Plotly nutzt `nbinsx` nur als Obergrenze und wählt
+    „schöne“ Grenzen nach eigenem Verfahren (in plotly.js, im Browser); Vega-Lite macht mit
+    `maxbins` dasselbe nach eigenem Verfahren. Die Klassenzahl-Vorgabe ist identisch und
+    getestet, die konkreten Grenzen können abweichen (reine Darstellung, nicht prüfbar ohne
+    Plotly).
+27. **Dashboard-Level-Auswahl bleibt fest 1–4** wie im Original (nicht aus der Level-Registry),
+    weil das Original bewusst Level 3/4 anbietet.
 
 ---
 

@@ -260,3 +260,33 @@ body {
 .stats-chip { background: var(--tinte); color: #fcf6ee; border-radius: 12px; padding: 0.6rem 1.05rem; font-family: var(--schrift-text); text-align: center; min-width: 128px; }
 .stats-chip .num { font-family: var(--schrift-zahl); font-weight: 700; font-size: 1.1rem; color: var(--gold); display: block; }
 .stats-chip .cap { font-size: 0.66rem; letter-spacing: 0.4px; text-transform: uppercase; color: #c9b79e; }
+
+/* ---------- st.selectbox ---------- */
+.st-auswahl { display: flex; flex-direction: column; gap: 0.25rem; margin: 0 0 1rem; max-width: 100%; }
+.st-auswahl-titel { font-size: 0.875rem; color: #31333f; }
+.st-auswahl select { font: inherit; padding: 0.45rem 0.6rem; border-radius: 8px; border: 1px solid rgba(49, 51, 63, 0.2); background: #fff; }
+.st-auswahl select:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+
+/* ---------- Dashboard (2_dashboard.py, layout="wide", max. 1180 px) ---------- */
+.seite-db { max-width: 1180px; margin: 0 auto; }
+.db-hero { text-align: center; margin-bottom: 1rem; }
+.db-hero-titel { font-family: var(--schrift-titel); font-weight: 800; font-size: 2rem; color: var(--braun); margin: 0.15rem 0; }
+.db-hero-text { font-family: var(--schrift-text); font-style: italic; font-weight: 600; color: var(--rost); margin: 0; }
+.seite-db .menu-heading { font-size: 1.2rem; margin: 1.6rem 0 0.8rem 0; }
+.profile-panel { display: flex; align-items: center; gap: 1.2rem; background: linear-gradient(160deg, #ffffff 0%, #fdf2e3 100%); border: 2px solid var(--grau-rand); border-radius: 20px; padding: 1.2rem 1.5rem; margin-bottom: 1.4rem; box-shadow: 0 4px 10px rgba(107, 54, 16, 0.06); }
+.profile-avatar { width: 68px; height: 68px; border-radius: 50%; background: #fcebd9; border: 3px solid var(--gold); display: flex; align-items: center; justify-content: center; font-size: 2rem; flex-shrink: 0; }
+.profile-name { font-family: var(--schrift-titel); font-weight: 800; font-size: 1.5rem; color: var(--tinte); margin: 0; overflow-wrap: anywhere; }
+.profile-stats { display: flex; gap: 1.6rem; margin-top: 0.35rem; flex-wrap: wrap; }
+.profile-stat { font-family: var(--schrift-text); font-size: 0.85rem; color: #8a7a68; }
+.profile-stat b { font-family: var(--schrift-zahl); color: var(--braun); font-size: 0.95rem; }
+.badge-card { display: flex; align-items: center; gap: 0.7rem; border-radius: 14px; padding: 0.7rem 0.9rem; margin-bottom: 0.6rem; font-family: var(--schrift-text); }
+.badge-card.unlocked { background: linear-gradient(160deg, #fff6e0 0%, #fcebd9 100%); border: 2px solid var(--gold); }
+.badge-card.locked { background: #f1eee8; border: 2px dashed #d9d1c4; filter: grayscale(1); opacity: 0.6; }
+.badge-icon { font-size: 1.5rem; }
+.badge-title { font-weight: 800; color: var(--tinte); font-size: 0.92rem; margin: 0; }
+.badge-desc { font-size: 0.74rem; color: #8a7a68; margin: 0; }
+.raster-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.raster-haupt-seite { grid-template-columns: minmax(0, 3fr) minmax(0, 1fr); }
+@media (max-width: 900px) {
+  .raster-2, .raster-haupt-seite { grid-template-columns: minmax(0, 1fr); }
+}

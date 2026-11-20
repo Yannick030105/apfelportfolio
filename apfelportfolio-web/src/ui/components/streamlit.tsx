@@ -187,3 +187,38 @@ export function Schieberegler({
     </div>
   );
 }
+
+/** st.selectbox(label, options, format_func=...) mit sichtbarer Beschriftung. */
+export function Auswahl<T extends string | number>({
+  beschriftung,
+  optionen,
+  wert,
+  anzeige,
+  onChange,
+}: {
+  beschriftung: string;
+  optionen: readonly T[];
+  wert: T;
+  anzeige: (option: T) => string;
+  onChange: (wert: T) => void;
+}) {
+  return (
+    <label class="st-auswahl">
+      <span class="st-auswahl-titel">{beschriftung}</span>
+      <select
+        value={String(wert)}
+        onChange={(e) => {
+          const i = (e.currentTarget as HTMLSelectElement).selectedIndex;
+          const neu = optionen[i];
+          if (neu !== undefined) onChange(neu);
+        }}
+      >
+        {optionen.map((o) => (
+          <option key={String(o)} value={String(o)}>
+            {anzeige(o)}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}

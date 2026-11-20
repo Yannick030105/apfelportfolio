@@ -29,3 +29,7 @@
 - Phase 6, Durchlauf 2: Ranking-Seite (`src/ui/pages/Ranking.tsx`, Berechnungen in
   `src/dashboard/ranking.ts`) mit Podium, Rangliste, eigener Statistik und Verlaufsdiagramm
   (Vega-Lite); Soll-Werte aus der Original-Seite (`tools/ranking_referenz_erzeugen.py`).
+- Phase 6, Durchlauf 3: Dashboard-Seite (`src/ui/pages/Dashboard.tsx`, Berechnungen in
+  `src/dashboard/dashboard.ts`) mit Profil, Level-Auswahl, KPIs, Lernkurve,
+  Ergebnisentwicklung, Gewinnverteilung und Achievements; Soll-Werte aus
+  `tools/dashboard_referenz_erzeugen.py`.
