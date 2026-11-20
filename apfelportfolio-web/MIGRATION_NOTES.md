@@ -1,6 +1,6 @@
 # MIGRATION_NOTES – Apfelportfolio Python/Streamlit → TypeScript
 
-Stand: Phase 5 abgeschlossen (Speicherung, Regelwerk laden, Spiellog-Migration). Wird je Phase fortgeschrieben.
+Stand: Phase 6, Durchlauf 1 von 7 abgeschlossen (Seite „Spielen“ mit Rahmen und Spielzustand). Wird je Phase fortgeschrieben.
 
 ---
 
@@ -31,8 +31,18 @@ Stand: Phase 5 abgeschlossen (Speicherung, Regelwerk laden, Spiellog-Migration).
 | `data_store/spiellog.csv` | `spielstaende/*.json` im gemeinsamen Ordner; einmalig `tools/spiellog_migrieren.py` | **erledigt (Phase 5)** |
 | `src/apfelportfolio/data/specs_repository.py` (`RegelwerkRepository`) | `src/config/laden.ts`, `src/config/pruefung.ts` | **erledigt (Phase 5)** |
 | Python `str.strip/lower`, `len(str)`, `sorted(str)` | `src/domain/pythonString.ts` | **erledigt (Phase 5)** |
-| `src/apfelportfolio/content/translations.py` | `src/content/translations.ts` | offen (Phase 6) |
-| `src/apfelportfolio/ui/pages/*.py`, `ui/components.py`, `app.py` | `src/ui/**`, `src/main.tsx` | offen (Phase 6) |
+| `src/apfelportfolio/content/translations.py` | `src/content/translations.ts` | **erledigt (Phase 6/1)** |
+| `app.py` (Navigation, `set_page_config`) | `src/ui/App.tsx`, `src/main.tsx` | **erledigt (Phase 6/1)** |
+| `ui/pages/1_spielen.py` + `ui/pages/level_2.py` | `src/ui/pages/Spielen.tsx` (eine Seite für alle Level) | **erledigt (Phase 6/1)** |
+| `st.session_state` (Spielseiten) | `src/state/spielzustand.ts`, Widget-Verhalten `src/state/widgetZustand.ts` | **erledigt (Phase 6/1)** |
+| `ui/components.py` (`zeige_kopfzeile`, `zeige_uebersetzungstabelle`) | `src/ui/components/allgemein.tsx` | **erledigt (Phase 6/1)** |
+| Streamlit-Grundelemente (`st.title`, `st.expander`, `st.slider`, …) | `src/ui/components/streamlit.tsx`, `src/ui/styles.css` | **erledigt (Phase 6/1)** |
+| `ui/components.py` (`render_player_selector`, im Original ungenutzt) | vorläufig in `src/ui/pages/Home.tsx` | vorläufig bis Durchlauf „Home“ |
+| – (Speicherort wählen) | `src/ui/components/SpeicherLeiste.tsx`, `src/ui/speicherVerbindung.ts` | **erledigt (Phase 6/1)** |
+| `ui/pages/3_ranking.py` | `src/ui/pages/Ranking.tsx` | offen (Phase 6/2) |
+| `ui/pages/2_dashboard.py` | `src/ui/pages/Dashboard.tsx` | offen (Phase 6/3) |
+| `ui/pages/home.py` | `src/ui/pages/Home.tsx` | offen (Phase 6/4) |
+| `ui/pages/4_tutorial.py`, `5_wiki.py`, `6_regelwerk.py` | `Tutorial.tsx`, `Wiki.tsx`, `Regelwerk.tsx`, `src/content/texte/*.md` | offen (Phase 6/5–7) |
 | `tasks.py`, `spec/*` (PyInstaller) | `package.json`, `vite.config.ts`, `.gitlab-ci.yml` | **erledigt (Phase 1)** |
 | `src/apfelportfolio/version.py` (leer) | `src/version.ts` (aus `package.json`) | **erledigt (Phase 1)** |
 | `config/config.json` | `config/config.json` (Kopie, eingebaute Standardwerte) | kopiert (Phase 1), Laden in Phase 5 |
@@ -239,6 +249,37 @@ Erzeugt mit `python3 tools/referenz_erzeugen.py` (Python 3.13). Format siehe Doc
   `tests/daten/migration/bericht_*.txt`). Echte `spiellog.csv`: 20/20 Zeilen, 0 Abweichungen,
   1 Endergebnis las die alte App eine Binärstelle anders, Summen je Spieler identisch.
 
+## 3e. Phase 6, Durchlauf 1 – Seite „Spielen“ (Level 1 und 2)
+
+- **Umfang:** Rahmen mit Reitern (Gruppen und Symbole wie `st.navigation` in `app.py`), Leiste für
+  den Speicherort, Spielzustand, Spielseite für beide Level, vorläufige Spielerauswahl auf
+  „Home“ (bis zu deren Durchlauf). Übrige Seiten zeigen einen Platzhalter.
+- **Eine Seite für alle Level:** `Spielen.tsx` spricht die Level nur über `SpielLevel`
+  (`registry.ts`) an. Unterschiede der Original-Seiten hängen an `hat_ereignisse`:
+  Ereigniskarte, JA/NEIN-Schalter, Wetterkarte, „gesperrt“-Anzeige, „heute“- statt
+  „fix“-Werte, Ereignistitel in der Wochenübersicht. Texte wörtlich aus beiden Seiten.
+- **Geprüft:** Alle 772 Referenzwochen laufen über die Aktionen der Spielseite
+  (`Spielzustand.schliesse_tag_ab` usw.) bitgleich (`tests/spielzustand.test.ts`). Im Browser
+  (Chromium, per `file://`): Spieler anlegen inkl. Namensprüfung, komplette Level-1-Woche mit
+  Ende-Meldung, Level 2 mit Ereignis-, Wetter- und Bedarfskarte, Seitentitel je Level, keine
+  Konsolenfehler, keine Netzwerkzugriffe, keine horizontale Überlänge auf Handybreite.
+
+### Nachgebildetes Streamlit-Verhalten (Spielseite)
+
+| Streamlit | Nachbildung |
+|---|---|
+| Jede Eingabe startet das Skript neu (Rerun) | Jede Eingabe zeichnet die Seite neu; Tageskontext (Ereigniswirkung) und Slider-Grenzen werden dabei wie in `level_2.py` jedes Mal neu berechnet. |
+| Slider ohne `key`: Wert bleibt, solange Beschriftung und Parameter (min/max/value) gleich sind | `WidgetZustand` bildet die Widget-ID aus Beschriftung + Parametern. Folge wie im Original: Importeur- und Wochenmarkt-Wert bleiben über „Handel abschließen“ hinweg stehen (auch über „Neue Woche starten“ mitten in der Woche). |
+| Neue ID (z. B. anderes Maximum) → neues Widget mit Startwert | Mosterei-Slider springt auf 0, sobald sich sein Maximum ändert – also bei jeder Änderung von Importeur/Wochenmarkt (geprüft im Browser). Gleiches für den Importeur-Slider am Rabatt-Tag (Maximum 450). |
+| Nicht angezeigte Widgets verlieren ihren Zustand | Am Donnerstag (kein Importeur-Slider), bei „Kein Überschuss“ (kein Mosterei-Slider) und am Wochenende (gar keine Slider) wird der Wert verworfen; danach beginnt der Slider bei 0. Seitenwechsel verwirft alle Slider-Werte (Seite wird neu aufgebaut). |
+| `st.toggle(text, value=ereignis_zugestimmt)` | Schalter zeigt `ereignis_zugestimmt`; wird je neuem Tag auf „aus“ gesetzt. |
+| `if tagesmarkt is None` → würfeln | Gewürfelt wird genau einmal je Tag (beim ersten Anzeigen bzw. nach „Handel abschließen“), Werte bleiben bis zum Abschluss – auch nach Neuladen (gespeichert als `offener_tag`). |
+| Ausnahme (`ValueError`) in `_tag_abschliessen` → roter Fehlerkasten, Skript endet | Fehlerkasten „ValueError: …“ unter dem Handelstisch, Wochenübersicht entfällt wie bei abgebrochenem Skript; Tag bleibt offen, Slider behalten ihre Werte; nächste Eingabe blendet den Kasten aus. Die Preishistorie wurde wie im Original schon vor der Abrechnung ergänzt. |
+| `st.button` + `st.rerun()` | Knopf löst die Aktion aus und zeichnet neu. |
+| `st.balloons()` | Ballon-Animation bei nicht-negativem Wochenergebnis (respektiert „reduzierte Bewegung“). |
+| `st.slider` mit `min_value >= max_value` → `StreamlitAPIException` | Fehlermeldung an der Stelle des Sliders (z. B. bei Regelwerk-Limit 0). |
+| `set_page_config(page_title, page_icon)` | Browser-Titel und -Symbol je Seite („Level 1 – Apfelportfolio“ 🍎, „Level 2 – Apfelportfolio“ 🌩️). |
+
 ---
 
 ## 4. Bewusste Abweichungen
@@ -299,6 +340,26 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
     verschwand aus Ranking und Namensliste). Die Migration übernimmt den Namen und warnt.
 16. **Kennungen und Zeitstempel** (`neue_id`, `toISOString`) sind kein Spielzufall und laufen
     daher nicht über `wuerfel.ts`.
+17. **Getrennte Wochen je Spieler und Level** (Phase 6/1): Im Original teilen sich
+    `1_spielen.py` und `level_2.py` dieselben Session-Schlüssel (`woche`, `tag_index`,
+    `tagesmarkt`, `tagesnachfrage`) – wer mitten in einer Woche das Level wechselt, spielt
+    dieselbe Woche mit dem anderen Level-Objekt weiter (Mischergebnis wird als neues Level
+    geloggt); wer den Spieler wechselt, bekommt die laufende Woche unter neuem Namen
+    geloggt. Das lässt sich im Spielstand-Format (eine Woche = ein Level, ein Spieler; Vorgabe
+    `levelId`) nicht abbilden und ist kein Verhalten, das jemand bewusst nutzt. Jetzt hat jede
+    Kombination aus Spieler und Level ihre eigene Woche.
+18. **Navigation über Reiter** statt Streamlit-Seitenleiste (Vorgabe), gleiche Gruppen,
+    Reihenfolge, Titel und Symbole; „Level 1“ und „Level 2“ zeigen dieselbe Spielseite.
+19. **Fehlerkasten statt Python-Traceback** bei `ValueError` (Text der Meldung unverändert).
+20. **Ersatzschriften** statt Google Fonts (Baloo 2, Nunito, JetBrains Mono): externe Quellen sind
+    verboten, die Datei muss offline vom Netzlaufwerk laufen.
+21. **Speicherort-Leiste** (neu): zeigt, wohin gespeichert wird, und bietet Ordner wählen /
+    wieder verbinden bzw. die Rückfallebene. Ohne gewählten Ordner läuft das Spiel trotzdem,
+    mit deutlichem Hinweis, dass nichts gespeichert wird.
+22. **Mosterei-Slider in Level 1** rechnet mit der Obstbauer-Menge des Level-Objekts
+    (`eingabegrenzen_level1`); das Original nimmt `st.session_state.regelwerk`. Beide sind
+    gleich, solange das Regelwerk nicht während der Sitzung geändert wird (siehe
+    Auffälligkeit 20) – endgültig zu klären im Durchlauf „Regelwerk“.
 
 ---
 
@@ -379,6 +440,15 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
     `level1_wochen`); mit `float_precision="round_trip"` wären es 0. Ranking, Dashboard und
     KPIs der alten App rechneten also mit minimal verfälschten Werten (bei 2 Nachkommastellen
     unsichtbar). Die KPI-Soll-Werte enthalten genau diese eingelesenen Werte als Eingabe.
+20. **Regelwerk-Änderung erreicht laufende Level nicht:** `st.session_state.level1/level2`
+    werden einmal je Sitzung mit dem damaligen Regelwerk erzeugt; speichert die
+    Regelwerk-Seite ein neues, rechnen die Level weiter mit dem alten, während die Texte der
+    Spielseite (und in Level 1 die Mosterei-Slider-Grenze) schon das neue zeigen. Bis zum
+    Durchlauf „Regelwerk“ unverändert nachgebildet (Level-Objekt je Sitzung); siehe
+    Abweichung 22.
+21. **`render_player_selector()`** in `ui/components.py` wird nirgends aufgerufen (die Startseite hat
+    eigene Händler-Karten); `zeige_rundenergebnis_karten()` ebenso.
+22. **Gemeinsame Session-Schlüssel der beiden Level-Seiten** – siehe Abweichung 17.
 
 ---
 
@@ -387,9 +457,9 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
 1. **Fehlertexte:** ~~offen~~ In Phase 2 gemäß „Verhalten exakt erhalten“ wörtlich
    übernommen (inkl. Python-Zahlenformat wie `301.0` und `:.0f`-Rundung); durch die
    Referenztests abgesichert. Bitte widersprechen, falls freundlichere Texte gewünscht sind.
-2. **Level-2-Mosterei-Fehler (Auffälligkeit 4):** In Streamlit führt das zu einer
-   Traceback-Seite, die Eingaben bleiben erhalten. Vorschlag für Phase 6: Fehlermeldung
-   anzeigen, Tageszustand unverändert lassen. Die Logik bleibt unverändert.
+2. **Level-2-Mosterei-Fehler (Auffälligkeit 4):** ~~offen~~ Phase 6/1: Fehlerkasten mit der
+   Originalmeldung, Tag bleibt offen, Eingaben bleiben erhalten (wie in Streamlit). Logik
+   unverändert.
 3. **Speichern nach jedem Spieltag:** ~~offen~~ Umgesetzt in Phase 5: Unvollständige Wochen
    zählen nicht für Ranking/Dashboard/Namensprüfung (wie bisher).
 4. **Regelwerk-Seite:** ~~offen~~ Phase 5: `config.json` im gemeinsamen Ordner (neben

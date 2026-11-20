@@ -23,3 +23,6 @@
   gespeichert nach jedem Spieltag; Ordnerzugriff (File System Access API) mit gemerktem Ordner,
   Rückfallebene per Dateidialog; Regelwerk laden/prüfen (`src/config/`); Spielernamen und
   Log-Auswertung wie im Original; einmalige Migration `tools/spiellog_migrieren.py`.
+- Phase 6, Durchlauf 1: Oberfläche mit Reiter-Navigation, Speicherort-Leiste und der
+  Spielseite für Level 1 und 2 (`src/ui/pages/Spielen.tsx`) inkl. Nachbildung des
+  Streamlit-Verhaltens; Spielzustand (`src/state/`); vorläufige Spielerauswahl.

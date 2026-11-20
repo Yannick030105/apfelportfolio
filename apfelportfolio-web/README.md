@@ -4,7 +4,8 @@ Lernspiel zum Portfoliomanagement in der Energiewirtschaft – TypeScript-Portie
 der Python/Streamlit-Version. Ergebnis ist **eine einzige HTML-Datei**, die per
 Doppelklick (auch vom Netzlaufwerk) im Browser läuft, ohne Server und ohne Internet.
 
-> Stand: Phase 5 (Spiellogik, KPIs und Speicherung portiert, noch ohne Oberfläche), siehe
+> Stand: Phase 6, Durchlauf 1 (spielbar: Level 1 und 2; Ranking, Dashboard, Home, Tutorial,
+> Wiki und Regelwerk folgen), siehe
 > `CLAUDE.md` und `MIGRATION_NOTES.md`.
 
 ## Voraussetzungen
