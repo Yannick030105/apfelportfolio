@@ -36,3 +36,6 @@
 - Phase 6, Durchlauf 4: Startseite (`src/ui/pages/Home.tsx`, Kennzahlen in
   `src/dashboard/spielerKennzahlen.ts`) mit Händler-Karten, Neugründung, „Spiel starten“ und
   Vorschau; ersetzt die vorläufige Spielerauswahl. Soll-Werte aus `tools/home_referenz_erzeugen.py`.
+- Phase 6, Durchlauf 5: Tutorial (`src/ui/pages/Tutorial.tsx`) mit 12 Schritten, Inhalt
+  wörtlich in `src/content/texte/tutorial.md` (`tools/texte_exportieren.py`); Seitenwechsel per
+  `src/ui/navigation.ts`.

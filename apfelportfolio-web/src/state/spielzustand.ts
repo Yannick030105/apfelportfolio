@@ -69,6 +69,9 @@ export class Spielzustand {
   regelwerk_quelle: RegelwerkQuelle = "eingebaut";
   regelwerk_meldungen: { fehler: string[]; warnungen: string[] } = { fehler: [], warnungen: [] };
 
+  /** st.session_state.tutorial_schritt (bleibt bei Seitenwechseln erhalten) */
+  tutorial_schritt = 0;
+
   speicher: Speicher | null = null;
   speicher_status: SpeicherStatus = { art: "keiner" };
   /** letzte Fehlermeldung beim Speichern (Spiel laeuft weiter, naechster Versuch beim naechsten Tag) */
@@ -134,6 +137,11 @@ export class Spielzustand {
   /** Python: LogRepository().alle_laden() */
   log_zeilen(): LogZeile[] {
     return log_zeilen(this.spielstaende);
+  }
+
+  setze_tutorial_schritt(schritt: number): void {
+    this.tutorial_schritt = schritt;
+    this.melde();
   }
 
   // -- Spieler ----------------------------------------------------------------

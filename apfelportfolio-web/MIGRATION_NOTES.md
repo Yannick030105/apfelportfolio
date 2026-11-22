@@ -1,6 +1,6 @@
 # MIGRATION_NOTES – Apfelportfolio Python/Streamlit → TypeScript
 
-Stand: Phase 6, Durchlauf 4 von 7 abgeschlossen (Seiten „Spielen“, „Ranking“, „Dashboard“, „Home“). Wird je Phase fortgeschrieben.
+Stand: Phase 6, Durchlauf 5 von 7 abgeschlossen (Seiten „Spielen“, „Ranking“, „Dashboard“, „Home“, „Tutorial“). Wird je Phase fortgeschrieben.
 
 ---
 
@@ -46,7 +46,10 @@ Stand: Phase 6, Durchlauf 4 von 7 abgeschlossen (Seiten „Spielen“, „Rankin
 | `ui/pages/2_dashboard.py` (Profil, Level-Auswahl, Balkenfarben, Klassenzahl) | `src/dashboard/dashboard.ts` | **erledigt (Phase 6/3)** |
 | `ui/pages/home.py` (Anzeige) | `src/ui/pages/Home.tsx` | **erledigt (Phase 6/4)** |
 | `ui/pages/home.py` (`_spieler_kennzahlen`) | `src/dashboard/spielerKennzahlen.ts` | **erledigt (Phase 6/4)** |
-| `ui/pages/4_tutorial.py`, `5_wiki.py`, `6_regelwerk.py` | `Tutorial.tsx`, `Wiki.tsx`, `Regelwerk.tsx`, `src/content/texte/*.md` | offen (Phase 6/5–7) |
+| `ui/pages/4_tutorial.py` (Anzeige, Ablauf) | `src/ui/pages/Tutorial.tsx` | **erledigt (Phase 6/5)** |
+| `ui/pages/4_tutorial.py` (`SCHRITTE`) | `src/content/texte/tutorial.md` (exportiert mit `tools/texte_exportieren.py`), gelesen von `src/content/tutorial.ts` | **erledigt (Phase 6/5)** |
+| `st.switch_page` | `src/ui/navigation.ts` | **erledigt (Phase 6/5)** |
+| `ui/pages/5_wiki.py`, `6_regelwerk.py` | `Wiki.tsx`, `Regelwerk.tsx`, `src/content/texte/*.md` | offen (Phase 6/6–7) |
 | `tasks.py`, `spec/*` (PyInstaller) | `package.json`, `vite.config.ts`, `.gitlab-ci.yml` | **erledigt (Phase 1)** |
 | `src/apfelportfolio/version.py` (leer) | `src/version.ts` (aus `package.json`) | **erledigt (Phase 1)** |
 | `config/config.json` | `config/config.json` (Kopie, eingebaute Standardwerte) | kopiert (Phase 1), Laden in Phase 5 |
@@ -361,6 +364,41 @@ Erzeugt mit `python3 tools/referenz_erzeugen.py` (Python 3.13). Format siehe Doc
 | Karten-Knopf → `current_player` setzen + `st.rerun()` | Knopf setzt den aktiven Händler; die Karte wird hervorgehoben, ihr Knopf zeigt „🎮 Aktiver Händler“ und ist deaktiviert. |
 | `set_page_config(page_title="Apfelportfolio", page_icon="🍎", layout="centered")` | Browser-Titel/-Symbol, Seitenbreite max. 780 px wie im Original-CSS. |
 
+## 3i. Phase 6, Durchlauf 5 – Seite „Tutorial“
+
+- **Inhalt:** `SCHRITTE` (12 Schritte) wörtlich nach `src/content/texte/tutorial.md` exportiert
+  (`tools/texte_exportieren.py`, `--pruefen` vergleicht); `tests/tutorial.test.ts` prüft, dass das
+  Einlesen exakt den Python-Abzug ergibt.
+- **Vergleich mit dem laufenden Original:** Die alte App lief in einer Hilfsumgebung (Streamlit
+  1.67 im Scratchpad, Kopie des Repos, damit Log und Konfiguration unberührt bleiben). Gemessen:
+  Der Tutorial-Schritt bleibt beim Seitenwechsel erhalten; berechnete Stile der Elemente.
+  Befehl zum Nachstellen: `pip install streamlit pandas pyarrow altair plotly` in einer eigenen
+  Umgebung, dann in einer Kopie des Repos `PYTHONPATH=src streamlit run app.py`.
+- **Browser-Test** (`file://`): Schritt 1 mit deaktiviertem „Zurück“, Fortschrittspunkte
+  (erledigt/aktuell/offen), Schritt bleibt nach Seitenwechsel, letzter Schritt zeigt
+  „🚀 Zur Startseite“ → Startseite, Tutorial danach wieder auf Schritt 1; keine Fehler.
+
+### Nachgebildetes Streamlit-Verhalten (Tutorial)
+
+| Streamlit | Nachbildung |
+|---|---|
+| `st.session_state.tutorial_schritt` (bleibt über Seitenwechsel, im Original gemessen) | `Spielzustand.tutorial_schritt`; auf 0..11 begrenzt. |
+| `st.button("⬅ Zurück", disabled=index == 0)` + `st.rerun()` | deaktiviert auf Schritt 1, sonst einen Schritt zurück. |
+| letzter Schritt: `st.button("🚀 Zur Startseite")` → Schritt 0 + `st.switch_page(home)` | Schritt 0, Wechsel zur Startseite (`NavigationKontext`). |
+| `set_page_config(page_title="Tutorial – Apfelportfolio", page_icon="🎓", layout="centered")` | Browser-Titel/-Symbol, max. 720 px. |
+
+### Darstellung: beabsichtigtes Design statt tatsächlicher Streamlit-Anzeige (Entscheidung)
+
+Der Vergleich mit dem laufenden Original zeigte: Streamlit stellt viele CSS-Absichten der Seiten
+nicht dar. (1) Rahmen, die mit einem eigenen `st.markdown('<div class="...">')` geöffnet werden
+(`desk-panel`, `console-panel`, `trade-button`, `start-zone`, `nav-row`), schließt der Browser
+sofort – sie erscheinen als leere Kästchen (gemessen: 36 px hoch, ohne Inhalt), der Inhalt
+steht darunter ohne Rahmen; (2) Schriftgrößen an `<p>`-Elementen überschreibt Streamlit mit
+16 px (z. B. „Apfelportfolio“ auf Home statt 3rem, Abschnittsüberschriften, Tutorial-Titel);
+(3) goldene Knöpfe („Handel abschließen“, „Spiel starten“, „Weiter ➜“) sind schlichte weiße
+Streamlit-Knöpfe. **Auf Rückfrage entschieden:** Die Web-Version zeigt das beabsichtigte Design
+(wie das CSS es vorsieht) auf allen Seiten. Spiellogik, Texte und Abläufe bleiben exakt.
+
 ---
 
 ## 4. Bewusste Abweichungen
@@ -464,6 +502,8 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
     gilt – und damit „Letzter Gewinn“ und das Level für „Letzter Rang“. Hier: die zuletzt
     abgeschlossene Woche (stabile Sortierung). Fehlendes Datum gilt wie bei pandas als letzte
     Zeile.
+29. **Beabsichtigtes Design statt tatsächlicher Streamlit-Anzeige** (auf Rückfrage entschieden,
+    siehe 3i): Rahmen, Schriftgrößen und goldene Knöpfe wie im CSS vorgesehen.
 
 ---
 
@@ -565,6 +605,12 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
     Wochen; bis zur ersten fertigen Woche erscheint der Händler nur in der Vorschau – und sein
     Name gilt noch nicht als vergeben (ein zweiter Spieler könnte ihn ebenfalls gründen).
     Unverändert übernommen.
+27. **Tutorial-Texte widersprechen dem Spiel** (wörtlich übernommen): „100 Äpfel täglich“ beim
+    Obstbauer und „80 Äpfel“ beim Schulessen sind die Regelwerk-Standardwerte, gespielt wird mit
+    `config.json` (200 bzw. 90); „eine Obergrenze für die gesamte Woche“ beim Importeur stimmt
+    nicht – das Limit gilt nur als Slider-Maximum pro Tag (Auffälligkeit 2).
+28. **CSS-Absichten werden von Streamlit nicht dargestellt** (leere Rahmen, 16-px-Überschriften,
+    schlichte Knöpfe) – im laufenden Original gemessen, siehe 3i und Abweichung 29.
 
 ---
 

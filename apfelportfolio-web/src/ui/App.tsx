@@ -14,11 +14,11 @@ import { SpeicherLeiste } from "./components/SpeicherLeiste";
 import { Dashboard } from "./pages/Dashboard";
 import { Home } from "./pages/Home";
 import { Ranking } from "./pages/Ranking";
+import { Tutorial } from "./pages/Tutorial";
+import { NavigationKontext, type SeitenId } from "./navigation";
 import { SEITENKOPF, Spielen } from "./pages/Spielen";
 import { starte_verbindung, type Verbindung } from "./speicherVerbindung";
 import { ZustandKontext } from "./zustandKontext";
-
-type SeitenId = "home" | "level1" | "level2" | "dashboard" | "ranking" | "tutorial" | "wiki" | "regelwerk";
 
 interface Seite {
   id: SeitenId;
@@ -58,6 +58,7 @@ function seitenkopf(id: SeitenId): { titel: string; icon: string } {
   if (id === "level1" || id === "level2") return SEITENKOPF[id as LevelId];
   if (id === "ranking") return { titel: "Ranking – Apfelportfolio", icon: "🥇" };
   if (id === "dashboard") return { titel: "Dashboard – Apfelportfolio", icon: "📊" };
+  if (id === "tutorial") return { titel: "Tutorial – Apfelportfolio", icon: "🎓" };
   return { titel: "Apfelportfolio", icon: "🍎" };
 }
 
@@ -96,6 +97,7 @@ export function App({ zustand }: { zustand: Spielzustand }) {
 
   return (
     <ZustandKontext.Provider value={zustand}>
+      <NavigationKontext.Provider value={setSeite}>
       <header class="app-kopf">
         <div class="app-kopf-innen">
           <nav class="reiter-leiste" aria-label="Seiten">
@@ -120,10 +122,11 @@ export function App({ zustand }: { zustand: Spielzustand }) {
         {seite === "level1" || seite === "level2" ? <Spielen key={seite} levelId={seite} /> : null}
         {seite === "dashboard" ? <Dashboard /> : null}
         {seite === "ranking" ? <Ranking /> : null}
-        {seite === "tutorial" ? <Platzhalter titel="📕 Tutorial" quelle="ui/pages/4_tutorial.py" /> : null}
+        {seite === "tutorial" ? <Tutorial /> : null}
         {seite === "wiki" ? <Platzhalter titel="📖 Wiki" quelle="ui/pages/5_wiki.py" /> : null}
         {seite === "regelwerk" ? <Platzhalter titel="⚙️ Regelwerk" quelle="ui/pages/6_regelwerk.py" /> : null}
       </main>
+      </NavigationKontext.Provider>
     </ZustandKontext.Provider>
   );
 }

@@ -7,7 +7,7 @@ export function Platzhalter({ titel, quelle }: { titel: string; quelle: string }
       </h1>
       <p class="st-klein">
         Diese Seite wird in einem späteren Durchlauf von Phase 6 aus <code>{quelle}</code> portiert (Reihenfolge: Spielen ✓,
-        Ranking ✓, Dashboard ✓, Home ✓, Tutorial, Wiki, Regelwerk).
+        Ranking ✓, Dashboard ✓, Home ✓, Tutorial ✓, Wiki, Regelwerk).
       </p>
     </div>
   );
