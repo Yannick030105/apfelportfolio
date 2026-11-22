@@ -1,6 +1,6 @@
 # MIGRATION_NOTES – Apfelportfolio Python/Streamlit → TypeScript
 
-Stand: Phase 6, Durchlauf 5 von 7 abgeschlossen (Seiten „Spielen“, „Ranking“, „Dashboard“, „Home“, „Tutorial“). Wird je Phase fortgeschrieben.
+Stand: Phase 6, Durchlauf 6 von 7 abgeschlossen (alle Seiten außer „Regelwerk“). Wird je Phase fortgeschrieben.
 
 ---
 
@@ -49,7 +49,9 @@ Stand: Phase 6, Durchlauf 5 von 7 abgeschlossen (Seiten „Spielen“, „Rankin
 | `ui/pages/4_tutorial.py` (Anzeige, Ablauf) | `src/ui/pages/Tutorial.tsx` | **erledigt (Phase 6/5)** |
 | `ui/pages/4_tutorial.py` (`SCHRITTE`) | `src/content/texte/tutorial.md` (exportiert mit `tools/texte_exportieren.py`), gelesen von `src/content/tutorial.ts` | **erledigt (Phase 6/5)** |
 | `st.switch_page` | `src/ui/navigation.ts` | **erledigt (Phase 6/5)** |
-| `ui/pages/5_wiki.py`, `6_regelwerk.py` | `Wiki.tsx`, `Regelwerk.tsx`, `src/content/texte/*.md` | offen (Phase 6/6–7) |
+| `ui/pages/5_wiki.py` (Anzeige, Kapitelwahl) | `src/ui/pages/Wiki.tsx`, Diagramme `src/ui/charts/wiki.ts` | **erledigt (Phase 6/6)** |
+| `ui/pages/5_wiki.py` (`KAPITEL`, `REIHENFOLGE`) | `src/content/texte/wiki.md` (exportiert), gelesen von `src/content/wiki.ts` | **erledigt (Phase 6/6)** |
+| `ui/pages/6_regelwerk.py` | `Regelwerk.tsx`, `src/content/texte/regelwerk.md` | offen (Phase 6/7) |
 | `tasks.py`, `spec/*` (PyInstaller) | `package.json`, `vite.config.ts`, `.gitlab-ci.yml` | **erledigt (Phase 1)** |
 | `src/apfelportfolio/version.py` (leer) | `src/version.ts` (aus `package.json`) | **erledigt (Phase 1)** |
 | `config/config.json` | `config/config.json` (Kopie, eingebaute Standardwerte) | kopiert (Phase 1), Laden in Phase 5 |
@@ -387,6 +389,27 @@ Erzeugt mit `python3 tools/referenz_erzeugen.py` (Python 3.13). Format siehe Doc
 | letzter Schritt: `st.button("🚀 Zur Startseite")` → Schritt 0 + `st.switch_page(home)` | Schritt 0, Wechsel zur Startseite (`NavigationKontext`). |
 | `set_page_config(page_title="Tutorial – Apfelportfolio", page_icon="🎓", layout="centered")` | Browser-Titel/-Symbol, max. 720 px. |
 
+## 3j. Phase 6, Durchlauf 6 – Seite „Wiki“
+
+- **Inhalt:** `KAPITEL`/`REIHENFOLGE` (6 Kapitel, 20 Begriffe) wörtlich nach
+  `src/content/texte/wiki.md` exportiert (`tools/texte_exportieren.py`); `tests/wiki.test.ts`
+  prüft das Einlesen gegen den Python-Abzug und welche Kapitel ein Diagramm haben.
+- **Diagramme** (Plotly → Vega-Lite): Preisbildung (zwei Linien, Legende oben), Portfolio (Ring
+  mit 55/25/20 %, „Beschaffung“ in der Mitte, Beginn oben, im Uhrzeigersinn wie Plotly),
+  Bilanzkreis (Balken, 0 golden, Titel).
+- **Vergleich mit dem laufenden Original:** Für alle 6 Kapitel stimmen Begriffe und
+  Diagramm-Vorhandensein überein; nach einem Seitenwechsel steht die Kapitelwahl im Original wie
+  in der Web-Version wieder auf „Obsthandel“. Keine Fehler.
+
+### Nachgebildetes Streamlit-Verhalten (Wiki)
+
+| Streamlit | Nachbildung |
+|---|---|
+| `st.sidebar.radio("Kapitel", …)` unter „📖 Nachschlagewerk“ in der Seitenleiste | Register links neben dem Inhalt (Gestaltung wie die Original-Seitenleiste); auf schmalen Bildschirmen darüber. |
+| Radio ohne `key`: Startwert erstes Kapitel, Wert bleibt bei Reruns, nach Seitenwechsel zurückgesetzt (im Original gemessen) | Auswahl lebt im Zustand der Seite; beim Wiederkommen „Obsthandel“. |
+| `st.plotly_chart` je Kapitel | Vega-Lite-Diagramm, neu gezeichnet beim Kapitelwechsel. |
+| `set_page_config(page_title="Wiki – Apfelportfolio", page_icon="📖", layout="wide")` | Browser-Titel/-Symbol, max. 1100 px. |
+
 ### Darstellung: beabsichtigtes Design statt tatsächlicher Streamlit-Anzeige (Entscheidung)
 
 Der Vergleich mit dem laufenden Original zeigte: Streamlit stellt viele CSS-Absichten der Seiten
@@ -504,6 +527,8 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
     Zeile.
 29. **Beabsichtigtes Design statt tatsächlicher Streamlit-Anzeige** (auf Rückfrage entschieden,
     siehe 3i): Rahmen, Schriftgrößen und goldene Knöpfe wie im CSS vorgesehen.
+30. **Wiki-Kapitelwahl als Register auf der Seite** statt in der Streamlit-Seitenleiste (die
+    Web-Version hat Reiter oben und keine Seitenleiste); Verhalten gleich.
 
 ---
 

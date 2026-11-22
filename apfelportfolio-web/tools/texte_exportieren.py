@@ -4,7 +4,8 @@ Exportiert redaktionelle Texte der Streamlit-Seiten woertlich nach
 src/content/texte/*.md (Quelle der Web-Version) und legt je Seite einen
 JSON-Abzug als Test-Soll unter tests/daten/ ab.
 
-Bisher: Tutorial (SCHRITTE aus ui/pages/4_tutorial.py).
+Bisher: Tutorial (SCHRITTE aus ui/pages/4_tutorial.py) und Wiki (KAPITEL und
+REIHENFOLGE aus ui/pages/5_wiki.py).
 Format von tutorial.md je Schritt:
 
     ## <icon> | <titel>
@@ -12,6 +13,19 @@ Format von tutorial.md je Schritt:
     <erklaerung>
 
     > <beispiel>
+
+Format von wiki.md (Kapitel in REIHENFOLGE):
+
+    # <schluessel> | <icon> | <titel>
+
+    <intro>
+
+    ## <name>
+
+    <definition>
+
+    Obst: <obst>
+    Energie: <energie>
 
     python3 tools/texte_exportieren.py [--pruefen] [--legacy PFAD]
 """
@@ -54,12 +68,38 @@ def tutorial(legacy: Path) -> dict[Path, str]:
     }
 
 
+def wiki(legacy: Path) -> dict[Path, str]:
+    for m in ("plotly", "plotly.graph_objects"):
+        sys.modules[m] = mock.MagicMock()
+    seite = lade_seite(legacy, "5_wiki.py")
+    kapitel, reihenfolge = seite.KAPITEL, seite.REIHENFOLGE
+    if sorted(kapitel) != sorted(reihenfolge):
+        raise ValueError("KAPITEL und REIHENFOLGE passen nicht zusammen")
+    teile = ["<!-- Automatisch erzeugt aus KAPITEL/REIHENFOLGE in ui/pages/5_wiki.py "
+             "(tools/texte_exportieren.py). Texte woertlich; Format: '# schluessel | icon | titel', "
+             "Absatz = Intro, '## name', Absatz = Definition, 'Obst: ', 'Energie: '. -->\n"]
+    for key in reihenfolge:
+        k = kapitel[key]
+        werte = [key, k["icon"], k["titel"], k["intro"]] + [b[f] for b in k["begriffe"]
+                                                            for f in ("name", "definition", "obst", "energie")]
+        if any("\n" in w for w in werte) or any(" | " in w for w in (key, k["icon"], k["titel"])):
+            raise ValueError(f"Kapitel {key!r} passt nicht ins Format")
+        teile.append(f"# {key} | {k['icon']} | {k['titel']}\n\n{k['intro']}\n")
+        for b in k["begriffe"]:
+            teile.append(f"## {b['name']}\n\n{b['definition']}\n\nObst: {b['obst']}\nEnergie: {b['energie']}\n")
+    abzug = {"reihenfolge": reihenfolge, "kapitel": kapitel}
+    return {
+        TEXTE / "wiki.md": "\n".join(teile),
+        DATEN / "wiki_kapitel.json": json.dumps(abzug, ensure_ascii=False, indent=1) + "\n",
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--legacy", type=Path, default=WEB_ROOT.parent)
     parser.add_argument("--pruefen", action="store_true")
     args = parser.parse_args()
-    dateien = tutorial(args.legacy.resolve())
+    dateien = {**tutorial(args.legacy.resolve()), **wiki(args.legacy.resolve())}
     if args.pruefen:
         abw = [p for p, t in dateien.items() if not p.exists() or p.read_text(encoding="utf-8") != t]
         print("ok" if not abw else "ABWEICHUNG: " + ", ".join(str(p) for p in abw))

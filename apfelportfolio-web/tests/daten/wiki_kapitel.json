@@ -1,0 +1,174 @@
+{
+ "reihenfolge": [
+  "obsthandel",
+  "energiehandel",
+  "preisbildung",
+  "portfolio",
+  "bilanzkreis",
+  "beispiele"
+ ],
+ "kapitel": {
+  "obsthandel": {
+   "icon": "🍎",
+   "titel": "Obsthandel",
+   "intro": "Die Warenwelt, in der du im Spiel jeden Tag Entscheidungen triffst.",
+   "begriffe": [
+    {
+     "name": "Bestand",
+     "definition": "Die Menge einer Ware, die aktuell verfügbar ist, um Nachfrage zu decken.",
+     "obst": "Die Äpfel, die am Morgen in deiner Kiste liegen, bevor der Verkauf beginnt.",
+     "energie": "Die Energiemenge, die ein Händler für den nächsten Liefertag bereits eingekauft hat."
+    },
+    {
+     "name": "Zukauf",
+     "definition": "Zusätzliche Beschaffung von Ware, wenn der eigene Bestand die Nachfrage nicht deckt.",
+     "obst": "Du kaufst kurzfristig auf dem Wochenmarkt Äpfel nach, weil die Bäckerei mehr bestellt hat als erwartet.",
+     "energie": "Ein Energieversorger kauft am Spotmarkt zusätzlichen Strom, weil die Nachfrage höher ist als geplant."
+    },
+    {
+     "name": "Fehlmenge",
+     "definition": "Die Differenz, die entsteht, wenn weniger Ware verfügbar ist, als tatsächlich gebraucht wird.",
+     "obst": "Die Bäckerei will 60 Äpfel, du hast aber nur 45 – 15 Äpfel Fehlmenge.",
+     "energie": "Ein Netzbetreiber hat weniger Energie eingekauft, als seine Kunden verbrauchen – die Fehlmenge muss kurzfristig beschafft werden."
+    },
+    {
+     "name": "Überschuss",
+     "definition": "Ware, die am Ende eines Zeitraums nicht benötigt wurde und übrig bleibt.",
+     "obst": "Freitags bleiben dir 20 Äpfel übrig, die du an die Mosterei verkaufst.",
+     "energie": "Zu viel eingekaufte Energie, die am Regelenergiemarkt wieder abgegeben werden muss."
+    }
+   ]
+  },
+  "energiehandel": {
+   "icon": "⚡",
+   "titel": "Energiehandel",
+   "intro": "So funktioniert der Handel mit Strom – strukturell fast identisch zum Obsthandel.",
+   "begriffe": [
+    {
+     "name": "Beschaffung",
+     "definition": "Der Prozess, benötigte Mengen rechtzeitig am Markt einzukaufen.",
+     "obst": "Du entscheidest jeden Morgen, wie viele Äpfel du zusätzlich zum Obstbauern brauchst.",
+     "energie": "Ein Energiehändler beschafft Strommengen über Wochen und Monate im Voraus für seine Kunden."
+    },
+    {
+     "name": "Lieferant",
+     "definition": "Eine feste Bezugsquelle mit meist planbarer Menge und planbarem Preis.",
+     "obst": "Der Obstbauer liefert dir täglich 100 Äpfel zu einem festen Preis.",
+     "energie": "Ein Kraftwerksbetreiber liefert vertraglich zugesicherte Energiemengen zu festen Konditionen."
+    },
+    {
+     "name": "Spotmarkt",
+     "definition": "Ein Markt für kurzfristigen, sofortigen Handel zu tagesaktuellen Preisen.",
+     "obst": "Der Wochenmarkt, auf dem du jederzeit zu schwankenden Preisen nachkaufen kannst.",
+     "energie": "Die Strombörse, an der kurzfristig Energie für den nächsten Tag oder die nächste Stunde gehandelt wird."
+    },
+    {
+     "name": "Vertriebspartner",
+     "definition": "Ein Abnehmer, der eine feste oder planbare Menge zu einem vereinbarten Preis abnimmt.",
+     "obst": "Das Schulessen, das täglich 80 Äpfel zu einem festen Preis abnimmt.",
+     "energie": "Ein Industriekunde mit einem Liefervertrag über eine feste Jahresmenge Energie."
+    }
+   ]
+  },
+  "preisbildung": {
+   "icon": "📈",
+   "titel": "Preisbildung",
+   "intro": "Wie Preise entstehen und warum sie schwanken – im Obstkorb wie im Stromnetz.",
+   "begriffe": [
+    {
+     "name": "Fixpreis",
+     "definition": "Ein im Voraus vereinbarter, unveränderlicher Preis für eine Ware.",
+     "obst": "Der Obstbauer verkauft immer zu 0,35 €/Stück – unabhängig vom Tag.",
+     "energie": "Ein langfristiger Liefervertrag mit festem Preis pro Kilowattstunde."
+    },
+    {
+     "name": "Variabler Preis",
+     "definition": "Ein Preis, der sich abhängig von Angebot, Nachfrage oder Zufall täglich ändert.",
+     "obst": "Der Preis beim Importeur oder auf dem Wochenmarkt schwankt von Tag zu Tag.",
+     "energie": "Der Börsenpreis für Strom, der stündlich je nach Angebot und Nachfrage schwankt."
+    },
+    {
+     "name": "Preisaufschlag",
+     "definition": "Ein zusätzlicher Betrag, der auf einen Basispreis aufgeschlagen wird.",
+     "obst": "Die Bäckerei zahlt einen Aufschlag zusätzlich zum gewürfelten Basispreis.",
+     "energie": "Ein Risikoaufschlag, den Händler auf den Einkaufspreis legen, um Preisschwankungen abzusichern."
+    },
+    {
+     "name": "Zufallsereignis",
+     "definition": "Ein unvorhersehbares Ereignis, das Preise, Mengen oder Verfügbarkeiten kurzfristig verändert.",
+     "obst": "Ein Wetterereignis lässt die Erntemenge des Obstbauern in Level 2 schwanken.",
+     "energie": "Ein Kraftwerksausfall oder Wetterumschwung, der kurzfristig Angebot und Preis am Strommarkt verändert."
+    }
+   ]
+  },
+  "portfolio": {
+   "icon": "📦",
+   "titel": "Portfolio",
+   "intro": "Die Gesamtheit aller Beschaffungs- und Absatzentscheidungen über die Zeit.",
+   "begriffe": [
+    {
+     "name": "Portfolio",
+     "definition": "Die Summe aller Verträge, Käufe und Verkäufe, die ein Akteur über einen Zeitraum hält.",
+     "obst": "Alle deine Käufe (Obstbauer, Importeur, Wochenmarkt) und Verkäufe (Schulessen, Bäckerei) einer Woche zusammen.",
+     "energie": "Alle Lieferverträge, Spotmarkt-Geschäfte und Absicherungen eines Energiehändlers."
+    },
+    {
+     "name": "Diversifikation",
+     "definition": "Die Verteilung von Beschaffung oder Absatz auf mehrere Quellen, um Risiko zu streuen.",
+     "obst": "Du beziehst Äpfel nicht nur vom Obstbauern, sondern auch vom Importeur und Wochenmarkt.",
+     "energie": "Ein Versorger bezieht Energie aus mehreren Kraftwerken und Marktsegmenten statt nur aus einer Quelle."
+    },
+    {
+     "name": "Wochenergebnis",
+     "definition": "Der finanzielle Gesamterfolg aller Entscheidungen über einen abgeschlossenen Zeitraum.",
+     "obst": "Dein Endergebnis in Euro am Ende der Spielwoche.",
+     "energie": "Der Deckungsbeitrag eines Energieportfolios am Ende einer Handelsperiode."
+    }
+   ]
+  },
+  "bilanzkreis": {
+   "icon": "⚖",
+   "titel": "Bilanzkreis",
+   "intro": "Das Ausgleichsprinzip: Was nicht passt, wird am Ende ausgeglichen.",
+   "begriffe": [
+    {
+     "name": "Bilanzkreis",
+     "definition": "Eine buchhalterische Einheit, in der Zukauf und Bedarf gegenübergestellt und ausgeglichen werden müssen.",
+     "obst": "Dein persönliches Apfelkonto: Was reinkommt und rausgeht, muss am Ende der Woche ausgeglichen sein.",
+     "energie": "Der Bilanzkreis eines Energieversorgers, in dem Einspeisung und Verbrauch stets ausgeglichen sein müssen."
+    },
+    {
+     "name": "Bilanzkreissaldo",
+     "definition": "Die Differenz zwischen beschaffter und benötigter Menge zu einem Zeitpunkt.",
+     "obst": "Am Ende des Tages hast du 10 Äpfel mehr eingekauft, als verkauft wurden – Saldo +10.",
+     "energie": "Ein Versorger hat mehr Energie eingekauft als seine Kunden verbraucht haben – ein positiver Bilanzkreissaldo."
+    },
+    {
+     "name": "Freitags-Ausgleich",
+     "definition": "Ein automatischer Mechanismus, der am Ende einer Periode Über- oder Unterdeckung auflöst.",
+     "obst": "Freitags geht dein Überschuss automatisch an die Mosterei, eine Fehlmenge wird automatisch am Wochenmarkt gedeckt.",
+     "energie": "Regelenergie gleicht am Ende jeder Bilanzierungsperiode Abweichungen zwischen Einspeisung und Verbrauch aus."
+    }
+   ]
+  },
+  "beispiele": {
+   "icon": "💡",
+   "titel": "Beispiele",
+   "intro": "Eine durchgerechnete Woche – Schritt für Schritt vom Apfel zum Energiehandel übersetzt.",
+   "begriffe": [
+    {
+     "name": "Beispieltag: Montag",
+     "definition": "Ein typischer Tagesablauf mit festen und variablen Beschaffungsquellen.",
+     "obst": "Obstbauer liefert 100 Äpfel (0,35 €), Schulessen kauft 80 Äpfel (0,40 €), Bäckerei fragt 35 Äpfel zu variablem Preis nach.",
+     "energie": "Ein Kraftwerksvertrag liefert eine Grundmenge, ein Industriekunde nimmt eine feste Menge ab, der Rest wird am Spotmarkt gehandelt."
+    },
+    {
+     "name": "Beispielwoche: Ergebnis",
+     "definition": "Die Zusammenfassung aller Einnahmen und Ausgaben einer Handelsperiode.",
+     "obst": "Einnahmen aus Schulessen, Bäckerei und Mosterei minus Ausgaben bei Obstbauer, Importeur und Wochenmarkt ergeben dein Wochenergebnis.",
+     "energie": "Erlöse aus Lieferverträgen und Spotmarktverkäufen minus Beschaffungskosten ergeben den Deckungsbeitrag der Handelswoche."
+    }
+   ]
+  }
+ }
+}

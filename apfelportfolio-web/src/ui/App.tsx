@@ -15,6 +15,7 @@ import { Dashboard } from "./pages/Dashboard";
 import { Home } from "./pages/Home";
 import { Ranking } from "./pages/Ranking";
 import { Tutorial } from "./pages/Tutorial";
+import { Wiki } from "./pages/Wiki";
 import { NavigationKontext, type SeitenId } from "./navigation";
 import { SEITENKOPF, Spielen } from "./pages/Spielen";
 import { starte_verbindung, type Verbindung } from "./speicherVerbindung";
@@ -59,6 +60,7 @@ function seitenkopf(id: SeitenId): { titel: string; icon: string } {
   if (id === "ranking") return { titel: "Ranking – Apfelportfolio", icon: "🥇" };
   if (id === "dashboard") return { titel: "Dashboard – Apfelportfolio", icon: "📊" };
   if (id === "tutorial") return { titel: "Tutorial – Apfelportfolio", icon: "🎓" };
+  if (id === "wiki") return { titel: "Wiki – Apfelportfolio", icon: "📖" };
   return { titel: "Apfelportfolio", icon: "🍎" };
 }
 
@@ -123,7 +125,7 @@ export function App({ zustand }: { zustand: Spielzustand }) {
         {seite === "dashboard" ? <Dashboard /> : null}
         {seite === "ranking" ? <Ranking /> : null}
         {seite === "tutorial" ? <Tutorial /> : null}
-        {seite === "wiki" ? <Platzhalter titel="📖 Wiki" quelle="ui/pages/5_wiki.py" /> : null}
+        {seite === "wiki" ? <Wiki /> : null}
         {seite === "regelwerk" ? <Platzhalter titel="⚙️ Regelwerk" quelle="ui/pages/6_regelwerk.py" /> : null}
       </main>
       </NavigationKontext.Provider>

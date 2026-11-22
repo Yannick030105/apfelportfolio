@@ -39,3 +39,5 @@
 - Phase 6, Durchlauf 5: Tutorial (`src/ui/pages/Tutorial.tsx`) mit 12 Schritten, Inhalt
   wörtlich in `src/content/texte/tutorial.md` (`tools/texte_exportieren.py`); Seitenwechsel per
   `src/ui/navigation.ts`.
+- Phase 6, Durchlauf 6: Wiki (`src/ui/pages/Wiki.tsx`) mit 6 Kapiteln, Register zur Kapitelwahl
+  und drei Beispieldiagrammen (Vega-Lite); Inhalt wörtlich in `src/content/texte/wiki.md`.
