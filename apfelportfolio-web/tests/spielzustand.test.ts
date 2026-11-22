@@ -177,3 +177,41 @@ describe("WidgetZustand (Streamlit-Widget-IDs)", () => {
     w.beendeDurchlauf();
   });
 });
+
+describe("Regelwerk-Seite: uebernimm_regelwerk (6_regelwerk.py)", () => {
+  it("validiert, ersetzt das Sitzungs-Regelwerk, speichert config.json; laufende Level behalten ihr Regelwerk", async () => {
+    const speicher = arbeitsspeicher();
+    const z = new Spielzustand({ wuerfel: festerWuerfel([3, 20, 4, 30]), jetzt: JETZT });
+    await z.verbinde_speicher(speicher);
+    z.waehle_spieler("Anna");
+    const sitzung = z.sitzung("level1");
+    const vorher = sitzung.level.regelwerk.obstbauer_menge;
+    expect(await z.uebernimm_regelwerk(new Regelwerk({ obstbauer_menge: 150, importeur_limit: 250 }))).toBe(true);
+    expect(z.regelwerk.obstbauer_menge).toBe(150);
+    expect(z.regelwerk_quelle).toBe("laufwerk");
+    expect(JSON.parse((await speicher.lade_konfiguration()) as string).importeur_limit).toBe(250);
+    expect(sitzung.level.regelwerk.obstbauer_menge).toBe(vorher); // wie st.session_state.level1
+    z.waehle_spieler("Ben");
+    expect(z.sitzung("level1").level.regelwerk.obstbauer_menge).toBe(150); // neue Sitzung: neues Regelwerk
+  });
+
+  it("ungueltig -> ValueError, nichts uebernommen; ohne Spielordner nur Sitzung", async () => {
+    const z = new Spielzustand();
+    const alt = z.regelwerk;
+    await expect(z.uebernimm_regelwerk(new Regelwerk({ baeckerei_preis_min: 9 }))).rejects.toThrow("W1-Minimum darf nicht groesser als W1-Maximum sein.");
+    expect(z.regelwerk).toBe(alt);
+    expect(await z.uebernimm_regelwerk(new Regelwerk())).toBe(false);
+    expect(z.regelwerk.importeur_limit).toBe(200);
+  });
+
+  it("Level 1: Mosterei-Grenze nutzt die Obstbauer-Menge des Sitzungs-Regelwerks (1_spielen.py rw.obstbauer_menge)", async () => {
+    const z = new Spielzustand({ wuerfel: festerWuerfel([3, 20]), jetzt: JETZT });
+    z.waehle_spieler("Anna");
+    const s = z.sitzung("level1"); // Level-Regelwerk: eingebaut (Obstbauer 200, Schulessen 90)
+    const lage = z.lage(s) as NonNullable<ReturnType<typeof z.lage>>;
+    expect(s.level.eingabegrenzen(lage, 0, 0, z.regelwerk).mosterei_max).toBe(200 - 90 - 20);
+    await z.uebernimm_regelwerk(new Regelwerk({ ...z.regelwerk.als_dict(), obstbauer_menge: 150 }));
+    expect(s.level.eingabegrenzen(lage, 0, 0, z.regelwerk).mosterei_max).toBe(150 - 90 - 20);
+    expect(s.level.eingabegrenzen(lage, 0, 0).mosterei_max).toBe(200 - 90 - 20); // ohne Anzeige-Regelwerk: Level-Wert
+  });
+});

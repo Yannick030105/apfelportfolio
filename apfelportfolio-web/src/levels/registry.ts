@@ -74,7 +74,16 @@ export interface SpielLevel {
   neue_woche(): void;
   wuerfle_tag(quelle?: Wuerfelquelle): TagesWuerfe;
   bereite_tag_vor(tag_index: number, wuerfe: TagesWuerfe, zugestimmt: boolean): Tageslage;
-  eingabegrenzen(lage: Tageslage, importeur_menge: number, wochenmarkt_menge: number): Eingabegrenzen;
+  /**
+   * anzeige_regelwerk = st.session_state.regelwerk (kann nach einer Aenderung auf der
+   * Regelwerk-Seite vom Regelwerk des Level-Objekts abweichen; nur Level 1 nutzt es).
+   */
+  eingabegrenzen(
+    lage: Tageslage,
+    importeur_menge: number,
+    wochenmarkt_menge: number,
+    anzeige_regelwerk?: Regelwerk,
+  ): Eingabegrenzen;
   rechne_tag_ab(lage: Tageslage, einkauf: Tageseinkauf): Tagesabrechnung;
   /** Zustand wiederherstellen (Spielstand laden) */
   setze_zustand(zustand: { portfoliostand: number; importeur_menge_woche: number }): void;
@@ -142,8 +151,15 @@ class Level1Adapter implements SpielLevel {
     });
   }
 
-  eingabegrenzen(lage: Tageslage, importeur_menge: number, wochenmarkt_menge: number): Eingabegrenzen {
-    return eingabegrenzen_level1(this.level, lage.nachfrage, lage.tag_index, importeur_menge, wochenmarkt_menge);
+  eingabegrenzen(lage: Tageslage, importeur_menge: number, wochenmarkt_menge: number, anzeige_regelwerk?: Regelwerk): Eingabegrenzen {
+    return eingabegrenzen_level1(
+      this.level,
+      lage.nachfrage,
+      lage.tag_index,
+      importeur_menge,
+      wochenmarkt_menge,
+      (anzeige_regelwerk ?? this.level.regelwerk).obstbauer_menge,
+    );
   }
 
   rechne_tag_ab(lage: Tageslage, einkauf: Tageseinkauf): Tagesabrechnung {

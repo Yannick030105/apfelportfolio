@@ -9,11 +9,11 @@
 import { useEffect, useState } from "preact/hooks";
 import type { LevelId } from "../levels/registry";
 import type { Spielzustand } from "../state/spielzustand";
-import { Platzhalter } from "./components/Platzhalter";
 import { SpeicherLeiste } from "./components/SpeicherLeiste";
 import { Dashboard } from "./pages/Dashboard";
 import { Home } from "./pages/Home";
 import { Ranking } from "./pages/Ranking";
+import { Regelwerk } from "./pages/Regelwerk";
 import { Tutorial } from "./pages/Tutorial";
 import { Wiki } from "./pages/Wiki";
 import { NavigationKontext, type SeitenId } from "./navigation";
@@ -61,6 +61,7 @@ function seitenkopf(id: SeitenId): { titel: string; icon: string } {
   if (id === "dashboard") return { titel: "Dashboard – Apfelportfolio", icon: "📊" };
   if (id === "tutorial") return { titel: "Tutorial – Apfelportfolio", icon: "🎓" };
   if (id === "wiki") return { titel: "Wiki – Apfelportfolio", icon: "📖" };
+  if (id === "regelwerk") return { titel: "Regelwerk – Apfelportfolio", icon: "📜" };
   return { titel: "Apfelportfolio", icon: "🍎" };
 }
 
@@ -126,7 +127,7 @@ export function App({ zustand }: { zustand: Spielzustand }) {
         {seite === "ranking" ? <Ranking /> : null}
         {seite === "tutorial" ? <Tutorial /> : null}
         {seite === "wiki" ? <Wiki /> : null}
-        {seite === "regelwerk" ? <Platzhalter titel="⚙️ Regelwerk" quelle="ui/pages/6_regelwerk.py" /> : null}
+        {seite === "regelwerk" ? <Regelwerk /> : null}
       </main>
       </NavigationKontext.Provider>
     </ZustandKontext.Provider>

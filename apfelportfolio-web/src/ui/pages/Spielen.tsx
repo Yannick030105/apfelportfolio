@@ -308,7 +308,7 @@ export function Spielen({ levelId }: { levelId: LevelId }) {
   const kontext = lage.kontext;
 
   // --- Handelskonsole: Slider in der Reihenfolge des Originals --------------
-  const basis = level.eingabegrenzen(lage, 0, 0);
+  const basis = level.eingabegrenzen(lage, 0, 0, rw);
   let importeur_menge = 0;
   let importeurAnzeige;
   if (basis.importeur_max !== null) {
@@ -342,7 +342,7 @@ export function Spielen({ levelId }: { levelId: LevelId }) {
   }
 
   // Mosterei-Maximum haengt von den aktuell eingestellten Zukaeufen ab
-  const grenzen = level.eingabegrenzen(lage, importeur_menge, wochenmarkt_menge);
+  const grenzen = level.eingabegrenzen(lage, importeur_menge, wochenmarkt_menge, rw);
   let mosterei_menge = 0;
   let mostereiAnzeige;
   if (grenzen.mosterei_max === null) {

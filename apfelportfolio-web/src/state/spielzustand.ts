@@ -14,7 +14,7 @@
  *     laufende Woche wird beim naechsten Oeffnen fortgesetzt.
  * Keine Spiellogik hier - gerechnet wird ausschliesslich in src/levels/.
  */
-import { lade_regelwerk, eingebautes_regelwerk, type RegelwerkQuelle } from "../config/laden";
+import { lade_regelwerk, eingebautes_regelwerk, speichere_regelwerk, type RegelwerkQuelle } from "../config/laden";
 import { ValueError } from "../domain/fehler";
 import { Regelwerk, Tageseinkauf, Wochenverlauf, type Tagesmarkt } from "../domain/models";
 import { zufallsWuerfel, type Wuerfelquelle } from "../domain/wuerfel";
@@ -137,6 +137,28 @@ export class Spielzustand {
   /** Python: LogRepository().alle_laden() */
   log_zeilen(): LogZeile[] {
     return log_zeilen(this.spielstaende);
+  }
+
+  /**
+   * Regelwerk-Seite "💾 Änderungen übernehmen" / "↺ Standardwerte wiederherstellen":
+   * validiert() (wirft ValueError, dann wird nichts uebernommen), dann
+   * st.session_state.regelwerk ersetzen und speichern (config.json im Spielordner).
+   * Laufende Level-Sitzungen behalten wie im Original ihr Regelwerk (Level-Objekt
+   * je Sitzung) - neu erzeugte Sitzungen nutzen das neue.
+   * Rueckgabe: true = in config.json gespeichert, false = kein Spielordner (nur Sitzung).
+   */
+  async uebernimm_regelwerk(regelwerk: Regelwerk): Promise<boolean> {
+    regelwerk.validiert();
+    this.regelwerk = regelwerk;
+    let gespeichert = false;
+    if (this.speicher !== null) {
+      await speichere_regelwerk(this.speicher, regelwerk);
+      this.regelwerk_quelle = "laufwerk";
+      this.regelwerk_meldungen = { fehler: [], warnungen: [] };
+      gespeichert = true;
+    }
+    this.melde();
+    return gespeichert;
   }
 
   setze_tutorial_schritt(schritt: number): void {

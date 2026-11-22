@@ -15,3 +15,14 @@ export function mitVorzeichen(x: number, stellen: number): string {
   const text = formatFixed(x, stellen);
   return text.startsWith("-") ? text : `+${text}`;
 }
+
+/**
+ * Anzeige in Streamlit-Zahlenfeldern (st.number_input(format="%.2f")).
+ * Das formatiert NICHT Python, sondern Streamlits Browser-Oberflaeche (sprintf-js,
+ * intern Number.prototype.toFixed): Gleichstaende runden dort aufwaerts
+ * (0.125 -> "0.13", im Original gemessen), anders als Pythons f"{x:.2f}" ("0.12").
+ * Nur fuer diese Feldanzeige verwenden, nie fuer Spielwerte.
+ */
+export function streamlitFeldText(x: number, stellen: number | null): string {
+  return stellen === null ? String(x) : x.toFixed(stellen);
+}

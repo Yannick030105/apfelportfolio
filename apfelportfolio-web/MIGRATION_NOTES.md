@@ -1,6 +1,6 @@
 # MIGRATION_NOTES – Apfelportfolio Python/Streamlit → TypeScript
 
-Stand: Phase 6, Durchlauf 6 von 7 abgeschlossen (alle Seiten außer „Regelwerk“). Wird je Phase fortgeschrieben.
+Stand: Phase 6 abgeschlossen (alle 7 Durchläufe; alle Seiten portiert). Offen: Test auf einem echten Rechner und Auflösen des Unterordners. Wird je Phase fortgeschrieben.
 
 ---
 
@@ -51,7 +51,8 @@ Stand: Phase 6, Durchlauf 6 von 7 abgeschlossen (alle Seiten außer „Regelwerk
 | `st.switch_page` | `src/ui/navigation.ts` | **erledigt (Phase 6/5)** |
 | `ui/pages/5_wiki.py` (Anzeige, Kapitelwahl) | `src/ui/pages/Wiki.tsx`, Diagramme `src/ui/charts/wiki.ts` | **erledigt (Phase 6/6)** |
 | `ui/pages/5_wiki.py` (`KAPITEL`, `REIHENFOLGE`) | `src/content/texte/wiki.md` (exportiert), gelesen von `src/content/wiki.ts` | **erledigt (Phase 6/6)** |
-| `ui/pages/6_regelwerk.py` | `Regelwerk.tsx`, `src/content/texte/regelwerk.md` | offen (Phase 6/7) |
+| `ui/pages/6_regelwerk.py` | `src/ui/pages/Regelwerk.tsx`, Zahlenfeld `Zahlfeld` in `src/ui/components/streamlit.tsx`, Speichern über `Spielzustand.uebernimm_regelwerk` | **erledigt (Phase 6/7)** |
+| – (`src/content/texte/regelwerk.md` aus der Zielstruktur) | entfällt: Die Regelwerk-Seite hat keinen redaktionellen Fließtext, nur Feldbeschriftungen (direkt in `Regelwerk.tsx`) | entfällt |
 | `tasks.py`, `spec/*` (PyInstaller) | `package.json`, `vite.config.ts`, `.gitlab-ci.yml` | **erledigt (Phase 1)** |
 | `src/apfelportfolio/version.py` (leer) | `src/version.ts` (aus `package.json`) | **erledigt (Phase 1)** |
 | `config/config.json` | `config/config.json` (Kopie, eingebaute Standardwerte) | kopiert (Phase 1), Laden in Phase 5 |
@@ -410,6 +411,44 @@ Erzeugt mit `python3 tools/referenz_erzeugen.py` (Python 3.13). Format siehe Doc
 | `st.plotly_chart` je Kapitel | Vega-Lite-Diagramm, neu gezeichnet beim Kapitelwechsel. |
 | `set_page_config(page_title="Wiki – Apfelportfolio", page_icon="📖", layout="wide")` | Browser-Titel/-Symbol, max. 1100 px. |
 
+## 3k. Phase 6, Durchlauf 7 – Seite „Regelwerk“
+
+- **Felder** (11 Zahlenfelder) mit Beschriftung, Grenzen, Schrittweite und Format exakt wie in
+  `6_regelwerk.py`; Speichern über `Spielzustand.uebernimm_regelwerk`: `validiert()`, dann
+  Sitzungs-Regelwerk ersetzen und `config.json` in den Spielordner schreiben.
+- **Im laufenden Original gemessen und in der Web-Version gleich** (Browser-Test mit echtem
+  Ordner, `config.json` ausgelesen): Startwerte; 0.425 wird als „0.42“ angezeigt, aber exakt 0.425
+  gespeichert; Erfolgsmeldung nach Speichern; nach „Standardwerte wiederherstellen“ keine Meldung,
+  Felder ohne `key` auf Standardwerten, Felder mit `key` (W1/Nachfragemenge) behalten die alte
+  Eingabe; W1-Minimum > Maximum → „ValueError: W1-Minimum darf nicht groesser als W1-Maximum
+  sein.“, nichts gespeichert; nach Seitenwechsel alle Felder aus dem Regelwerk; 5000 bei Importeur
+  rot markiert, gespeichert bleibt der letzte gültige Wert; 0.125 wird als „0.13“ angezeigt;
+  zweimal „+“ auf 0.35 speichert 0.45 (nicht 0.45000000000000007).
+- **Wirkung auf die Spielseite** wie im Original: Texte zeigen sofort das neue Regelwerk, laufende
+  Level-Sitzungen rechnen mit ihrem bisherigen (Level-Objekt je Sitzung), der Mosterei-Slider in
+  Level 1 nutzt die Obstbauer-Menge des Sitzungs-Regelwerks (Abweichung 22 damit aufgehoben,
+  getestet in `tests/spielzustand.test.ts`).
+
+### Nachgebildetes Streamlit-Verhalten (Regelwerk)
+
+| Streamlit | Nachbildung |
+|---|---|
+| `st.number_input` ohne `key`: Widget-ID enthält `value=rw.x` | ID aus Beschriftung + Grenzen + Startwert + Schritt + Format (`WidgetZustand`); nach Übernehmen/Zurücksetzen zeigt das Feld den neuen Wert. |
+| `st.number_input(key=...)`: Wert hängt am Schlüssel, `value` wird ignoriert, bis das Feld einen Durchlauf lang nicht angezeigt wird | ID = Schlüssel; Eingabe bleibt bei „Standardwerte wiederherstellen“ stehen, Seitenwechsel setzt zurück. |
+| Eingabe wird bei Enter/Verlassen übernommen; außerhalb der Grenzen: markiert, nicht übernommen; „−“/„+“ mit Schrittweite, an den Grenzen deaktiviert; Kommaschritte auf Feldgenauigkeit gerundet | `Zahlfeld` mit demselben Verhalten. |
+| Anzeige `format="%.2f"` im Browser (sprintf-js, `toFixed`) | `streamlitFeldText` mit `toFixed` (nur für diese Anzeige; Gleichstände wie 0.125 → „0.13“). |
+| Speichern: `validiert()`-Ausnahme → roter Kasten, nichts gespeichert; sonst `st.success(...)` bis zur nächsten Eingabe | gleich; Fehlerkasten „ValueError: …“. |
+| Zurücksetzen: `st.success(...)` + sofort `st.rerun()` → Meldung nie sichtbar | keine Meldung. |
+| `set_page_config(page_title="Regelwerk – Apfelportfolio", page_icon="📜", layout="centered")` | Browser-Titel/-Symbol, max. 760 px. |
+
+## 3l. Phase 6 – Abschluss
+
+- Alle sieben Seiten sind portiert und jeweils gegen Python-Soll-Werte bzw. das laufende
+  Original geprüft; 1021 Tests, Build zu einer Datei (~1 MB, gzip ~338 kB).
+- **Noch zu tun:** (1) Test auf einem echten Rechner (offene Frage 10: Ordnerdialog auf dem
+  Netzlaufwerk, mehrere gleichzeitige Spieler, gemerkter Ordner nach Browser-Neustart);
+  (2) Auflösen des Unterordners (offene Frage 5); (3) GitLab-Anbindung (offene Frage 6).
+
 ### Darstellung: beabsichtigtes Design statt tatsächlicher Streamlit-Anzeige (Entscheidung)
 
 Der Vergleich mit dem laufenden Original zeigte: Streamlit stellt viele CSS-Absichten der Seiten
@@ -498,10 +537,10 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
 21. **Speicherort-Leiste** (neu): zeigt, wohin gespeichert wird, und bietet Ordner wählen /
     wieder verbinden bzw. die Rückfallebene. Ohne gewählten Ordner läuft das Spiel trotzdem,
     mit deutlichem Hinweis, dass nichts gespeichert wird.
-22. **Mosterei-Slider in Level 1** rechnet mit der Obstbauer-Menge des Level-Objekts
-    (`eingabegrenzen_level1`); das Original nimmt `st.session_state.regelwerk`. Beide sind
-    gleich, solange das Regelwerk nicht während der Sitzung geändert wird (siehe
-    Auffälligkeit 20) – endgültig zu klären im Durchlauf „Regelwerk“.
+22. ~~Mosterei-Slider in Level 1 mit Level-Regelwerk~~ – **aufgehoben in Phase 6/7:** wie im
+    Original nutzt die Grenze jetzt die Obstbauer-Menge aus `st.session_state.regelwerk`
+    (Anzeige-Regelwerk), Importeur-/Wochenmarkt-Grenzen und die Abrechnung das Regelwerk des
+    Level-Objekts.
 23. **Reihenfolge bei gleichen Bestwerten (Ranking) ist festgelegt:** pandas sortiert mit
     numpy-`quicksort`, der auf x86 mit SIMD (AVX-512/AVX2) nicht stabil ist – schon bei
     5 Spielern weicht die Reihenfolge gleicher Werte in 79 von 350 Stichproben von einer stabilen
@@ -529,6 +568,15 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
     siehe 3i): Rahmen, Schriftgrößen und goldene Knöpfe wie im CSS vorgesehen.
 30. **Wiki-Kapitelwahl als Register auf der Seite** statt in der Streamlit-Seitenleiste (die
     Web-Version hat Reiter oben und keine Seitenleiste); Verhalten gleich.
+31. **Streamlit-Artefakt nach „Standardwerte wiederherstellen“ nicht nachgebildet:** Weil
+    `st.rerun()` den Durchlauf abbricht, räumt Streamlit alte Widget-Zustände nicht auf. Ist der
+    Standardwert eines Felds ohne `key` gleich seinem Ausgangswert (z. B. Schulessen-Preis 0.40),
+    lebt das alte Widget mit der vorherigen Eingabe wieder auf (gemessen: Anzeige „0.42“ statt
+    „0.40“, gespeichert ist 0.4). Die Web-Version zeigt den gespeicherten Standardwert.
+32. **Regelwerk ohne Spielordner:** Das Original schrieb immer `config.json` neben die EXE. Ohne
+    gewählten Spielordner übernimmt die Web-Version das Regelwerk nur für die Sitzung und zeigt
+    zusätzlich den Hinweis „Kein Spielordner gewählt – das Regelwerk gilt nur für diese Sitzung
+    und wird nicht gespeichert.“ (neuer Text).
 
 ---
 
@@ -609,7 +657,7 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
     `level1_wochen`); mit `float_precision="round_trip"` wären es 0. Ranking, Dashboard und
     KPIs der alten App rechneten also mit minimal verfälschten Werten (bei 2 Nachkommastellen
     unsichtbar). Die KPI-Soll-Werte enthalten genau diese eingelesenen Werte als Eingabe.
-20. **Regelwerk-Änderung erreicht laufende Level nicht:** `st.session_state.level1/level2`
+20. **Regelwerk-Änderung erreicht laufende Level nicht** (in Phase 6/7 so nachgebildet): `st.session_state.level1/level2`
     werden einmal je Sitzung mit dem damaligen Regelwerk erzeugt; speichert die
     Regelwerk-Seite ein neues, rechnen die Level weiter mit dem alten, während die Texte der
     Spielseite (und in Level 1 die Mosterei-Slider-Grenze) schon das neue zeigen. Bis zum
@@ -636,6 +684,11 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
     nicht – das Limit gilt nur als Slider-Maximum pro Tag (Auffälligkeit 2).
 28. **CSS-Absichten werden von Streamlit nicht dargestellt** (leere Rahmen, 16-px-Überschriften,
     schlichte Knöpfe) – im laufenden Original gemessen, siehe 3i und Abweichung 29.
+29. **Felder mit `key` auf der Regelwerk-Seite** (W1 und Nachfragemenge) springen bei
+    „Standardwerte wiederherstellen“ nicht zurück; wer danach speichert, speichert die alten
+    Eingaben (gemessen, nachgebildet). Die Erfolgsmeldung nach dem Zurücksetzen ist nie zu sehen
+    (`st.rerun()` direkt danach; nachgebildet). Der Text „mit begrenzter Gesamtmenge“ beim
+    Importeur widerspricht dem tatsächlichen Tageslimit (Auffälligkeit 2).
 
 ---
 

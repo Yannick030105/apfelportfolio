@@ -211,6 +211,10 @@ export interface Eingabegrenzen {
  * - Wochenmarkt immer, Maximum int(regelwerk.wochenmarkt_limit_tag)
  * - Mosterei nur Mo-Do, Maximum max(int(verfuegbarer_bestand), 0)
  *   (int() schneidet Richtung 0 ab, kein Runden)
+ * Die Obstbauer-Menge im Mosterei-Bestand nimmt 1_spielen.py aus
+ * st.session_state.regelwerk (Anzeige-Regelwerk), Importeur-/Wochenmarkt-Limits
+ * dagegen aus LEVEL.regelwerk. Beide unterscheiden sich, wenn das Regelwerk
+ * waehrend der Sitzung geaendert wurde (MIGRATION_NOTES, Auffaelligkeit 20).
  */
 export function eingabegrenzen_level1(
   level: Level1Grundlast,
@@ -218,6 +222,7 @@ export function eingabegrenzen_level1(
   tag_index: number,
   importeur_menge: number,
   wochenmarkt_menge: number,
+  obstbauer_menge_anzeige: number = level.regelwerk.obstbauer_menge,
 ): Eingabegrenzen {
   const rw = level.regelwerk;
   const importeur_max = level.importeur_verfuegbar(tag_index) ? pythonInt(rw.importeur_limit) : null;
@@ -226,7 +231,7 @@ export function eingabegrenzen_level1(
   if (tag_index !== WOCHENTAGE.length - 1) {
     const verfuegbarer_bestand =
       level.portfoliostand +
-      rw.obstbauer_menge +
+      obstbauer_menge_anzeige +
       importeur_menge +
       wochenmarkt_menge -
       nachfrage.schulessen -

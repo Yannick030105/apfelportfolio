@@ -41,3 +41,7 @@
   `src/ui/navigation.ts`.
 - Phase 6, Durchlauf 6: Wiki (`src/ui/pages/Wiki.tsx`) mit 6 Kapiteln, Register zur Kapitelwahl
   und drei Beispieldiagrammen (Vega-Lite); Inhalt wörtlich in `src/content/texte/wiki.md`.
+- Phase 6, Durchlauf 7: Regelwerk-Seite (`src/ui/pages/Regelwerk.tsx`) mit 11 Zahlenfeldern
+  (Streamlit-Verhalten inkl. `key`-Feldern nachgebildet), Speichern in `config.json` des
+  Spielordners; Mosterei-Grenze in Level 1 nutzt wie im Original das Sitzungs-Regelwerk.
+  Phase 6 abgeschlossen: alle Seiten portiert.

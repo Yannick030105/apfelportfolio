@@ -4,7 +4,8 @@
  * st.button, st.success/error/warning/info, st.caption, st.toggle, st.slider).
  */
 import type { ComponentChildren } from "preact";
-import { useState } from "preact/hooks";
+import { useId, useState } from "preact/hooks";
+import { streamlitFeldText } from "../format";
 
 export function Titel({ children }: { children: ComponentChildren }) {
   return <h1 class="st-titel">{children}</h1>;
@@ -220,5 +221,82 @@ export function Auswahl<T extends string | number>({
         ))}
       </select>
     </label>
+  );
+}
+
+/**
+ * st.number_input(label, min_value, max_value, value, step, format).
+ * - Der getippte Text wird erst bei Enter oder beim Verlassen des Feldes uebernommen.
+ * - Werte ausserhalb [min, max] oder keine Zahl: Feld rot markiert, NICHT uebernommen
+ *   (im Original gemessen: gespeichert wird der letzte gueltige Wert).
+ * - "−"/"+" aendern um step und sind an den Grenzen deaktiviert.
+ * - stellen=null: Ganzzahlfeld; sonst Anzeige mit fester Stellenzahl (format="%.2f").
+ */
+export function Zahlfeld({
+  beschriftung,
+  min,
+  max,
+  step,
+  stellen,
+  wert,
+  onChange,
+}: {
+  beschriftung: string;
+  min: number;
+  max: number;
+  step: number;
+  stellen: number | null;
+  wert: number;
+  onChange: (wert: number) => void;
+}) {
+  const text = streamlitFeldText(wert, stellen);
+  const [entwurf, setEntwurf] = useState<string | null>(null);
+  const angezeigt = entwurf ?? text;
+  const zahl = Number(angezeigt.replace(",", "."));
+  const ungueltig = angezeigt.trim() === "" || !Number.isFinite(zahl) || zahl < min || zahl > max || (stellen === null && !Number.isInteger(zahl));
+
+  const uebernimm = () => {
+    if (entwurf === null) return;
+    if (!ungueltig) {
+      setEntwurf(null);
+      if (zahl !== wert) onChange(zahl);
+    }
+  };
+  const schritt = (richtung: 1 | -1) => {
+    const basis = ungueltig ? wert : zahl;
+    // Ganzzahl-Schritte exakt, Kommaschritte auf die Feldgenauigkeit gerundet (wie das Frontend)
+    const roh = basis + richtung * step;
+    const neu = stellen === null ? roh : Number(roh.toFixed(Math.max(stellen, 2)));
+    setEntwurf(null);
+    onChange(Math.min(max, Math.max(min, neu)));
+  };
+
+  const feldId = useId();
+  return (
+    <div class="st-zahlfeld">
+      <label class="st-zahlfeld-titel" for={feldId}>
+        {beschriftung}
+      </label>
+      <span class="st-zahlfeld-zeile">
+        <input
+          id={feldId}
+          type="text"
+          inputMode={stellen === null ? "numeric" : "decimal"}
+          value={angezeigt}
+          aria-invalid={entwurf !== null && ungueltig}
+          onInput={(e) => setEntwurf((e.currentTarget as HTMLInputElement).value)}
+          onBlur={uebernimm}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") uebernimm();
+          }}
+        />
+        <button type="button" aria-label={`${beschriftung} verringern`} disabled={wert - step < min} onClick={() => schritt(-1)}>
+          −
+        </button>
+        <button type="button" aria-label={`${beschriftung} erhöhen`} disabled={wert + step > max} onClick={() => schritt(1)}>
+          +
+        </button>
+      </span>
+    </div>
   );
 }
