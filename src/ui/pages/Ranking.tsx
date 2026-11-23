@@ -167,7 +167,7 @@ export function Ranking() {
   const level_liste = LEVEL_REGISTRY.map((e) => e.nummer);
 
   return (
-    <div class="seite-schmal ranking-seite">
+    <div class="ranking-seite">
       <div class="rk-hero">
         <div class="icon">🥇🍎</div>
         <h1>Ranking</h1>
@@ -186,15 +186,18 @@ export function Ranking() {
             }
             const df_level = df.filter((r) => r.level === level);
             return (
-              <>
-                <Podium bestenliste={bestenliste} df_level={df_level} />
-                <div style={{ height: "1.3rem" }} />
-                <p class="menu-heading">Alle Händler</p>
-                <Bestenliste bestenliste={bestenliste} aktiver_spieler={aktiver_spieler} level={level} df_level={df_level} />
-                {aktiver_spieler !== null && bestenliste.some((b) => b.spieler === aktiver_spieler) ? (
-                  <EigeneStatistik bestenliste={bestenliste} aktiver_spieler={aktiver_spieler} level={level} zeilen={df} />
-                ) : null}
-              </>
+              <div class="rk-raster">
+                <div class="rk-links">
+                  <Podium bestenliste={bestenliste} df_level={df_level} />
+                  {aktiver_spieler !== null && bestenliste.some((b) => b.spieler === aktiver_spieler) ? (
+                    <EigeneStatistik bestenliste={bestenliste} aktiver_spieler={aktiver_spieler} level={level} zeilen={df} />
+                  ) : null}
+                </div>
+                <div class="rk-rechts">
+                  <p class="menu-heading">Alle Händler</p>
+                  <Bestenliste bestenliste={bestenliste} aktiver_spieler={aktiver_spieler} level={level} df_level={df_level} />
+                </div>
+              </div>
             );
           }}
         />

@@ -150,6 +150,7 @@ export function Regelwerk() {
         <p>Stelle die Spielwelt nach deinen Wünschen ein.</p>
       </div>
 
+      <div class="rw-raster">
       <Panel icon="🚢" titel="Importeur" beschreibung="Zukauf von Montag bis Mittwoch, mit täglicher Obergrenze.">
         {feld(F.importeur as FeldDef)}
       </Panel>
@@ -169,6 +170,7 @@ export function Regelwerk() {
         {paar("Preiswürfel W1", F.w1Min as FeldDef, F.w1Max as FeldDef)}
         {paar("Nachfragemenge", F.mengeMin as FeldDef, F.mengeMax as FeldDef)}
       </Panel>
+      </div>
 
       <div class="action-bar raster rw-aktionen">
         <Knopf klasse="rw-knopf primaer" onClick={() => void speichern()}>
