@@ -49,7 +49,8 @@ alle Dateien. Ein Beispiel mit Dummy-Daten liegt in [`beispiel-spielordner/`](be
 
 **Andere Browser (Firefox, Safari)** können nicht direkt in einen Ordner speichern. Dort
 bleiben die Spielstände zunächst im Browser; über **„💾 Spielstände herunterladen“** werden sie
-als Datei gesichert und beim nächsten Mal über **„📂 Spielstände laden“** wieder eingelesen.
+als Datei gesichert und beim nächsten Mal über **„📂 Spielstände laden“** wieder eingelesen. Das Tutorial
+weist auf Schritt 1 darauf hin, Chrome oder Edge zu verwenden.
 
 ### Alte Ergebnisse übernehmen
 

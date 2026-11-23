@@ -10,6 +10,7 @@
 - Fehlermeldungen sind freundlich formuliert (keine Python-Meldungen mehr in der Oberfläche).
 - Startseite: „Wähle oben dein Level, um zu starten.“
 - Texte zum Importeur nennen die tägliche Obergrenze (Regelwerk-Seite, Tutorial).
+- Tutorial: Hinweis auf Schritt 1, das Spiel in Chrome oder Edge zu öffnen.
 
 ### Hinzugefügt
 - Phase 0: Referenzdaten aus dem Python-Spiel (`tests/referenz/`) und Generator

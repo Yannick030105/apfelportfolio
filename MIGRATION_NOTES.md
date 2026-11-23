@@ -478,6 +478,8 @@ Umgesetzt nach Rückmeldung zur Checkliste:
   die Texte, die von einer Wochengrenze sprachen (Abweichung 36, Auffälligkeiten 2/27/29).
 - **Freundliche Fehlermeldungen** statt Python-Meldungen (Abweichung 34).
 - **„Wähle oben dein Level“** statt „links“ (Abweichung 35, offene Frage 11).
+- **Firefox/Safari:** nur ein Hinweis auf Schritt 1 des Tutorials (Abweichung 37);
+  Tutorial-Zahlen 100/80 bleiben, da als „Beispiel“ gekennzeichnet.
 - **Namensreservierung** bleibt wie im Original (Auffälligkeit 26); **das Regelwerk darf jeder
   ändern** (offene Frage 4).
 - Referenztests unverändert: Sie spielen die Level mit der Option
@@ -630,6 +632,11 @@ Bis Phase 6 kein abweichendes Spielverhalten; seit 3m die vom Projektteam entsch
     stehen mit Originaltext in `tests/daten/tutorial_abweichungen.json`; `tutorial.test.ts`
     lässt genau diese Unterschiede zum Original zu, `tools/texte_exportieren.py` setzt sie beim
     Schreiben von `tutorial.md` ein.
+37. **Browser-Hinweis im Tutorial (Entscheidung des Projektteams):** Auf Schritt 1 steht ein
+    Hinweis, das Spiel in Chrome oder Edge zu öffnen; nur dort speichert es direkt in den
+    Spielordner. Für Firefox/Safari gibt es kein automatisches Herunterladen – beide Browser
+    werden im Betrieb normalerweise nicht verwendet. Neuer Text außerhalb der Schritte, die
+    Schritte selbst bleiben unverändert.
 
 ---
 
@@ -737,7 +744,7 @@ Bis Phase 6 kein abweichendes Spielverhalten; seit 3m die vom Projektteam entsch
     Obstbauer und „80 Äpfel“ beim Schulessen sind die Regelwerk-Standardwerte, gespielt wird mit
     `config.json` (200 bzw. 90); „eine Obergrenze für die gesamte Woche“ beim Importeur stimmt
     nicht – das Limit gilt nur als Slider-Maximum pro Tag (Auffälligkeit 2). **Importeur-Text
-    seit 3m korrigiert (Abweichung 36);** die Zahlen 100/80 sind weiter offen (offene Frage 12).
+    seit 3m korrigiert (Abweichung 36);** die Zahlen 100/80 bleiben als Beispiel (offene Frage 12).
 28. **CSS-Absichten werden von Streamlit nicht dargestellt** (leere Rahmen, 16-px-Überschriften,
     schlichte Knöpfe) – im laufenden Original gemessen, siehe 3i und Abweichung 29.
 29. **Felder mit `key` auf der Regelwerk-Seite** (W1 und Nachfragemenge) springen bei
@@ -773,12 +780,13 @@ Bis Phase 6 kein abweichendes Spielverhalten; seit 3m die vom Projektteam entsch
    `round_trip`) oder der Wert, den die alte App nach `read_csv` sah (`high`). Vorschlag: der
    exakte Text-Wert (= tatsächliches Spielergebnis); die Migration weist aus, bei wie vielen
    Zeilen sich das in der letzten Binärstelle vom alten Anzeigewert unterscheidet.
-9. **Rückfallebene (Firefox/Safari):** Soll nach jedem Spieltag automatisch eine Sammeldatei
+9. ~~offen~~ Entschieden (3m): nur Hinweis im Tutorial, kein automatischer Download
+   (Abweichung 37). **Rückfallebene (Firefox/Safari):** Soll nach jedem Spieltag automatisch eine Sammeldatei
    heruntergeladen werden (viele Downloads) oder nur per Knopf mit Hinweis „ungesichert“?
    Vorschlag für Phase 6: Knopf + deutlicher Hinweis; Chrome/Edge (Ordnerzugriff) empfehlen.
 10. **Test auf einem echten Rechner** (spätestens in Phase 6): Ordner-Dialog auf dem
     Netzlaufwerk, Schreibrechte für mehrere Benutzer, gemerkter Ordner nach Browser-Neustart
     bei Start per Doppelklick.
 11. ~~offen~~ **Text „Wähle links dein Level, um zu starten.“:** Entschieden (3m): „oben“.
-12. **Tutorial-Zahlen** „100 Äpfel täglich“ (Obstbauer) und „80 Äpfel“ (Schulessen) passen nicht
-    zu `config.json` (200 bzw. 90, Auffälligkeit 27). Text anpassen oder lassen?
+12. ~~offen~~ **Tutorial-Zahlen** „100 Äpfel täglich“ (Obstbauer) und „80 Äpfel“ (Schulessen):
+    Entschieden (3m): bleiben – sie stehen ausdrücklich als „Beispiel“ da.

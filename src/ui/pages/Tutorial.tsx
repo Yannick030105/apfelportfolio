@@ -10,9 +10,12 @@
  *     erhalten (im Original gemessen) und wird auf 0..n-1 begrenzt.
  *   - "⬅ Zurueck" ist auf Schritt 1 deaktiviert; auf dem letzten Schritt wird
  *     "Weiter ➜" zu "🚀 Zur Startseite" (Schritt auf 0, st.switch_page).
+ *
+ * Neu (Entscheidung des Projektteams): Auf Schritt 1 steht ein Hinweis, dass
+ * das Spiel nur in Chrome/Edge direkt in den Spielordner speichern kann.
  */
 import { SCHRITTE } from "../../content/tutorial";
-import { Knopf } from "../components/streamlit";
+import { Knopf, Meldung } from "../components/streamlit";
 import { useNavigation } from "../navigation";
 import { useSpielzustand } from "../zustandKontext";
 
@@ -36,6 +39,15 @@ export function Tutorial() {
           <span key={i} class={i === index ? "dot current" : i < index ? "dot done" : "dot"} />
         ))}
       </div>
+
+      {index === 0 && (
+        <Meldung art="info">
+          🌐 Bitte öffne das Spiel in <strong>Chrome oder Edge</strong>. Nur dort kann es deine Spielstände
+          automatisch im gemeinsamen Spielordner speichern. In Firefox oder Safari läuft das Spiel zwar, aber
+          deine Ergebnisse gehen beim Schließen verloren, wenn du sie nicht vorher über „💾 Spielstände
+          herunterladen“ sicherst – und sie erscheinen nicht im Ranking der anderen.
+        </Meldung>
+      )}
 
       <div class="step-card">
         <div class="step-illustration">{schritt.icon}</div>
