@@ -1,0 +1,214 @@
+{
+  "format": "apfelportfolio-spielstand",
+  "formatVersion": 1,
+  "appVersion": "0.1.0",
+  "id": "beispiel-022",
+  "levelId": "level1",
+  "level": 1,
+  "spieler": "Tim",
+  "status": "laufend",
+  "gestartet_am": "2026-11-20T09:05:00.000Z",
+  "abgeschlossen_am": null,
+  "regelwerk": {
+    "importeur_limit": 300,
+    "wochenmarkt_limit_tag": 300,
+    "schulessen_menge": 90,
+    "schulessen_preis": 0.4,
+    "obstbauer_menge": 200,
+    "obstbauer_preis": 0.35,
+    "baeckerei_preis_aufschlag": 0.2,
+    "baeckerei_preis_min": 1,
+    "baeckerei_preis_max": 6,
+    "baeckerei_menge_min": 10,
+    "baeckerei_menge_max": 60
+  },
+  "tage": [
+    {
+      "tag_index": 0,
+      "tag": "Montag",
+      "wuerfe": {
+        "w1": 1,
+        "baeckerei_menge": 55,
+        "ereignis_index": null
+      },
+      "zugestimmt": false,
+      "einkauf": {
+        "importeur_menge": 0,
+        "wochenmarkt_menge": 0,
+        "mosterei_menge": 10
+      },
+      "abrechnung": {
+        "tag": "Montag",
+        "markt": {
+          "zufallspreis": 1,
+          "preis_overrides": {
+            "preis_baeckerei": 0.30000000000000004
+          }
+        },
+        "einkauf": {
+          "importeur_menge": 0,
+          "wochenmarkt_menge": 0,
+          "mosterei_menge": 10
+        },
+        "nachfrage": {
+          "schulessen": 90,
+          "baeckerei_bestellt": 55
+        },
+        "an_schulessen_geliefert": 90,
+        "an_baeckerei_geliefert": 55,
+        "bilanzkreis_saldo": 35,
+        "einkaufskosten": 70,
+        "erloes": 54.1,
+        "ausgleichskosten": 0,
+        "an_mosterei_geliefert": 10,
+        "portfoliostand": 35,
+        "portfolioergebnis": -15.899999999999999,
+        "ereignis_titel": ""
+      }
+    },
+    {
+      "tag_index": 1,
+      "tag": "Dienstag",
+      "wuerfe": {
+        "w1": 3,
+        "baeckerei_menge": 46,
+        "ereignis_index": null
+      },
+      "zugestimmt": false,
+      "einkauf": {
+        "importeur_menge": 0,
+        "wochenmarkt_menge": 0,
+        "mosterei_menge": 10
+      },
+      "abrechnung": {
+        "tag": "Dienstag",
+        "markt": {
+          "zufallspreis": 3,
+          "preis_overrides": {
+            "preis_baeckerei": 0.5
+          }
+        },
+        "einkauf": {
+          "importeur_menge": 0,
+          "wochenmarkt_menge": 0,
+          "mosterei_menge": 10
+        },
+        "nachfrage": {
+          "schulessen": 90,
+          "baeckerei_bestellt": 46
+        },
+        "an_schulessen_geliefert": 90,
+        "an_baeckerei_geliefert": 46,
+        "bilanzkreis_saldo": 44,
+        "einkaufskosten": 70,
+        "erloes": 62.2,
+        "ausgleichskosten": 0,
+        "an_mosterei_geliefert": 10,
+        "portfoliostand": 79,
+        "portfolioergebnis": -7.799999999999997,
+        "ereignis_titel": ""
+      }
+    },
+    {
+      "tag_index": 2,
+      "tag": "Mittwoch",
+      "wuerfe": {
+        "w1": 1,
+        "baeckerei_menge": 52,
+        "ereignis_index": null
+      },
+      "zugestimmt": false,
+      "einkauf": {
+        "importeur_menge": 0,
+        "wochenmarkt_menge": 0,
+        "mosterei_menge": 0
+      },
+      "abrechnung": {
+        "tag": "Mittwoch",
+        "markt": {
+          "zufallspreis": 1,
+          "preis_overrides": {
+            "preis_baeckerei": 0.30000000000000004
+          }
+        },
+        "einkauf": {
+          "importeur_menge": 0,
+          "wochenmarkt_menge": 0,
+          "mosterei_menge": 0
+        },
+        "nachfrage": {
+          "schulessen": 90,
+          "baeckerei_bestellt": 52
+        },
+        "an_schulessen_geliefert": 90,
+        "an_baeckerei_geliefert": 52,
+        "bilanzkreis_saldo": 58,
+        "einkaufskosten": 70,
+        "erloes": 51.6,
+        "ausgleichskosten": 0,
+        "an_mosterei_geliefert": 0,
+        "portfoliostand": 137,
+        "portfolioergebnis": -18.4,
+        "ereignis_titel": ""
+      }
+    },
+    {
+      "tag_index": 3,
+      "tag": "Donnerstag",
+      "wuerfe": {
+        "w1": 5,
+        "baeckerei_menge": 59,
+        "ereignis_index": null
+      },
+      "zugestimmt": false,
+      "einkauf": {
+        "importeur_menge": 0,
+        "wochenmarkt_menge": 100,
+        "mosterei_menge": 30
+      },
+      "abrechnung": {
+        "tag": "Donnerstag",
+        "markt": {
+          "zufallspreis": 5,
+          "preis_overrides": {
+            "preis_baeckerei": 0.7
+          }
+        },
+        "einkauf": {
+          "importeur_menge": 0,
+          "wochenmarkt_menge": 100,
+          "mosterei_menge": 30
+        },
+        "nachfrage": {
+          "schulessen": 90,
+          "baeckerei_bestellt": 59
+        },
+        "an_schulessen_geliefert": 90,
+        "an_baeckerei_geliefert": 59,
+        "bilanzkreis_saldo": 91,
+        "einkaufskosten": 130,
+        "erloes": 91.69999999999999,
+        "ausgleichskosten": 0,
+        "an_mosterei_geliefert": 30,
+        "portfoliostand": 228,
+        "portfolioergebnis": -38.30000000000001,
+        "ereignis_titel": ""
+      }
+    }
+  ],
+  "zustand": {
+    "portfoliostand": 228,
+    "importeur_menge_woche": 0
+  },
+  "offener_tag": {
+    "tag_index": 4,
+    "wuerfe": {
+      "w1": 3,
+      "baeckerei_menge": 47,
+      "ereignis_index": null
+    },
+    "zugestimmt": false
+  },
+  "log_zeile": null,
+  "migriert": null
+}

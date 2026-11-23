@@ -22,6 +22,7 @@ Doppelklick (auch vom Netzlaufwerk) im Browser läuft, ohne Server und ohne Inte
 | `npm run typecheck` | TypeScript-Prüfung |
 | `npm run build` | Typprüfung + Build nach `dist/index.html` (eine Datei, alles eingebettet) |
 | `npm run pruefen:referenz` | Prüft, dass `tests/referenz/` unverändert ist |
+| `npm run beispielordner` | Erzeugt `beispiel-spielordner/` mit Dummy-Spielständen neu |
 
 Die Version steht nur in `package.json` und wird beim Build eingesetzt.
 
@@ -49,6 +50,10 @@ Chrome oder Edge). Darin legt das Spiel an:
 
 Andere Browser nutzen die Rückfallebene: Spielstände per Dateidialog laden und als
 Sammeldatei herunterladen.
+
+Ein vollständiges Beispiel mit Dummy-Daten liegt in `beispiel-spielordner/` (5 Spieler,
+20 abgeschlossene und 2 laufende Wochen, Aufbau der Dateien in der dortigen `README.md`).
+Erzeugt wird es mit der echten Spiellogik über `npm run beispielordner`.
 
 ### Einmalige Übernahme der alten `spiellog.csv`
 

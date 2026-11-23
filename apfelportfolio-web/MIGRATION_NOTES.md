@@ -445,6 +445,10 @@ Erzeugt mit `python3 tools/referenz_erzeugen.py` (Python 3.13). Format siehe Doc
 
 - Alle sieben Seiten sind portiert und jeweils gegen Python-Soll-Werte bzw. das laufende
   Original geprüft; 1021 Tests, Build zu einer Datei (~1 MB, gzip ~338 kB).
+- **Beispiel-Spielordner** `beispiel-spielordner/` (Dummy-Daten, mit der echten Spiellogik und
+  festem Seed erzeugt: `tools/beispielordner/eintrag.ts`, `npm run beispielordner`);
+  `tests/beispielordner.test.ts` prüft Gültigkeit, Übereinstimmung mit dem Generator und das
+  Fortsetzen einer laufenden Woche. Zum Ausprobieren der Speicherung auf einem echten Rechner.
 - **Noch zu tun:** (1) Test auf einem echten Rechner (offene Frage 10: Ordnerdialog auf dem
   Netzlaufwerk, mehrere gleichzeitige Spieler, gemerkter Ordner nach Browser-Neustart);
   (2) Auflösen des Unterordners (offene Frage 5); (3) GitLab-Anbindung (offene Frage 6).

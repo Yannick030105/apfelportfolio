@@ -45,3 +45,5 @@
   (Streamlit-Verhalten inkl. `key`-Feldern nachgebildet), Speichern in `config.json` des
   Spielordners; Mosterei-Grenze in Level 1 nutzt wie im Original das Sitzungs-Regelwerk.
   Phase 6 abgeschlossen: alle Seiten portiert.
+- Beispiel-Spielordner `beispiel-spielordner/` mit Dummy-Daten (mit echter Spiellogik erzeugt,
+  `npm run beispielordner`), inkl. Beschreibung des Dateiaufbaus.

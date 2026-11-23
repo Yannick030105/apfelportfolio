@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "pruefen:referenz": "node tools/referenz_pruefen.mjs"
+    "pruefen:referenz": "node tools/referenz_pruefen.mjs",
+    "beispielordner": "node tools/beispielordner_erzeugen.mjs"
   },
   "dependencies": {
     "marked": "18.1.3",
