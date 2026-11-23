@@ -1,0 +1,126 @@
+{
+  "formatVersion": 1,
+  "beschreibung": "Tagesereignisse fuer Level 2 (bisher STANDARD_EREIGNISSE in levels/level2_ereignisse.py). Reihenfolge ist relevant (Wuerfel-Index). Effekt-Namen siehe src/levels/effekte.ts; wert 1.0 = keine Aenderung. entscheidung_text gesetzt -> JA/NEIN-Entscheidung, Effekte nur bei Zustimmung.",
+  "ereignisse": [
+    {
+      "key": "ruhiger_tag",
+      "titel": "Ruhiger Tag",
+      "beschreibung": "Nichts Besonderes am Markt. Alles laeuft wie gewohnt.",
+      "effekte": [],
+      "entscheidung_text": null,
+      "hinweis": "Gute Gelegenheit, Bestand fuer teurere Tage aufzubauen."
+    },
+    {
+      "key": "importeur_streik",
+      "titel": "Streik beim Importeur",
+      "beschreibung": "Der Importeur liefert heute nicht. Zukauf nur ueber den Wochenmarkt.",
+      "effekte": [
+        {
+          "name": "importeur_gesperrt",
+          "wert": 1.0
+        }
+      ],
+      "entscheidung_text": null,
+      "hinweis": "Fehlmengen muessen heute teurer am Wochenmarkt gedeckt werden."
+    },
+    {
+      "key": "wochenmarkt_feiertag",
+      "titel": "Feiertag - Wochenmarkt geschlossen",
+      "beschreibung": "Der Wochenmarkt hat heute zu. Kein Zukauf hier.",
+      "effekte": [
+        {
+          "name": "wochenmarkt_gesperrt",
+          "wert": 1.0
+        }
+      ],
+      "entscheidung_text": null,
+      "hinweis": "Bist du short, hilft heute nur der Importeur (Mo-Mi)."
+    },
+    {
+      "key": "ernteausfall",
+      "titel": "Ernteausfall beim Obstbauer",
+      "beschreibung": "Unwetter: der Obstbauer liefert heute nur die Haelfte.",
+      "effekte": [
+        {
+          "name": "obstbauer_menge",
+          "wert": 0.5
+        }
+      ],
+      "entscheidung_text": null,
+      "hinweis": "Weniger Grundlast - ggf. zukaufen, um das Schulessen zu decken."
+    },
+    {
+      "key": "baeckerei_grossauftrag",
+      "titel": "Grossauftrag der Baeckerei",
+      "beschreibung": "Die Baeckerei feiert Jubilaeum und verdoppelt ihre Bestellung.",
+      "effekte": [
+        {
+          "name": "baeckerei_menge",
+          "wert": 2.0
+        }
+      ],
+      "entscheidung_text": null,
+      "hinweis": "Hoehere Auslieferung - Bestand kann knapp werden."
+    },
+    {
+      "key": "importeur_rabatt",
+      "titel": "Sonderangebot beim Importeur",
+      "beschreibung": "Der Importeur raeumt sein Lager: 30 % Rabatt auf den Tagespreis.",
+      "effekte": [
+        {
+          "name": "importeur_preis",
+          "wert": 0.7
+        },
+        {
+          "name": "importeur_slider_max",
+          "wert": 1.5
+        }
+      ],
+      "entscheidung_text": "Grosslieferung annehmen? (Rabatt + hoeheres Kauflimit)",
+      "hinweis": "Guenstig kaufen lohnt nur, wenn du den Bestand auch los wirst."
+    },
+    {
+      "key": "wochenmarkt_knappheit",
+      "titel": "Knappheit am Wochenmarkt",
+      "beschreibung": "Aepfel sind knapp: Wochenmarktpreis +50 %, Tageslimit halbiert.",
+      "effekte": [
+        {
+          "name": "wochenmarkt_preis",
+          "wert": 1.5
+        },
+        {
+          "name": "wochenmarkt_limit",
+          "wert": 0.5
+        }
+      ],
+      "entscheidung_text": null,
+      "hinweis": "Kurzfristiges Zukaufen wird teuer - vorausschauend disponieren."
+    },
+    {
+      "key": "mosterei_nachfrage",
+      "titel": "Mosterei sucht Aepfel",
+      "beschreibung": "Die Mosterei zahlt heute 40 % mehr fuer Ueberschuss.",
+      "effekte": [
+        {
+          "name": "mosterei_preis",
+          "wert": 1.4
+        }
+      ],
+      "entscheidung_text": null,
+      "hinweis": "Ein Long lohnt sich heute - v. a. mit Blick auf den Freitag."
+    },
+    {
+      "key": "schulessen_projektwoche",
+      "titel": "Projektwoche in der Schule",
+      "beschreibung": "Das Schulessen nimmt heute 25 % weniger ab.",
+      "effekte": [
+        {
+          "name": "schulessen_menge",
+          "wert": 0.75
+        }
+      ],
+      "entscheidung_text": null,
+      "hinweis": "Geringere Auslieferung - Ueberschuss droht."
+    }
+  ]
+}

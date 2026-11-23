@@ -1,0 +1,260 @@
+{
+  "format": "apfelportfolio-spielstand",
+  "formatVersion": 1,
+  "appVersion": "0.1.0",
+  "id": "beispiel-013",
+  "levelId": "level2",
+  "level": 2,
+  "spieler": "Jonas",
+  "status": "abgeschlossen",
+  "gestartet_am": "2026-11-18T10:39:00.000Z",
+  "abgeschlossen_am": "2026-11-18T10:54:00.000Z",
+  "regelwerk": {
+    "importeur_limit": 300,
+    "wochenmarkt_limit_tag": 300,
+    "schulessen_menge": 90,
+    "schulessen_preis": 0.4,
+    "obstbauer_menge": 200,
+    "obstbauer_preis": 0.35,
+    "baeckerei_preis_aufschlag": 0.2,
+    "baeckerei_preis_min": 1,
+    "baeckerei_preis_max": 6,
+    "baeckerei_menge_min": 10,
+    "baeckerei_menge_max": 60
+  },
+  "tage": [
+    {
+      "tag_index": 0,
+      "tag": "Montag",
+      "wuerfe": {
+        "w1": 2,
+        "baeckerei_menge": 45,
+        "ereignis_index": 5
+      },
+      "zugestimmt": false,
+      "einkauf": {
+        "importeur_menge": 0,
+        "wochenmarkt_menge": 0,
+        "mosterei_menge": 0
+      },
+      "abrechnung": {
+        "tag": "Montag",
+        "markt": {
+          "zufallspreis": 2,
+          "preis_overrides": {
+            "preis_baeckerei": 0.4
+          }
+        },
+        "einkauf": {
+          "importeur_menge": 0,
+          "wochenmarkt_menge": 0,
+          "mosterei_menge": 0
+        },
+        "nachfrage": {
+          "schulessen": 90,
+          "baeckerei_bestellt": 45
+        },
+        "an_schulessen_geliefert": 90,
+        "an_baeckerei_geliefert": 45,
+        "bilanzkreis_saldo": 65,
+        "einkaufskosten": 70,
+        "erloes": 54,
+        "ausgleichskosten": 0,
+        "an_mosterei_geliefert": 0,
+        "portfoliostand": 65,
+        "portfolioergebnis": -16,
+        "ereignis_titel": "Sonderangebot beim Importeur"
+      }
+    },
+    {
+      "tag_index": 1,
+      "tag": "Dienstag",
+      "wuerfe": {
+        "w1": 6,
+        "baeckerei_menge": 30,
+        "ereignis_index": 5
+      },
+      "zugestimmt": true,
+      "einkauf": {
+        "importeur_menge": 140,
+        "wochenmarkt_menge": 70,
+        "mosterei_menge": 0
+      },
+      "abrechnung": {
+        "tag": "Dienstag",
+        "markt": {
+          "zufallspreis": 6,
+          "preis_overrides": {
+            "preis_baeckerei": 0.8,
+            "preis_importeur": 0.42
+          }
+        },
+        "einkauf": {
+          "importeur_menge": 140,
+          "wochenmarkt_menge": 70,
+          "mosterei_menge": 0
+        },
+        "nachfrage": {
+          "schulessen": 90,
+          "baeckerei_bestellt": 30
+        },
+        "an_schulessen_geliefert": 90,
+        "an_baeckerei_geliefert": 30,
+        "bilanzkreis_saldo": 290,
+        "einkaufskosten": 177.8,
+        "erloes": 60,
+        "ausgleichskosten": 0,
+        "an_mosterei_geliefert": 0,
+        "portfoliostand": 355,
+        "portfolioergebnis": -117.80000000000001,
+        "ereignis_titel": "Sonderangebot beim Importeur"
+      }
+    },
+    {
+      "tag_index": 2,
+      "tag": "Mittwoch",
+      "wuerfe": {
+        "w1": 1,
+        "baeckerei_menge": 20,
+        "ereignis_index": 1
+      },
+      "zugestimmt": false,
+      "einkauf": {
+        "importeur_menge": 0,
+        "wochenmarkt_menge": 120,
+        "mosterei_menge": 30
+      },
+      "abrechnung": {
+        "tag": "Mittwoch",
+        "markt": {
+          "zufallspreis": 1,
+          "preis_overrides": {
+            "preis_baeckerei": 0.30000000000000004
+          }
+        },
+        "einkauf": {
+          "importeur_menge": 0,
+          "wochenmarkt_menge": 120,
+          "mosterei_menge": 30
+        },
+        "nachfrage": {
+          "schulessen": 90,
+          "baeckerei_bestellt": 20
+        },
+        "an_schulessen_geliefert": 90,
+        "an_baeckerei_geliefert": 20,
+        "bilanzkreis_saldo": 180,
+        "einkaufskosten": 94,
+        "erloes": 46.8,
+        "ausgleichskosten": 0,
+        "an_mosterei_geliefert": 30,
+        "portfoliostand": 535,
+        "portfolioergebnis": -47.2,
+        "ereignis_titel": "Streik beim Importeur"
+      }
+    },
+    {
+      "tag_index": 3,
+      "tag": "Donnerstag",
+      "wuerfe": {
+        "w1": 3,
+        "baeckerei_menge": 27,
+        "ereignis_index": 0
+      },
+      "zugestimmt": false,
+      "einkauf": {
+        "importeur_menge": 0,
+        "wochenmarkt_menge": 0,
+        "mosterei_menge": 210
+      },
+      "abrechnung": {
+        "tag": "Donnerstag",
+        "markt": {
+          "zufallspreis": 3,
+          "preis_overrides": {
+            "preis_baeckerei": 0.5
+          }
+        },
+        "einkauf": {
+          "importeur_menge": 0,
+          "wochenmarkt_menge": 0,
+          "mosterei_menge": 210
+        },
+        "nachfrage": {
+          "schulessen": 90,
+          "baeckerei_bestellt": 27
+        },
+        "an_schulessen_geliefert": 90,
+        "an_baeckerei_geliefert": 27,
+        "bilanzkreis_saldo": -127,
+        "einkaufskosten": 70,
+        "erloes": 116.70000000000002,
+        "ausgleichskosten": 0,
+        "an_mosterei_geliefert": 210,
+        "portfoliostand": 408,
+        "portfolioergebnis": 46.70000000000002,
+        "ereignis_titel": "Ruhiger Tag"
+      }
+    },
+    {
+      "tag_index": 4,
+      "tag": "Freitag",
+      "wuerfe": {
+        "w1": 3,
+        "baeckerei_menge": 59,
+        "ereignis_index": 4
+      },
+      "zugestimmt": false,
+      "einkauf": {
+        "importeur_menge": 0,
+        "wochenmarkt_menge": 0,
+        "mosterei_menge": 0
+      },
+      "abrechnung": {
+        "tag": "Freitag",
+        "markt": {
+          "zufallspreis": 3,
+          "preis_overrides": {
+            "preis_baeckerei": 0.5
+          }
+        },
+        "einkauf": {
+          "importeur_menge": 0,
+          "wochenmarkt_menge": 0,
+          "mosterei_menge": 0
+        },
+        "nachfrage": {
+          "schulessen": 90,
+          "baeckerei_bestellt": 118
+        },
+        "an_schulessen_geliefert": 90,
+        "an_baeckerei_geliefert": 118,
+        "bilanzkreis_saldo": -408,
+        "einkaufskosten": 70,
+        "erloes": 223.00000000000003,
+        "ausgleichskosten": 0,
+        "an_mosterei_geliefert": 400,
+        "portfoliostand": 0,
+        "portfolioergebnis": 153.00000000000003,
+        "ereignis_titel": "Grossauftrag der Baeckerei"
+      }
+    }
+  ],
+  "zustand": {
+    "portfoliostand": 0,
+    "importeur_menge_woche": 140
+  },
+  "offener_tag": null,
+  "log_zeile": {
+    "spieler": "Jonas",
+    "datum": "2026-11-18",
+    "level": 2,
+    "endergebnis": 18.70000000000003,
+    "rest_long_short": 0,
+    "anteil_spot": 0,
+    "anteil_grundlast": 1,
+    "prognosefehler": null,
+    "referenzergebnis_nichthandeln": 0
+  },
+  "migriert": null
+}

@@ -1,0 +1,89 @@
+==============================================================================
+Spiellog-Migration: /home/user/apfelportfolio/data_store/spiellog.csv  ->  tests/daten/migration/spiellog
+==============================================================================
+
+1) Zeilenanzahl
+   CSV-Datenzeilen:        20
+   migriert (Dateien):     20
+   uebersprungen:          0
+   Kontrolle nach dem Schreiben: 0 abweichende Zahlenwerte
+   Endergebnisse, die die alte App eine Binaerstelle anders einlas: 1 
+
+2) Summen der Endergebnisse je Spieler (alt = wie die alte App eingelesen, neu = migrierte Dateien)
+Spieler  Wochen  alt      neu      alt (exakt)         neu (exakt)         Vergleich
+-------  ------  -------  -------  ------------------  ------------------  ---------
+Anna     6       1303.98  1303.98  1303.98             1303.98             gleich   
+Ben      4       805.85   805.85   805.85              805.85              gleich   
+Clara    3       1483.35  1483.35  1483.35             1483.35             gleich   
+David    3       193.90   193.90   193.9               193.9               gleich   
+Max      1       255.28   255.28   255.27999999999983  255.27999999999983  gleich   
+test     3       526.72   526.72   526.7199999999998   526.7199999999998   gleich   
+   Gesamt: alt 4569.08 | neu 4569.08
+
+3) Stichproben alt (CSV-Zeile) / neu (Spielstand-Datei)
+
+   Zeile 1 -> migriert_0001_level2_test.json
+   Feld                           alt (CSV-Text)     neu (JSON)       
+   -----------------------------  -----------------  -----------------
+   spieler                        test               test             
+   datum                          2026-08-05         2026-08-05       
+   level                          2                  2 (level2)       
+   endergebnis                    8.799999999999983  8.799999999999983
+   rest_long_short                0.0                0.0              
+   anteil_spot                    0.0                0.0              
+   anteil_grundlast               1.0                1.0              
+   prognosefehler                                    null             
+   referenzergebnis_nichthandeln  0.0                0.0              
+
+   Zeile 6 -> migriert_0006_level1_Anna.json
+   Feld                           alt (CSV-Text)  neu (JSON)
+   -----------------------------  --------------  ----------
+   spieler                        Anna            Anna      
+   datum                          2026-08-03      2026-08-03
+   level                          1               1 (level1)
+   endergebnis                    275.00          275.0     
+   rest_long_short                -5.0            -5.0      
+   anteil_spot                    0.15            0.15      
+   anteil_grundlast               0.85            0.85      
+   prognosefehler                                 null      
+   referenzergebnis_nichthandeln  0.0             0.0       
+
+   Zeile 11 -> migriert_0011_level2_Ben.json
+   Feld                           alt (CSV-Text)  neu (JSON)
+   -----------------------------  --------------  ----------
+   spieler                        Ben             Ben       
+   datum                          2026-08-03      2026-08-03
+   level                          2               2 (level2)
+   endergebnis                    -20.00          -20.0     
+   rest_long_short                5.0             5.0       
+   anteil_spot                    0.4             0.4       
+   anteil_grundlast               0.6             0.6       
+   prognosefehler                                 null      
+   referenzergebnis_nichthandeln  0.0             0.0       
+
+   Zeile 16 -> migriert_0016_level1_David.json
+   Feld                           alt (CSV-Text)  neu (JSON)
+   -----------------------------  --------------  ----------
+   spieler                        David           David     
+   datum                          2026-08-01      2026-08-01
+   level                          1               1 (level1)
+   endergebnis                    45.60           45.6      
+   rest_long_short                -10.0           -10.0     
+   anteil_spot                    0.5             0.5       
+   anteil_grundlast               0.5             0.5       
+   prognosefehler                                 null      
+   referenzergebnis_nichthandeln  0.0             0.0       
+
+   Zeile 20 -> migriert_0020_level2_Max.json
+   Feld                           alt (CSV-Text)      neu (JSON)        
+   -----------------------------  ------------------  ------------------
+   spieler                        Max                 Max               
+   datum                          2026-08-20          2026-08-20        
+   level                          2                   2 (level2)        
+   endergebnis                    255.27999999999983  255.27999999999983
+   rest_long_short                0.0                 0.0               
+   anteil_spot                    0.0                 0.0               
+   anteil_grundlast               1.0                 1.0               
+   prognosefehler                                     null              
+   referenzergebnis_nichthandeln  0.0                 0.0               
+

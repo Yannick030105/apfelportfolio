@@ -1,0 +1,42 @@
+{
+  "format": "apfelportfolio-spielstand",
+  "formatVersion": 1,
+  "appVersion": "0.1.0",
+  "id": "migriert-0005",
+  "levelId": "level1",
+  "level": 1,
+  "spieler": "Anna",
+  "status": "abgeschlossen",
+  "gestartet_am": null,
+  "abgeschlossen_am": null,
+  "regelwerk": null,
+  "tage": [],
+  "zustand": null,
+  "offener_tag": null,
+  "log_zeile": {
+    "spieler": "Anna",
+    "datum": "2026-08-02",
+    "level": 1,
+    "endergebnis": 340.2,
+    "rest_long_short": 0.0,
+    "anteil_spot": 0.2,
+    "anteil_grundlast": 0.8,
+    "prognosefehler": null,
+    "referenzergebnis_nichthandeln": 0.0
+  },
+  "migriert": {
+    "quelle": "spiellog.csv",
+    "zeile": 5,
+    "original": {
+      "spieler": "Anna",
+      "datum": "2026-08-02",
+      "level": "1",
+      "endergebnis": "340.20",
+      "rest_long_short": "0.0",
+      "anteil_spot": "0.2",
+      "anteil_grundlast": "0.8",
+      "prognosefehler": "",
+      "referenzergebnis_nichthandeln": "0.0"
+    }
+  }
+}

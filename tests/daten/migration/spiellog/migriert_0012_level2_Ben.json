@@ -1,0 +1,42 @@
+{
+  "format": "apfelportfolio-spielstand",
+  "formatVersion": 1,
+  "appVersion": "0.1.0",
+  "id": "migriert-0012",
+  "levelId": "level2",
+  "level": 2,
+  "spieler": "Ben",
+  "status": "abgeschlossen",
+  "gestartet_am": null,
+  "abgeschlossen_am": null,
+  "regelwerk": null,
+  "tage": [],
+  "zustand": null,
+  "offener_tag": null,
+  "log_zeile": {
+    "spieler": "Ben",
+    "datum": "2026-08-04",
+    "level": 2,
+    "endergebnis": 220.1,
+    "rest_long_short": 0.0,
+    "anteil_spot": 0.35,
+    "anteil_grundlast": 0.65,
+    "prognosefehler": null,
+    "referenzergebnis_nichthandeln": 0.0
+  },
+  "migriert": {
+    "quelle": "spiellog.csv",
+    "zeile": 12,
+    "original": {
+      "spieler": "Ben",
+      "datum": "2026-08-04",
+      "level": "2",
+      "endergebnis": "220.10",
+      "rest_long_short": "0.0",
+      "anteil_spot": "0.35",
+      "anteil_grundlast": "0.65",
+      "prognosefehler": "",
+      "referenzergebnis_nichthandeln": "0.0"
+    }
+  }
+}

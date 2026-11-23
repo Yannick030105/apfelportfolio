@@ -1,0 +1,13 @@
+{
+  "importeur_limit": 300,
+  "wochenmarkt_limit_tag": 300,
+  "schulessen_menge": 90,
+  "schulessen_preis": 0.4,
+  "obstbauer_menge": 200,
+  "obstbauer_preis": 0.35,
+  "baeckerei_preis_aufschlag": 0.2,
+  "baeckerei_preis_min": 1,
+  "baeckerei_preis_max": 6,
+  "baeckerei_menge_min": 10,
+  "baeckerei_menge_max": 60
+}

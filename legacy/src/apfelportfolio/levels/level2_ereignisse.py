@@ -197,9 +197,15 @@ STANDARD_EREIGNISSE: tuple[Ereignis, ...] = (
 
 def waehle_ereignis(
     ereignisse: tuple[Ereignis, ...] = STANDARD_EREIGNISSE,
+    ereignis_index: int | None = None,
 ) -> Ereignis:
-    """Zieht genau ein Ereignis (Gleichverteilung)."""
-    return random.choice(ereignisse)
+    """Zieht genau ein Ereignis (Gleichverteilung).
+
+    ereignis_index: optional vorgegebener Zufallswert (Index in ereignisse,
+    fuer Tests/Referenzdaten). Ohne Angabe wird wie bisher gezogen."""
+    if ereignis_index is None:
+        return random.choice(ereignisse)
+    return ereignisse[ereignis_index]
 
 
 class Level2Ereignisse:
@@ -223,14 +229,14 @@ class Level2Ereignisse:
     def importeur_verfuegbar(self, tag_index: int) -> bool:
         return self._level1.importeur_verfuegbar(tag_index)
 
-    def erzeuge_tagesmarkt(self) -> Tagesmarkt:
-        return self._level1.erzeuge_tagesmarkt()
+    def erzeuge_tagesmarkt(self, w1: int | None = None) -> Tagesmarkt:
+        return self._level1.erzeuge_tagesmarkt(w1=w1)
 
-    def erzeuge_tagesnachfrage(self) -> Tagesnachfrage:
-        return self._level1.erzeuge_tagesnachfrage()
+    def erzeuge_tagesnachfrage(self, baeckerei_menge: int | None = None) -> Tagesnachfrage:
+        return self._level1.erzeuge_tagesnachfrage(baeckerei_menge=baeckerei_menge)
 
-    def erzeuge_ereignis(self) -> Ereignis:
-        return waehle_ereignis()
+    def erzeuge_ereignis(self, ereignis_index: int | None = None) -> Ereignis:
+        return waehle_ereignis(ereignis_index=ereignis_index)
 
     # -- Effekte anwenden ---------------------------------------------------
     def wende_ereignis_an(

@@ -94,26 +94,33 @@ class Level1Grundlast:
     def importeur_verfuegbar(self, tag_index: int) -> bool:
         return tag_index <= LETZTER_IMPORTEUR_TAG_INDEX
 
-    def erzeuge_tagesmarkt(self) -> Tagesmarkt:
+    def erzeuge_tagesmarkt(self, w1: int | None = None) -> Tagesmarkt:
         """Wuerfelt W1 in der im Regelwerk eingestellten Spanne. Der Baeckerei-Preis
         wird sofort als Override gesetzt, da sein Aufschlag ebenfalls einstellbar ist -
-        alle anderen Preise leiten sich weiterhin per Property aus W1 ab."""
-        w1 = random.randint(self.regelwerk.baeckerei_preis_min, self.regelwerk.baeckerei_preis_max)
+        alle anderen Preise leiten sich weiterhin per Property aus W1 ab.
+
+        w1: optional vorgegebener Wuerfelwert (fuer Tests/Referenzdaten). Ohne
+        Angabe wird wie bisher gewuerfelt."""
+        if w1 is None:
+            w1 = random.randint(self.regelwerk.baeckerei_preis_min, self.regelwerk.baeckerei_preis_max)
         preis_baeckerei = w1 / 10 + self.regelwerk.baeckerei_preis_aufschlag
         return Tagesmarkt(
             zufallspreis=float(w1),
             preis_overrides={"preis_baeckerei": preis_baeckerei},
         )
 
-    def erzeuge_tagesnachfrage(self) -> Tagesnachfrage:
+    def erzeuge_tagesnachfrage(self, baeckerei_menge: int | None = None) -> Tagesnachfrage:
         """Zieht die Baeckerei-Menge gleichverteilt aus der Regelwerk-Spanne
-        (kein Wuerfel mehr, keine 10er-Schritte)."""
-        baeckerei = float(
-            random.randint(
+        (kein Wuerfel mehr, keine 10er-Schritte).
+
+        baeckerei_menge: optional vorgegebener Zufallswert (fuer Tests/
+        Referenzdaten). Ohne Angabe wird wie bisher gezogen."""
+        if baeckerei_menge is None:
+            baeckerei_menge = random.randint(
                 int(self.regelwerk.baeckerei_menge_min),
                 int(self.regelwerk.baeckerei_menge_max),
             )
-        )
+        baeckerei = float(baeckerei_menge)
         return Tagesnachfrage(
             schulessen=self.regelwerk.schulessen_menge, baeckerei_bestellt=baeckerei
         )

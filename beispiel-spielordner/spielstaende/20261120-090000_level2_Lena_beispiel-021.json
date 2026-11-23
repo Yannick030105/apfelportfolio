@@ -1,0 +1,129 @@
+{
+  "format": "apfelportfolio-spielstand",
+  "formatVersion": 1,
+  "appVersion": "0.1.0",
+  "id": "beispiel-021",
+  "levelId": "level2",
+  "level": 2,
+  "spieler": "Lena",
+  "status": "laufend",
+  "gestartet_am": "2026-11-20T09:00:00.000Z",
+  "abgeschlossen_am": null,
+  "regelwerk": {
+    "importeur_limit": 300,
+    "wochenmarkt_limit_tag": 300,
+    "schulessen_menge": 90,
+    "schulessen_preis": 0.4,
+    "obstbauer_menge": 200,
+    "obstbauer_preis": 0.35,
+    "baeckerei_preis_aufschlag": 0.2,
+    "baeckerei_preis_min": 1,
+    "baeckerei_preis_max": 6,
+    "baeckerei_menge_min": 10,
+    "baeckerei_menge_max": 60
+  },
+  "tage": [
+    {
+      "tag_index": 0,
+      "tag": "Montag",
+      "wuerfe": {
+        "w1": 4,
+        "baeckerei_menge": 37,
+        "ereignis_index": 7
+      },
+      "zugestimmt": false,
+      "einkauf": {
+        "importeur_menge": 0,
+        "wochenmarkt_menge": 0,
+        "mosterei_menge": 0
+      },
+      "abrechnung": {
+        "tag": "Montag",
+        "markt": {
+          "zufallspreis": 4,
+          "preis_overrides": {
+            "preis_baeckerei": 0.6000000000000001,
+            "preis_mosterei": 0.5599999999999999
+          }
+        },
+        "einkauf": {
+          "importeur_menge": 0,
+          "wochenmarkt_menge": 0,
+          "mosterei_menge": 0
+        },
+        "nachfrage": {
+          "schulessen": 90,
+          "baeckerei_bestellt": 37
+        },
+        "an_schulessen_geliefert": 90,
+        "an_baeckerei_geliefert": 37,
+        "bilanzkreis_saldo": 73,
+        "einkaufskosten": 70,
+        "erloes": 58.2,
+        "ausgleichskosten": 0,
+        "an_mosterei_geliefert": 0,
+        "portfoliostand": 73,
+        "portfolioergebnis": -11.799999999999997,
+        "ereignis_titel": "Mosterei sucht Aepfel"
+      }
+    },
+    {
+      "tag_index": 1,
+      "tag": "Dienstag",
+      "wuerfe": {
+        "w1": 6,
+        "baeckerei_menge": 55,
+        "ereignis_index": 8
+      },
+      "zugestimmt": false,
+      "einkauf": {
+        "importeur_menge": 90,
+        "wochenmarkt_menge": 0,
+        "mosterei_menge": 0
+      },
+      "abrechnung": {
+        "tag": "Dienstag",
+        "markt": {
+          "zufallspreis": 6,
+          "preis_overrides": {
+            "preis_baeckerei": 0.8
+          }
+        },
+        "einkauf": {
+          "importeur_menge": 90,
+          "wochenmarkt_menge": 0,
+          "mosterei_menge": 0
+        },
+        "nachfrage": {
+          "schulessen": 67.5,
+          "baeckerei_bestellt": 55
+        },
+        "an_schulessen_geliefert": 67.5,
+        "an_baeckerei_geliefert": 55,
+        "bilanzkreis_saldo": 167.5,
+        "einkaufskosten": 124,
+        "erloes": 71,
+        "ausgleichskosten": 0,
+        "an_mosterei_geliefert": 0,
+        "portfoliostand": 240.5,
+        "portfolioergebnis": -53,
+        "ereignis_titel": "Projektwoche in der Schule"
+      }
+    }
+  ],
+  "zustand": {
+    "portfoliostand": 240.5,
+    "importeur_menge_woche": 90
+  },
+  "offener_tag": {
+    "tag_index": 2,
+    "wuerfe": {
+      "w1": 3,
+      "baeckerei_menge": 18,
+      "ereignis_index": 8
+    },
+    "zugestimmt": false
+  },
+  "log_zeile": null,
+  "migriert": null
+}

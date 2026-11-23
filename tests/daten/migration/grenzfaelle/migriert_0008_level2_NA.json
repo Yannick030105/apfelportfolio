@@ -1,0 +1,42 @@
+{
+  "format": "apfelportfolio-spielstand",
+  "formatVersion": 1,
+  "appVersion": "0.1.0",
+  "id": "migriert-0008",
+  "levelId": "level2",
+  "level": 2,
+  "spieler": "NA",
+  "status": "abgeschlossen",
+  "gestartet_am": null,
+  "abgeschlossen_am": null,
+  "regelwerk": null,
+  "tage": [],
+  "zustand": null,
+  "offener_tag": null,
+  "log_zeile": {
+    "spieler": "NA",
+    "datum": "2026-08-02",
+    "level": 2,
+    "endergebnis": -50.199999999999996,
+    "rest_long_short": null,
+    "anteil_spot": 0.0,
+    "anteil_grundlast": 1.0,
+    "prognosefehler": null,
+    "referenzergebnis_nichthandeln": 0.0
+  },
+  "migriert": {
+    "quelle": "spiellog_grenzfaelle.csv",
+    "zeile": 8,
+    "original": {
+      "spieler": "NA",
+      "datum": "2026-08-02",
+      "level": "2",
+      "endergebnis": "-50.199999999999996",
+      "rest_long_short": "",
+      "anteil_spot": "0.0",
+      "anteil_grundlast": "1.0",
+      "prognosefehler": "",
+      "referenzergebnis_nichthandeln": "0.0"
+    }
+  }
+}
