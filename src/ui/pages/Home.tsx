@@ -1,17 +1,22 @@
 /**
  * Homepage / Hauptmenue des Apfelportfolio-Spiels.
  *
- * Quelle (Python): src/apfelportfolio/ui/pages/home.py (layout="centered",
- * max. 780 px). Haendler-Karten fuer alle bekannten Spieler, "Neuen Haendler
- * gruenden", "Spiel starten" und die Vorschau des aktiven Spielers. Texte
- * woertlich; Kennzahlen aus src/dashboard/spielerKennzahlen.ts.
+ * Quelle (Python): src/apfelportfolio/ui/pages/home.py. Haendler-Karten fuer
+ * alle bekannten Spieler, "Neuen Haendler gruenden", "Spiel starten" und die
+ * Vorschau des aktiven Spielers. Kennzahlen aus src/dashboard/spielerKennzahlen.ts.
  *
- * Nachgebildetes Streamlit-Verhalten (MIGRATION_NOTES, Phase 6/4):
- *   - Log bei jedem Aufruf neu lesen (repo.alle_laden()).
- *   - st.columns(3) mit Karte i in Spalte i % 3 (schmal: Spalten untereinander).
- *   - st.text_input uebernimmt den Text erst bei Enter/Verlassen des Feldes;
- *     der Text bleibt nach "Gruenden" stehen.
- *   - Erfolgsmeldung + Ballons nach "Spiel starten" nur bis zur naechsten Eingabe.
+ * Seit der Ueberarbeitung der Startseite (MIGRATION_NOTES, Abweichung 38):
+ *   - Querformat, volle Bildschirmbreite: links die Haendler-Karten, rechts
+ *     "Neuen Haendler gruenden" und der Start-Bereich.
+ *   - Die ganze Karte ist klickbar und waehlt den Haendler aus (statt eigenem
+ *     "Weiter spielen"-Knopf). Doppelklick waehlt aus und startet sofort.
+ *   - Gruenden: Name wird beim Tippen geprueft (statt erst nach Enter/Verlassen),
+ *     der Knopf ist sichtbar und erst bei gueltigem Namen aktiv; Enter gruendet.
+ *     Danach wird das Feld geleert und der neue Haendler erscheint als Karte.
+ *
+ * Unveraendert: Log bei jedem Aufruf neu lesen (repo.alle_laden()), Pruefregeln
+ * und Meldungstexte, Erfolgsmeldung + Ballons nach "Spiel starten" nur bis zur
+ * naechsten Eingabe.
  */
 import { useEffect, useState } from "preact/hooks";
 import { spieler_kennzahlen, type SpielerKennzahlen } from "../../dashboard/spielerKennzahlen";
@@ -22,63 +27,273 @@ import { Knopf, Meldung } from "../components/streamlit";
 import { fix } from "../format";
 import { useSpielzustand } from "../zustandKontext";
 
-function Haendlerkarte({
-  name,
-  kennzahlen,
-  ist_aktiv,
-  waehlen,
-}: {
-  name: string;
-  kennzahlen: SpielerKennzahlen;
-  ist_aktiv: boolean;
-  waehlen: () => void;
-}) {
-  const best_text = kennzahlen.best !== null ? `${fix(kennzahlen.best, 2)} €` : "–";
-  const badge_icons = kennzahlen.badges
-    .filter((b) => b.freigeschaltet)
-    .map((b) => b.icon)
-    .join("");
-  return (
-    <div>
-      <div class={ist_aktiv ? "trader-card is-selected" : "trader-card"}>
-        <div class="trader-avatar">👤</div>
-        <div class="trader-name">
-          {name}
-          {ist_aktiv ? " 🎮" : ""}
-        </div>
-        <span class="level-chip">{kennzahlen.level_label}</span>
-        <div class="best-score">
-          <span class="label">Bestes Ergebnis</span>
-          {best_text}
-        </div>
-        <div class="trader-badges">{badge_icons}</div>
+const MAX_NAMENSLAENGE = 30; // wie validate_new_player_name
+
+/** Warme Avatarfarben passend zur Handelstisch-Optik (Hintergrund, Rand, Schrift). */
+const AVATAR_FARBEN: readonly [string, string, string][] = [
+  ["#fde3c8", "#e8a33d", "#8a4a12"],
+  ["#f9d6cf", "#c0392b", "#7a1f15"],
+  ["#dcefe2", "#3f8f5c", "#245536"],
+  ["#f6e7b8", "#c9a227", "#6b5208"],
+  ["#e8dcf3", "#8e6bb8", "#4b2e70"],
+  ["#d6e6f3", "#4f86b5", "#24496b"],
+];
+
+function avatarFarbe(name: string): [string, string, string] {
+  let h = 0;
+  for (const c of name) h = (h * 31 + (c.codePointAt(0) ?? 0)) >>> 0;
+  return AVATAR_FARBEN[h % AVATAR_FARBEN.length] as [string, string, string];
+}
+
+function initiale(name: string): string {
+  const erstes = Array.from(name.trim())[0];
+  return erstes !== undefined ? erstes.toLocaleUpperCase("de-DE") : "";
+}
+
+function Avatar({ name, gross = false }: { name: string; gross?: boolean }) {
+  const text = initiale(name);
+  if (text === "") {
+    return (
+      <div class={gross ? "haendler-avatar gross leer" : "haendler-avatar leer"} aria-hidden="true">
+        🌱
       </div>
-      <Knopf klasse="st-button home-knopf" onClick={waehlen} disabled={ist_aktiv}>
-        {ist_aktiv ? "🎮 Aktiver Händler" : "▶ Weiter spielen"}
-      </Knopf>
+    );
+  }
+  const [bg, rand, schrift] = avatarFarbe(name);
+  return (
+    <div
+      class={gross ? "haendler-avatar gross" : "haendler-avatar"}
+      style={{ background: bg, borderColor: rand, color: schrift }}
+      aria-hidden="true"
+    >
+      {text}
     </div>
   );
 }
 
-function Vorschau({ kennzahlen }: { kennzahlen: SpielerKennzahlen }) {
+function Haendlerkarte({
+  name,
+  kennzahlen,
+  ist_aktiv,
+  ist_neu,
+  waehlen,
+  starten,
+}: {
+  name: string;
+  kennzahlen: SpielerKennzahlen;
+  ist_aktiv: boolean;
+  ist_neu: boolean;
+  waehlen: () => void;
+  starten: () => void;
+}) {
+  const best_text = kennzahlen.best !== null ? `${fix(kennzahlen.best, 2)} €` : "–";
   const rang_text = kennzahlen.letzter_rang ? `#${kennzahlen.letzter_rang}` : "–";
-  const gewinn_text = kennzahlen.letzter_gewinn !== null ? `${fix(kennzahlen.letzter_gewinn, 2)} €` : "–";
   const wochen_text = kennzahlen.wochen ? String(kennzahlen.wochen) : "0";
+  const freigeschaltet = kennzahlen.badges.filter((b) => b.freigeschaltet).length;
   return (
-    <div class="preview-strip">
-      <div class="preview-chip">
-        <span class="num">{rang_text}</span>
-        <span class="cap">Letzter Rang</span>
+    <button
+      type="button"
+      class={ist_aktiv ? "haendler-karte is-selected" : "haendler-karte"}
+      aria-pressed={ist_aktiv}
+      aria-label={`${name} auswählen`}
+      title="Klicken zum Auswählen · Doppelklick startet sofort"
+      onClick={waehlen}
+      onDblClick={starten}
+    >
+      <span class="haendler-haken" aria-hidden="true">
+        ✓
+      </span>
+      <div class="haendler-kopf">
+        <Avatar name={name} />
+        <div class="haendler-titel">
+          <span class="haendler-name">{name}</span>
+          <span class="haendler-chips">
+            <span class="level-chip">{kennzahlen.level_label}</span>
+            {ist_neu ? <span class="neu-chip">Neu</span> : null}
+          </span>
+        </div>
       </div>
-      <div class="preview-chip">
-        <span class="num">{gewinn_text}</span>
-        <span class="cap">Letzter Gewinn</span>
+
+      <div class="haendler-best">
+        <span class="label">Bestes Ergebnis</span>
+        <span class="wert">{best_text}</span>
       </div>
-      <div class="preview-chip">
-        <span class="num">{wochen_text}</span>
-        <span class="cap">Gespielte Wochen</span>
+
+      <div class="haendler-werte">
+        <div>
+          <span class="num">{wochen_text}</span>
+          <span class="cap">Wochen</span>
+        </div>
+        <div>
+          <span class="num">{rang_text}</span>
+          <span class="cap">Letzter Rang</span>
+        </div>
+        <div>
+          <span class="num">
+            {freigeschaltet}/{kennzahlen.badges.length}
+          </span>
+          <span class="cap">Abzeichen</span>
+        </div>
       </div>
-    </div>
+
+      {kennzahlen.badges.length > 0 ? (
+        <div class="haendler-badges">
+          {kennzahlen.badges.map((b) => (
+            <span
+              key={b.titel}
+              class={b.freigeschaltet ? "haendler-badge an" : "haendler-badge aus"}
+              title={`${b.titel}${b.freigeschaltet ? "" : " (noch gesperrt)"} – ${b.beschreibung}`}
+            >
+              {b.icon}
+            </span>
+          ))}
+        </div>
+      ) : (
+        <div class="haendler-badges leer">Noch keine Woche gespielt</div>
+      )}
+
+      <span class="haendler-aktion" aria-hidden="true">
+        {ist_aktiv ? "Ausgewählt" : "Auswählen"}
+      </span>
+    </button>
+  );
+}
+
+/** Neuer Haendler: Live-Vorschau des Avatars, Pruefung beim Tippen, Gruenden per Enter oder Knopf. */
+function NeuerHaendler({
+  vorhandene,
+  gruenden,
+  pruefen,
+}: {
+  vorhandene: number;
+  gruenden: (name: string) => void;
+  pruefen: (name: string) => [boolean, string];
+}) {
+  const [entwurf, setEntwurf] = useState("");
+  const leer = pythonStrip(entwurf) === "";
+  const [gueltig, fehler] = leer ? [false, ""] : pruefen(entwurf);
+  const laenge = Array.from(pythonStrip(entwurf)).length;
+
+  const absenden = () => {
+    if (!gueltig) return;
+    gruenden(pythonStrip(entwurf));
+    setEntwurf("");
+  };
+
+  return (
+    <section class="neu-panel" aria-labelledby="neu-titel">
+      <div class="neu-kopf">
+        <Avatar name={entwurf} gross />
+        <div>
+          <p class="neu-titel" id="neu-titel">
+            ➕ Neuen Händler gründen
+          </p>
+          <p class="neu-text">
+            {vorhandene > 0 ? "Neu dabei? Gib deinem Obststand einen Namen." : "Gründe deinen ersten Obststand – gib ihm einen Namen."}
+          </p>
+        </div>
+      </div>
+
+      <ol class="neu-schritte" aria-label="So geht's">
+        <li class={leer ? "aktiv" : "erledigt"}>
+          <span class="nr">1</span> Name eingeben
+        </li>
+        <li class={gueltig ? "aktiv" : ""}>
+          <span class="nr">2</span> Gründen
+        </li>
+        <li>
+          <span class="nr">3</span> Spiel starten
+        </li>
+      </ol>
+
+      <label class="neu-label" for="neu-name">
+        Name des neuen Händlers
+      </label>
+      <div class={!leer && !gueltig ? "neu-feld fehler" : gueltig ? "neu-feld ok" : "neu-feld"}>
+        <input
+          id="neu-name"
+          type="text"
+          autocomplete="off"
+          placeholder="z. B. Anna"
+          value={entwurf}
+          aria-invalid={!leer && !gueltig}
+          aria-describedby="neu-hinweis"
+          onInput={(e) => setEntwurf((e.currentTarget as HTMLInputElement).value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") absenden();
+          }}
+        />
+        <span class={laenge > MAX_NAMENSLAENGE ? "neu-zaehler zu-lang" : "neu-zaehler"}>
+          {laenge}/{MAX_NAMENSLAENGE}
+        </span>
+      </div>
+      <p id="neu-hinweis" class={!leer && !gueltig ? "neu-hinweis fehler" : gueltig ? "neu-hinweis ok" : "neu-hinweis"} aria-live="polite">
+        {leer ? "Höchstens 30 Zeichen. Der Name muss neu sein." : gueltig ? "✓ Der Name ist frei." : `⚠️ ${fehler}`}
+      </p>
+
+      <Knopf klasse="neu-knopf" onClick={absenden} disabled={!gueltig}>
+        ✅ Gründen und loslegen
+      </Knopf>
+    </section>
+  );
+}
+
+function StartBereich({
+  spieler,
+  kennzahlen,
+  gestartet,
+  starten,
+}: {
+  spieler: string | null;
+  kennzahlen: SpielerKennzahlen | null;
+  gestartet: number;
+  starten: () => void;
+}) {
+  const rang_text = kennzahlen?.letzter_rang ? `#${kennzahlen.letzter_rang}` : "–";
+  const gewinn_text = kennzahlen && kennzahlen.letzter_gewinn !== null ? `${fix(kennzahlen.letzter_gewinn, 2)} €` : "–";
+  const wochen_text = kennzahlen?.wochen ? String(kennzahlen.wochen) : "0";
+  return (
+    <section class="start-panel" aria-label="Spiel starten">
+      {spieler !== null ? (
+        <div class="start-wer">
+          <Avatar name={spieler} />
+          <div>
+            <span class="start-wer-cap">Du spielst als</span>
+            <span class="start-wer-name">{spieler}</span>
+          </div>
+        </div>
+      ) : (
+        <p class="start-leer">👈 Wähle links deine Händlerkarte aus oder gründe oben einen neuen Händler.</p>
+      )}
+
+      {spieler !== null ? (
+        <div class="preview-strip">
+          <div class="preview-chip">
+            <span class="num">{rang_text}</span>
+            <span class="cap">Letzter Rang</span>
+          </div>
+          <div class="preview-chip">
+            <span class="num">{gewinn_text}</span>
+            <span class="cap">Letzter Gewinn</span>
+          </div>
+          <div class="preview-chip">
+            <span class="num">{wochen_text}</span>
+            <span class="cap">Gespielte Wochen</span>
+          </div>
+        </div>
+      ) : null}
+
+      <Knopf klasse="start-knopf" onClick={starten} disabled={spieler === null}>
+        ▶ Spiel starten
+      </Knopf>
+
+      {gestartet > 0 && spieler !== null ? (
+        <>
+          <Meldung art="erfolg">Los geht's, {spieler}! Wähle oben dein Level, um zu starten.</Meldung>
+          <Ballons key={gestartet} />
+        </>
+      ) : null}
+    </section>
   );
 }
 
@@ -88,97 +303,81 @@ export function Home() {
     void z.lade_spielstaende(); // wie repo.alle_laden() bei jedem Aufruf
   }, [z]);
 
-  // st.text_input: Entwurf beim Tippen, uebernommener Wert erst bei Enter/Verlassen
-  const [entwurf, setEntwurf] = useState("");
-  const [neuer_name, setNeuerName] = useState("");
   // Ergebnis von st.button("▶ Spiel starten") in diesem Durchlauf
   const [gestartet, setGestartet] = useState(0);
 
   const df = z.log_zeilen();
   const vorhandene_spieler = get_existing_players(df);
+  const aktueller_spieler = z.spieler;
 
   const waehle = (name: string) => {
     setGestartet(0);
     z.waehle_spieler(name);
   };
-  const uebernimm = () => {
-    if (entwurf !== neuer_name) {
-      setGestartet(0);
-      setNeuerName(entwurf);
-    }
-  };
-  const [gueltig, fehler] = neuer_name !== "" ? validate_new_player_name(neuer_name, df) : [false, ""];
-  const aktueller_spieler = z.spieler;
+  const starte = () => setGestartet((n) => n + 1);
 
-  // Karte i in Spalte i % 3 (wie st.columns(3) mit spalten[index % 3])
-  const spalten: string[][] = [[], [], []];
-  vorhandene_spieler.forEach((name, i) => spalten[i % 3]?.push(name));
+  // Frisch gegruendeter Haendler ohne gespielte Woche: als eigene Karte vorne zeigen.
+  const neuer_aktiver = aktueller_spieler !== null && !vorhandene_spieler.includes(aktueller_spieler) ? aktueller_spieler : null;
+  const karten = neuer_aktiver !== null ? [neuer_aktiver, ...vorhandene_spieler] : vorhandene_spieler;
 
   return (
     <div class="seite-home">
       <div class="hero-wrap">
         <div class="hero-seal">🍎</div>
-        <p class="hero-title">Apfelportfolio</p>
-        <p class="hero-tagline">Werde zum erfolgreichsten Obsthändler.</p>
+        <div>
+          <p class="hero-title">Apfelportfolio</p>
+          <p class="hero-tagline">Werde zum erfolgreichsten Obsthändler.</p>
+        </div>
       </div>
 
-      <p class="menu-heading">Spiel auswählen</p>
-      {vorhandene_spieler.length > 0 ? (
-        <div class="home-spalten">
-          {spalten.map((namen, s) => (
-            <div class="home-spalte" key={s}>
-              {namen.map((name) => (
+      <div class="home-raster">
+        <section class="home-karten" aria-labelledby="home-auswahl">
+          <div class="home-karten-kopf">
+            <p class="menu-heading" id="home-auswahl">
+              Spiel auswählen
+            </p>
+            {karten.length > 0 ? <span class="home-hinweis">Klicke auf deine Karte · Doppelklick startet sofort</span> : null}
+          </div>
+          {karten.length > 0 ? (
+            <div class="haendler-raster">
+              {karten.map((name) => (
                 <Haendlerkarte
                   key={name}
                   name={name}
                   kennzahlen={spieler_kennzahlen(df, name)}
                   ist_aktiv={name === aktueller_spieler}
+                  ist_neu={name === neuer_aktiver}
                   waehlen={() => waehle(name)}
+                  starten={() => {
+                    waehle(name);
+                    starte();
+                  }}
                 />
               ))}
             </div>
-          ))}
-        </div>
-      ) : null}
+          ) : (
+            <div class="home-leer">
+              <span class="icon">🧺</span>
+              <p>Noch keine Händler im Spielordner.</p>
+              <p class="klein">Gründe rechts deinen ersten Obststand.</p>
+            </div>
+          )}
+        </section>
 
-      <p class="menu-heading">Oder neu beginnen</p>
-      <div class="add-card">➕ Neuen Händler gründen</div>
-      <input
-        class="st-textfeld"
-        type="text"
-        aria-label="Name des neuen Händlers"
-        placeholder="z. B. Anna"
-        value={entwurf}
-        onInput={(e) => setEntwurf((e.currentTarget as HTMLInputElement).value)}
-        onBlur={uebernimm}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") uebernimm();
-        }}
-      />
-      {neuer_name !== "" ? (
-        gueltig ? (
-          <Knopf klasse="st-button home-knopf" onClick={() => waehle(pythonStrip(neuer_name))}>
-            ✅ Gründen und loslegen
-          </Knopf>
-        ) : (
-          <Meldung art="warnung">{fehler}</Meldung>
-        )
-      ) : null}
-
-      <div class="start-zone">
-        <Knopf klasse="start-knopf" onClick={() => setGestartet((n) => n + 1)} disabled={aktueller_spieler === null}>
-          ▶ Spiel starten
-        </Knopf>
+        <aside class="home-seite">
+          <NeuerHaendler
+            vorhandene={vorhandene_spieler.length}
+            pruefen={(name) => validate_new_player_name(name, df)}
+            gruenden={(name) => waehle(name)}
+          />
+          <StartBereich
+            spieler={aktueller_spieler}
+            kennzahlen={aktueller_spieler !== null ? spieler_kennzahlen(df, aktueller_spieler) : null}
+            gestartet={gestartet}
+            starten={starte}
+          />
+        </aside>
       </div>
-
-      {gestartet > 0 && aktueller_spieler !== null ? (
-        <>
-          <Meldung art="erfolg">Los geht's, {aktueller_spieler}! Wähle oben dein Level, um zu starten.</Meldung>
-          <Ballons key={gestartet} />
-        </>
-      ) : null}
-
-      {aktueller_spieler !== null ? <Vorschau kennzahlen={spieler_kennzahlen(df, aktueller_spieler)} /> : null}
     </div>
   );
 }

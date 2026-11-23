@@ -11,6 +11,11 @@
 - Startseite: „Wähle oben dein Level, um zu starten.“
 - Texte zum Importeur nennen die tägliche Obergrenze (Regelwerk-Seite, Tutorial).
 - Tutorial: Hinweis auf Schritt 1, das Spiel in Chrome oder Edge zu öffnen.
+- Alle Seiten nutzen die volle Bildschirmbreite (Querformat, 24"/27"); Schrift wächst auf
+  großen Bildschirmen mit. Ranking mit Podium und Liste nebeneinander, Regelwerk in Spalten.
+- Startseite neu gestaltet: Händler-Karten sind selbst klickbar (Doppelklick startet sofort),
+  „Weiter spielen“ entfällt; neues Panel „Neuen Händler gründen“ mit Namensprüfung beim
+  Tippen, Avatar-Vorschau und Schrittanzeige; Start-Bereich mit dem ausgewählten Händler.
 
 ### Hinzugefügt
 - Phase 0: Referenzdaten aus dem Python-Spiel (`tests/referenz/`) und Generator

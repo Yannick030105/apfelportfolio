@@ -637,6 +637,24 @@ Bis Phase 6 kein abweichendes Spielverhalten; seit 3m die vom Projektteam entsch
     Spielordner. Für Firefox/Safari gibt es kein automatisches Herunterladen – beide Browser
     werden im Betrieb normalerweise nicht verwendet. Neuer Text außerhalb der Schritte, die
     Schritte selbst bleiben unverändert.
+38. **Startseite überarbeitet und volle Bildschirmbreite (Entscheidung des Projektteams):**
+    Gespielt wird im Querformat auf 24"- bzw. 27"-Bildschirmen. Alle Seiten nutzen die ganze
+    Breite (statt `layout="centered"`, max. 720–1280 px); die Grundschrift wächst mit der
+    Fensterbreite (1920 px: 16 px, 2560 px: ca. 19 px). Ranking: Podium und Liste nebeneinander;
+    Regelwerk: Panels in Spalten; Tutorial: breitere Karte, größere Schrift.
+    Startseite: links die Händler-Karten, rechts „Neuen Händler gründen“ und der Start-Bereich.
+    - Die ganze Karte ist klickbar und wählt den Händler aus; der Knopf „▶ Weiter spielen“
+      entfällt. Doppelklick wählt aus und löst „▶ Spiel starten“ aus.
+    - Karten zeigen Initialen-Avatar, Level, bestes Ergebnis, Wochen, letzten Rang und alle
+      Abzeichen (gesperrte ausgegraut). Kennzahlen unverändert aus `spieler_kennzahlen`.
+    - Gründen: Der Name wird beim Tippen geprüft (Original: erst nach Enter/Verlassen des
+      Feldes), Prüfregeln und Meldungstexte unverändert. Der Knopf „✅ Gründen und loslegen“
+      ist immer sichtbar und erst bei gültigem Namen aktiv; Enter gründet. Danach wird das
+      Feld geleert.
+    - Ein frisch gegründeter Händler ohne gespielte Woche erscheint als Karte („Neu“), solange
+      er ausgewählt ist. Wie im Original kennt das Spiel ihn erst nach der ersten gespeicherten
+      Woche dauerhaft.
+    - Ohne Händler im Spielordner erscheint ein Hinweis statt einer leeren Fläche.
 
 ---
 
