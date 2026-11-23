@@ -185,12 +185,12 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 43,
-        "bilanzkreis_saldo": -3,
+        "bilanzkreis_saldo": 57,
         "einkaufskosten": 95,
         "erloes": 85.80000000000001,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 60,
-        "portfoliostand": 331,
+        "portfoliostand": 391,
         "portfolioergebnis": -9.199999999999989,
         "ereignis_titel": ""
       }
@@ -228,13 +228,13 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 47,
-        "bilanzkreis_saldo": -331,
+        "bilanzkreis_saldo": -391,
         "einkaufskosten": 78,
-        "erloes": 119.54000000000002,
+        "erloes": 129.14000000000001,
         "ausgleichskosten": 0,
-        "an_mosterei_geliefert": 434,
+        "an_mosterei_geliefert": 494,
         "portfoliostand": 0,
-        "portfolioergebnis": 41.54000000000002,
+        "portfolioergebnis": 51.140000000000015,
         "ereignis_titel": ""
       }
     }
@@ -248,7 +248,7 @@
     "spieler": "Jonas",
     "datum": "2026-11-16",
     "level": 1,
-    "endergebnis": -54.85999999999997,
+    "endergebnis": -45.25999999999998,
     "rest_long_short": 0,
     "anteil_spot": 0,
     "anteil_grundlast": 1,

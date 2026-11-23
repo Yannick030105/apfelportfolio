@@ -56,12 +56,12 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 46,
-        "bilanzkreis_saldo": 64,
+        "bilanzkreis_saldo": 94,
         "einkaufskosten": 82,
         "erloes": 61.60000000000001,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 30,
-        "portfoliostand": 64,
+        "portfoliostand": 94,
         "portfolioergebnis": -20.39999999999999,
         "ereignis_titel": ""
       }
@@ -99,12 +99,12 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 12,
-        "bilanzkreis_saldo": 158,
+        "bilanzkreis_saldo": 178,
         "einkaufskosten": 90,
         "erloes": 45.599999999999994,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 20,
-        "portfoliostand": 222,
+        "portfoliostand": 272,
         "portfolioergebnis": -44.400000000000006,
         "ereignis_titel": ""
       }
@@ -142,12 +142,12 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 11,
-        "bilanzkreis_saldo": 139,
+        "bilanzkreis_saldo": 149,
         "einkaufskosten": 88,
         "erloes": 44.7,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 10,
-        "portfoliostand": 361,
+        "portfoliostand": 421,
         "portfolioergebnis": -43.3,
         "ereignis_titel": ""
       }
@@ -190,7 +190,7 @@
         "erloes": 40.8,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 0,
-        "portfoliostand": 459,
+        "portfoliostand": 519,
         "portfolioergebnis": -29.200000000000003,
         "ereignis_titel": ""
       }
@@ -228,13 +228,13 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 52,
-        "bilanzkreis_saldo": -459,
+        "bilanzkreis_saldo": -519,
         "einkaufskosten": 70,
-        "erloes": 134.32000000000002,
+        "erloes": 143.92000000000002,
         "ausgleichskosten": 0,
-        "an_mosterei_geliefert": 517,
+        "an_mosterei_geliefert": 577,
         "portfoliostand": 0,
-        "portfolioergebnis": 64.32000000000002,
+        "portfolioergebnis": 73.92000000000002,
         "ereignis_titel": ""
       }
     }
@@ -248,7 +248,7 @@
     "spieler": "Jonas",
     "datum": "2026-11-18",
     "level": 1,
-    "endergebnis": -72.97999999999998,
+    "endergebnis": -63.37999999999998,
     "rest_long_short": 0,
     "anteil_spot": 0,
     "anteil_grundlast": 1,

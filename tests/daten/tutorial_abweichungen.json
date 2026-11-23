@@ -1,0 +1,12 @@
+{
+ "hinweis": "Vom Projektteam genehmigte Textänderungen gegenüber dem Original (tests/daten/tutorial_schritte.json bleibt der unveränderte Abzug). Wird von tools/texte_exportieren.py beim Schreiben von tutorial.md und von tests/tutorial.test.ts angewendet; siehe MIGRATION_NOTES.",
+ "aenderungen": [
+  {
+   "titel": "Der Importeur – Zukauf mit Limit",
+   "feld": "erklaerung",
+   "alt": "Reicht dein Bestand nicht aus, kannst du beim Importeur zukaufen. Das geht aber nur von Montag bis Mittwoch, und es gibt eine Obergrenze für die gesamte Woche. Der Preis schwankt täglich.",
+   "neu": "Reicht dein Bestand nicht aus, kannst du beim Importeur zukaufen. Das geht aber nur von Montag bis Mittwoch, und es gibt eine tägliche Obergrenze. Der Preis schwankt täglich.",
+   "grund": "Das Importeur-Limit gilt pro Tag (so rechnet auch das Original); der alte Text sprach fälschlich von einer Wochengrenze."
+  }
+ ]
+}

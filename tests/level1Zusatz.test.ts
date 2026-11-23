@@ -34,7 +34,10 @@ describe("Level 1 – Fehlermeldungen mit halbzahligen Werten (Soll aus Python)"
   });
 
   it("Mosterei exakt am halbzahligen Bestand ist erlaubt (Python: Saldo -122.5)", () => {
-    const level = new Level1Grundlast(new Regelwerk({ obstbauer_menge: 200 }));
+    // Original-Regel: Verkauf an die Mosterei wird Mo-Do doppelt abgezogen
+    const level = new Level1Grundlast(new Regelwerk({ obstbauer_menge: 200 }), {
+      original_mosterei_doppelabzug: true,
+    });
     const a = level.rechne_tag_ab(
       "Montag",
       0,
@@ -44,6 +47,20 @@ describe("Level 1 – Fehlermeldungen mit halbzahligen Werten (Soll aus Python)"
     );
     expect(a.bilanzkreis_saldo).toBe(-122.5);
     expect(level.portfoliostand).toBe(-122.5);
+  });
+
+  it("korrigierte Regel: Mosterei-Verkauf wird nur einmal abgezogen (Saldo 0)", () => {
+    const level = new Level1Grundlast(new Regelwerk({ obstbauer_menge: 200 }));
+    const a = level.rechne_tag_ab(
+      "Montag",
+      0,
+      level.erzeuge_tagesmarkt(3),
+      new Tagesnachfrage({ schulessen: 67.5, baeckerei_bestellt: 10 }),
+      new Tageseinkauf({ mosterei_menge: 122.5 }),
+    );
+    expect(a.an_mosterei_geliefert).toBe(122.5);
+    expect(a.bilanzkreis_saldo).toBe(0);
+    expect(level.portfoliostand).toBe(0);
   });
 
   it("Wochenmarkt-Meldung mit nicht ganzzahligem Limit (Python: repr beider Werte)", () => {

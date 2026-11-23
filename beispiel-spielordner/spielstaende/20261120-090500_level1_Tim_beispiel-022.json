@@ -56,12 +56,12 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 55,
-        "bilanzkreis_saldo": 35,
+        "bilanzkreis_saldo": 45,
         "einkaufskosten": 70,
         "erloes": 54.1,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 10,
-        "portfoliostand": 35,
+        "portfoliostand": 45,
         "portfolioergebnis": -15.899999999999999,
         "ereignis_titel": ""
       }
@@ -99,12 +99,12 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 46,
-        "bilanzkreis_saldo": 44,
+        "bilanzkreis_saldo": 54,
         "einkaufskosten": 70,
         "erloes": 62.2,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 10,
-        "portfoliostand": 79,
+        "portfoliostand": 99,
         "portfolioergebnis": -7.799999999999997,
         "ereignis_titel": ""
       }
@@ -147,7 +147,7 @@
         "erloes": 51.6,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 0,
-        "portfoliostand": 137,
+        "portfoliostand": 157,
         "portfolioergebnis": -18.4,
         "ereignis_titel": ""
       }
@@ -185,19 +185,19 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 59,
-        "bilanzkreis_saldo": 91,
+        "bilanzkreis_saldo": 121,
         "einkaufskosten": 130,
         "erloes": 91.69999999999999,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 30,
-        "portfoliostand": 228,
+        "portfoliostand": 278,
         "portfolioergebnis": -38.30000000000001,
         "ereignis_titel": ""
       }
     }
   ],
   "zustand": {
-    "portfoliostand": 228,
+    "portfoliostand": 278,
     "importeur_menge_woche": 0
   },
   "offener_tag": {

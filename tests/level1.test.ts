@@ -19,6 +19,9 @@ import {
   type ReferenzDokument,
 } from "./hilfen/referenz";
 
+/** Referenzdaten stammen aus dem Original: Mosterei-Verkauf Mo-Do wie dort doppelt abziehen. */
+const ORIGINAL = { original_mosterei_doppelabzug: true } as const;
+
 const dokumente = import.meta.glob<ReferenzDokument>("./referenz/level1_*.json", {
   eager: true,
   import: "default",
@@ -26,7 +29,7 @@ const dokumente = import.meta.glob<ReferenzDokument>("./referenz/level1_*.json",
 
 /** Spielt einen Referenzfall nach; liefert die Anzahl gepruefter Schritte. */
 function spieleFall(fall: FallRef): number {
-  const level = new Level1Grundlast(new Regelwerk(fall.regelwerk));
+  const level = new Level1Grundlast(new Regelwerk(fall.regelwerk), ORIGINAL);
   const woche = new Wochenverlauf({ level: level.nummer });
   let geprueft = 0;
 

@@ -438,7 +438,7 @@ export class Wochenverlauf {
 }
 
 export interface RegelwerkFelder {
-  importeur_limit: number; // max. Aepfel Mo-Mi
+  importeur_limit: number; // max. Aepfel pro Tag (nur Mo-Mi bestellbar; keine Wochengrenze)
   wochenmarkt_limit_tag: number; // max. Aepfel/Tag
   schulessen_menge: number; // fixe Tagesabnahme Schulessen
   schulessen_preis: number; // EUR/Stueck Schulessen
@@ -497,28 +497,31 @@ export class Regelwerk implements RegelwerkFelder {
 
   validiert(): Regelwerk {
     if (this.importeur_limit < 0) {
-      throw new ValueError("Importeur-Obergrenze darf nicht negativ sein.");
+      throw new ValueError("Importeur-Obergrenze darf nicht negativ sein.", "Die Obergrenze beim Importeur darf nicht negativ sein.");
     }
     if (this.schulessen_menge < 0) {
-      throw new ValueError("Schulessen-Menge darf nicht negativ sein.");
+      throw new ValueError("Schulessen-Menge darf nicht negativ sein.", "Die Abnahmemenge des Schulessens darf nicht negativ sein.");
     }
     if (this.schulessen_preis < 0) {
-      throw new ValueError("Schulessen-Preis darf nicht negativ sein.");
+      throw new ValueError("Schulessen-Preis darf nicht negativ sein.", "Der Preis des Schulessens darf nicht negativ sein.");
     }
     if (this.obstbauer_menge < 0) {
-      throw new ValueError("Obstbauer-Menge darf nicht negativ sein.");
+      throw new ValueError("Obstbauer-Menge darf nicht negativ sein.", "Die Liefermenge des Obstbauern darf nicht negativ sein.");
     }
     if (this.obstbauer_preis < 0) {
-      throw new ValueError("Obstbauer-Preis darf nicht negativ sein.");
+      throw new ValueError("Obstbauer-Preis darf nicht negativ sein.", "Der Preis des Obstbauern darf nicht negativ sein.");
     }
     if (this.baeckerei_preis_aufschlag < 0) {
-      throw new ValueError("Baeckerei-Preisaufschlag darf nicht negativ sein.");
+      throw new ValueError("Baeckerei-Preisaufschlag darf nicht negativ sein.", "Der Preisaufschlag der Bäckerei darf nicht negativ sein.");
     }
     if (this.baeckerei_preis_min > this.baeckerei_preis_max) {
-      throw new ValueError("W1-Minimum darf nicht groesser als W1-Maximum sein.");
+      throw new ValueError("W1-Minimum darf nicht groesser als W1-Maximum sein.", "Beim Preiswürfel W1 darf das Minimum nicht größer sein als das Maximum.");
     }
     if (this.baeckerei_menge_min > this.baeckerei_menge_max) {
-      throw new ValueError("Baeckerei-Mengenminimum darf nicht groesser als das Maximum sein.");
+      throw new ValueError(
+        "Baeckerei-Mengenminimum darf nicht groesser als das Maximum sein.",
+        "Bei der Nachfragemenge der Bäckerei darf das Minimum nicht größer sein als das Maximum.",
+      );
     }
     return this;
   }

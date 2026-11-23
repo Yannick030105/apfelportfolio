@@ -100,12 +100,12 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 25,
-        "bilanzkreis_saldo": 125,
+        "bilanzkreis_saldo": 145,
         "einkaufskosten": 126,
         "erloes": 71.67999999999999,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 20,
-        "portfoliostand": 211,
+        "portfoliostand": 231,
         "portfolioergebnis": -54.32000000000001,
         "ereignis_titel": "Mosterei sucht Aepfel"
       }
@@ -149,7 +149,7 @@
         "erloes": 42.6,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 0,
-        "portfoliostand": 320,
+        "portfoliostand": 340,
         "portfolioergebnis": -31.4,
         "ereignis_titel": "Mosterei sucht Aepfel"
       }
@@ -166,7 +166,7 @@
       "einkauf": {
         "importeur_menge": 0,
         "wochenmarkt_menge": 60,
-        "mosterei_menge": 140
+        "mosterei_menge": 150
       },
       "abrechnung": {
         "tag": "Donnerstag",
@@ -179,7 +179,7 @@
         "einkauf": {
           "importeur_menge": 0,
           "wochenmarkt_menge": 60,
-          "mosterei_menge": 140
+          "mosterei_menge": 150
         },
         "nachfrage": {
           "schulessen": 90,
@@ -187,13 +187,13 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 42,
-        "bilanzkreis_saldo": -152,
+        "bilanzkreis_saldo": -22,
         "einkaufskosten": 94,
-        "erloes": 101.80000000000001,
+        "erloes": 105,
         "ausgleichskosten": 0,
-        "an_mosterei_geliefert": 140,
-        "portfoliostand": 168,
-        "portfolioergebnis": 7.800000000000011,
+        "an_mosterei_geliefert": 150,
+        "portfoliostand": 318,
+        "portfolioergebnis": 11,
         "ereignis_titel": "Ruhiger Tag"
       }
     },
@@ -230,13 +230,13 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 13,
-        "bilanzkreis_saldo": -168,
+        "bilanzkreis_saldo": -318,
         "einkaufskosten": 70,
-        "erloes": 149.8,
+        "erloes": 209.8,
         "ausgleichskosten": 0,
-        "an_mosterei_geliefert": 265,
+        "an_mosterei_geliefert": 415,
         "portfoliostand": 0,
-        "portfolioergebnis": 79.80000000000001,
+        "portfolioergebnis": 139.8,
         "ereignis_titel": "Streik beim Importeur"
       }
     }
@@ -250,7 +250,7 @@
     "spieler": "Sophie",
     "datum": "2026-11-18",
     "level": 2,
-    "endergebnis": -22.519999999999982,
+    "endergebnis": 40.68000000000001,
     "rest_long_short": 0,
     "anteil_spot": 0,
     "anteil_grundlast": 1,

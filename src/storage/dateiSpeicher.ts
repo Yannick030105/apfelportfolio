@@ -119,7 +119,7 @@ export function dateiSpeicher(
         try {
           daten = JSON.parse(text);
         } catch (e) {
-          fehlerhaft.push({ datei: datei.name, grund: `kein gueltiges JSON (${(e as Error).message}).` });
+          fehlerhaft.push({ datei: datei.name, grund: `kein gültiges JSON (${(e as Error).message}).` });
           continue;
         }
         if (typeof daten === "object" && daten !== null && (daten as { format?: unknown }).format === SAMMLUNG_FORMAT) {
@@ -165,7 +165,7 @@ function pruefeSammlung(daten: unknown, quelle: string): { spielstaende: Spielst
   const o = daten as Record<string, unknown>;
   const version = o.formatVersion;
   if (typeof version !== "number" || !Number.isInteger(version) || version < 1) {
-    throw new Error(`${quelle}: "formatVersion" fehlt oder ist ungueltig.`);
+    throw new Error(`${quelle}: "formatVersion" fehlt oder ist ungültig.`);
   }
   if (version > SAMMLUNG_FORMAT_VERSION) {
     throw new Error(`${quelle}: stammt aus einer neueren App-Version (Format ${version}). Bitte die App aktualisieren.`);

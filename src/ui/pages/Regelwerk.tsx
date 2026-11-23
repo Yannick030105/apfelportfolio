@@ -14,7 +14,7 @@
  *     Wert haengt am key - nach "Standardwerte wiederherstellen" bleibt die alte
  *     Eingabe stehen; erst ein Seitenwechsel setzt sie zurueck.
  *   - Eingabe ausserhalb der Grenzen: rot markiert, nicht uebernommen.
- *   - Speichern: validiert(); bei Fehler ValueError-Kasten, nichts gespeichert;
+ *   - Speichern: validiert(); bei Fehler Fehlerkasten mit freundlichem Hinweis, nichts gespeichert;
  *     sonst Erfolgsmeldung bis zur naechsten Eingabe.
  *   - "↺ Standardwerte wiederherstellen": Meldung erscheint nie (st.rerun()
  *     direkt danach verwirft sie).
@@ -55,7 +55,7 @@ interface FeldDef {
 
 /** Felder exakt wie in 6_regelwerk.py */
 const F: Record<string, FeldDef> = {
-  importeur: { feld: "importeur_limit", beschriftung: "Obergrenze Importeur (Mo–Mi, gesamt)", min: 0, max: 1000, step: 10, stellen: null },
+  importeur: { feld: "importeur_limit", beschriftung: "Obergrenze Importeur (pro Tag, Mo–Mi)", min: 0, max: 1000, step: 10, stellen: null },
   wochenmarkt: { feld: "wochenmarkt_limit_tag", beschriftung: "Obergrenze Wochenmarkt", min: 0, max: 1000, step: 10, stellen: null },
   schulessenMenge: { feld: "schulessen_menge", beschriftung: "Schulessen-Abnahmemenge (Äpfel/Tag)", min: 0, max: 500, step: 10, stellen: null, alsGanzzahl: true },
   schulessenPreis: { feld: "schulessen_preis", beschriftung: "Schulessen-Preis (€/Stück)", min: 0.0, max: 5.0, step: 0.05, stellen: 2 },
@@ -130,7 +130,7 @@ export function Regelwerk() {
       const gespeichert = await z.uebernimm_regelwerk(new RegelwerkModell({ ...werte }));
       setMeldung({ art: "erfolg", text: "Regelwerk gespeichert und für zukünftige Sitzungen übernommen.", ohneOrdner: !gespeichert });
     } catch (e) {
-      setMeldung({ art: "fehler", text: e instanceof ValueError ? `ValueError: ${e.message}` : `Fehler beim Speichern: ${(e as Error).message}` });
+      setMeldung({ art: "fehler", text: e instanceof ValueError ? `Das Regelwerk wurde nicht gespeichert. ${e.hinweis}` : `Das Regelwerk konnte nicht gespeichert werden: ${(e as Error).message}` });
     }
   };
   const zuruecksetzen = async () => {
@@ -138,7 +138,7 @@ export function Regelwerk() {
       await z.uebernimm_regelwerk(new RegelwerkModell().validiert());
       setMeldung(null); // st.success(...) + st.rerun(): die Meldung ist nie zu sehen
     } catch (e) {
-      setMeldung({ art: "fehler", text: `Fehler beim Speichern: ${(e as Error).message}` });
+      setMeldung({ art: "fehler", text: `Das Regelwerk konnte nicht gespeichert werden: ${(e as Error).message}` });
     }
   };
 
@@ -150,7 +150,7 @@ export function Regelwerk() {
         <p>Stelle die Spielwelt nach deinen Wünschen ein.</p>
       </div>
 
-      <Panel icon="🚢" titel="Importeur" beschreibung="Zukauf von Montag bis Mittwoch, mit begrenzter Gesamtmenge.">
+      <Panel icon="🚢" titel="Importeur" beschreibung="Zukauf von Montag bis Mittwoch, mit täglicher Obergrenze.">
         {feld(F.importeur as FeldDef)}
       </Panel>
       <Panel icon="🧺" titel="Wochenmarkt" beschreibung="Flexibler Zukauf, jederzeit verfügbar, mit täglicher Obergrenze.">

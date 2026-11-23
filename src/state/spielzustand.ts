@@ -18,6 +18,7 @@ import { lade_regelwerk, eingebautes_regelwerk, speichere_regelwerk, type Regelw
 import { ValueError } from "../domain/fehler";
 import { Regelwerk, Tageseinkauf, Wochenverlauf, type Tagesmarkt } from "../domain/models";
 import { zufallsWuerfel, type Wuerfelquelle } from "../domain/wuerfel";
+import type { Level1Optionen } from "../levels/level1Grundlast";
 import { finde_level, LEVEL_REGISTRY, type LevelEintrag, type LevelId, type SpielLevel, type Tageslage, type TagesWuerfe } from "../levels/registry";
 import { WOCHENTAGE } from "../levels/level1Grundlast";
 import { log_zeilen } from "../storage/repository";
@@ -47,8 +48,10 @@ export interface LevelSitzung {
   /** preishistorie_l1 / preishistorie_l2 (rein fuer Trendpfeile) */
   preishistorie: Tagesmarkt[];
   spielstand: Spielstand;
-  /** Meldung einer ValueError aus "Handel abschliessen" (Streamlit: Fehlerkasten) */
+  /** Hinweis zu einem abgelehnten "Handel abschliessen" (freundlicher Text fuer den Fehlerkasten) */
   fehler: string | null;
+  /** Originaltext des Python-Codes zum selben Fehler (fuer die Referenztests) */
+  fehler_technisch: string | null;
 }
 
 export type SpeicherStatus =
@@ -59,6 +62,8 @@ export type SpeicherStatus =
 export interface SpielzustandOptionen {
   wuerfel?: Wuerfelquelle;
   jetzt?: () => Date;
+  /** nur fuer Referenztests: Spielregeln exakt wie im Original (siehe Level1Optionen) */
+  level_optionen?: Level1Optionen;
 }
 
 export class Spielzustand {
@@ -83,11 +88,13 @@ export class Spielzustand {
   private readonly zuhoerer = new Set<() => void>();
   private readonly wuerfel: Wuerfelquelle;
   private readonly jetzt: () => Date;
+  private readonly level_optionen: Level1Optionen;
   private version = 0;
 
   constructor(optionen: SpielzustandOptionen = {}) {
     this.wuerfel = optionen.wuerfel ?? zufallsWuerfel;
     this.jetzt = optionen.jetzt ?? (() => new Date());
+    this.level_optionen = optionen.level_optionen ?? {};
   }
 
   // -- Beobachten (fuer die Oberflaeche) ------------------------------------
@@ -204,7 +211,7 @@ export class Spielzustand {
 
   private neue_sitzung(levelId: LevelId, spieler: string): LevelSitzung {
     const eintrag = finde_level(levelId);
-    const level = eintrag.erzeuge(this.regelwerk);
+    const level = eintrag.erzeuge(this.regelwerk, this.level_optionen);
     return {
       levelId,
       eintrag,
@@ -216,6 +223,7 @@ export class Spielzustand {
       preishistorie: [],
       spielstand: this.neuer_stand(spieler, eintrag, level),
       fehler: null,
+      fehler_technisch: null,
     };
   }
 
@@ -237,7 +245,7 @@ export class Spielzustand {
     const stand = kandidaten[0];
     if (stand === undefined || stand.regelwerk === null || stand.zustand === null) return null;
     const eintrag = finde_level(levelId);
-    const level = eintrag.erzeuge(new Regelwerk(stand.regelwerk));
+    const level = eintrag.erzeuge(new Regelwerk(stand.regelwerk), this.level_optionen);
     level.setze_zustand(stand.zustand);
     const tage = stand.tage.map((t) => abrechnung_aus_daten(t.abrechnung));
     return {
@@ -251,6 +259,7 @@ export class Spielzustand {
       preishistorie: tage.map((t) => t.markt),
       spielstand: stand,
       fehler: null,
+      fehler_technisch: null,
     };
   }
 
@@ -273,6 +282,7 @@ export class Spielzustand {
     const sitzung = this.sitzung(levelId);
     sitzung.ereignis_zugestimmt = wert;
     sitzung.fehler = null;
+    sitzung.fehler_technisch = null;
     if (sitzung.wuerfe !== null) {
       sitzung.spielstand = mit_offenem_tag(sitzung.spielstand, {
         tag_index: sitzung.tag_index,
@@ -289,6 +299,7 @@ export class Spielzustand {
     const sitzung = this.sitzung(levelId);
     if (sitzung.fehler !== null) {
       sitzung.fehler = null;
+      sitzung.fehler_technisch = null;
       this.melde();
     }
   }
@@ -310,11 +321,13 @@ export class Spielzustand {
       abrechnung = sitzung.level.rechne_tag_ab(lage, einkauf);
     } catch (e) {
       if (!(e instanceof ValueError)) throw e;
-      sitzung.fehler = e.message; // Streamlit: Fehlerkasten, Tag bleibt offen
+      sitzung.fehler = e.hinweis; // Fehlerkasten, Tag bleibt offen
+      sitzung.fehler_technisch = e.message;
       this.melde();
       return;
     }
     sitzung.fehler = null;
+    sitzung.fehler_technisch = null;
     sitzung.woche.tage.push(abrechnung);
     sitzung.spielstand = mit_abgeschlossenem_tag(
       sitzung.spielstand,
@@ -349,6 +362,7 @@ export class Spielzustand {
     sitzung.ereignis_zugestimmt = false;
     sitzung.preishistorie = [];
     sitzung.fehler = null;
+    sitzung.fehler_technisch = null;
     sitzung.spielstand = this.neuer_stand(sitzung.spielstand.spieler, sitzung.eintrag, sitzung.level);
     this.ziehe_tag_falls_noetig(sitzung);
     await this.speichere(sitzung);

@@ -2,6 +2,15 @@
 
 ## [Unveröffentlicht]
 
+### Geändert
+- Projektaufbau: Web-Version liegt jetzt in der Repo-Wurzel, der alte Python/Streamlit-Code
+  unverändert unter `legacy/`; neue README.
+- **Regel:** Ein Verkauf an die Mosterei (Montag bis Donnerstag) wird nur noch einmal vom
+  Bestand abgezogen (im Original doppelt).
+- Fehlermeldungen sind freundlich formuliert (keine Python-Meldungen mehr in der Oberfläche).
+- Startseite: „Wähle oben dein Level, um zu starten.“
+- Texte zum Importeur nennen die tägliche Obergrenze (Regelwerk-Seite, Tutorial).
+
 ### Hinzugefügt
 - Phase 0: Referenzdaten aus dem Python-Spiel (`tests/referenz/`) und Generator
   `tools/referenz_erzeugen.py`.

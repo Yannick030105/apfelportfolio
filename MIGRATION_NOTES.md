@@ -1,12 +1,12 @@
 # MIGRATION_NOTES – Apfelportfolio Python/Streamlit → TypeScript
 
-Stand: Phase 6 abgeschlossen (alle 7 Durchläufe; alle Seiten portiert). Offen: Test auf einem echten Rechner und Auflösen des Unterordners. Wird je Phase fortgeschrieben.
+Stand: Phase 6 abgeschlossen, Unterordner aufgelöst (Web-Version in der Repo-Wurzel, alter Code unter `legacy/`), erste Entscheidungen des Projektteams umgesetzt (Abschnitt 3m). Offen: Test auf einem echten Rechner. Wird fortgeschrieben.
 
 ---
 
 ## 1. Zuordnung alt → neu
 
-| Alt (Python, jetzt `legacy/`) | Neu (Repo-Wurzel, bis zum Umzug `apfelportfolio-web/`) | Status |
+| Alt (Python, jetzt `legacy/`) | Neu (Repo-Wurzel; bis zum Umzug lag sie in einem Unterordner) | Status |
 |---|---|---|
 | `src/apfelportfolio/domain/models.py` | `src/domain/models.ts` | **erledigt (Phase 2)** |
 | – (Zufall war in den Level-Klassen) | `src/domain/wuerfel.ts` | **erledigt (Phase 2)** |
@@ -284,7 +284,7 @@ Erzeugt mit `python3 tools/referenz_erzeugen.py` (Python 3.13). Format siehe Doc
 | Nicht angezeigte Widgets verlieren ihren Zustand | Am Donnerstag (kein Importeur-Slider), bei „Kein Überschuss“ (kein Mosterei-Slider) und am Wochenende (gar keine Slider) wird der Wert verworfen; danach beginnt der Slider bei 0. Seitenwechsel verwirft alle Slider-Werte (Seite wird neu aufgebaut). |
 | `st.toggle(text, value=ereignis_zugestimmt)` | Schalter zeigt `ereignis_zugestimmt`; wird je neuem Tag auf „aus“ gesetzt. |
 | `if tagesmarkt is None` → würfeln | Gewürfelt wird genau einmal je Tag (beim ersten Anzeigen bzw. nach „Handel abschließen“), Werte bleiben bis zum Abschluss – auch nach Neuladen (gespeichert als `offener_tag`). |
-| Ausnahme (`ValueError`) in `_tag_abschliessen` → roter Fehlerkasten, Skript endet | Fehlerkasten „ValueError: …“ unter dem Handelstisch, Wochenübersicht entfällt wie bei abgebrochenem Skript; Tag bleibt offen, Slider behalten ihre Werte; nächste Eingabe blendet den Kasten aus. Die Preishistorie wurde wie im Original schon vor der Abrechnung ergänzt. |
+| Ausnahme (`ValueError`) in `_tag_abschliessen` → roter Fehlerkasten, Skript endet | Fehlerkasten „Das geht so nicht: …“ mit freundlichem Hinweis (seit 3m; vorher „ValueError: …“) unter dem Handelstisch, Wochenübersicht entfällt wie bei abgebrochenem Skript; Tag bleibt offen, Slider behalten ihre Werte; nächste Eingabe blendet den Kasten aus. Die Preishistorie wurde wie im Original schon vor der Abrechnung ergänzt. |
 | `st.button` + `st.rerun()` | Knopf löst die Aktion aus und zeichnet neu. |
 | `st.balloons()` | Ballon-Animation bei nicht-negativem Wochenergebnis (respektiert „reduzierte Bewegung“). |
 | `st.slider` mit `min_value >= max_value` → `StreamlitAPIException` | Fehlermeldung an der Stelle des Sliders (z. B. bei Regelwerk-Limit 0). |
@@ -437,7 +437,7 @@ Erzeugt mit `python3 tools/referenz_erzeugen.py` (Python 3.13). Format siehe Doc
 | `st.number_input(key=...)`: Wert hängt am Schlüssel, `value` wird ignoriert, bis das Feld einen Durchlauf lang nicht angezeigt wird | ID = Schlüssel; Eingabe bleibt bei „Standardwerte wiederherstellen“ stehen, Seitenwechsel setzt zurück. |
 | Eingabe wird bei Enter/Verlassen übernommen; außerhalb der Grenzen: markiert, nicht übernommen; „−“/„+“ mit Schrittweite, an den Grenzen deaktiviert; Kommaschritte auf Feldgenauigkeit gerundet | `Zahlfeld` mit demselben Verhalten. |
 | Anzeige `format="%.2f"` im Browser (sprintf-js, `toFixed`) | `streamlitFeldText` mit `toFixed` (nur für diese Anzeige; Gleichstände wie 0.125 → „0.13“). |
-| Speichern: `validiert()`-Ausnahme → roter Kasten, nichts gespeichert; sonst `st.success(...)` bis zur nächsten Eingabe | gleich; Fehlerkasten „ValueError: …“. |
+| Speichern: `validiert()`-Ausnahme → roter Kasten, nichts gespeichert; sonst `st.success(...)` bis zur nächsten Eingabe | gleich; Fehlerkasten „Das Regelwerk wurde nicht gespeichert. …“ mit freundlichem Hinweis (seit 3m). |
 | Zurücksetzen: `st.success(...)` + sofort `st.rerun()` → Meldung nie sichtbar | keine Meldung. |
 | `set_page_config(page_title="Regelwerk – Apfelportfolio", page_icon="📜", layout="centered")` | Browser-Titel/-Symbol, max. 760 px. |
 
@@ -465,11 +465,34 @@ steht darunter ohne Rahmen; (2) Schriftgrößen an `<p>`-Elementen überschreibt
 Streamlit-Knöpfe. **Auf Rückfrage entschieden:** Die Web-Version zeigt das beabsichtigte Design
 (wie das CSS es vorsieht) auf allen Seiten. Spiellogik, Texte und Abläufe bleiben exakt.
 
+## 3m. Nach Phase 6 – Entscheidungen des Projektteams
+
+Umgesetzt nach Rückmeldung zur Checkliste:
+
+- **Unterordner aufgelöst:** alter Python-Code vollständig nach `legacy/` verschoben
+  (unverändert; `cd legacy && python3 -m pytest` besteht), Web-Version in die Repo-Wurzel,
+  neue `README.md`. Werkzeuge in `tools/` nutzen standardmäßig `--legacy legacy`;
+  `.gitlab-ci.yml` arbeitet in der Wurzel.
+- **Mosterei-Verkauf wird nur noch einmal abgezogen** (Abweichung 33, Auffälligkeit 1).
+- **Importeur-Limit ist ein Tageslimit** – so rechnete das Original bereits; geändert wurden nur
+  die Texte, die von einer Wochengrenze sprachen (Abweichung 36, Auffälligkeiten 2/27/29).
+- **Freundliche Fehlermeldungen** statt Python-Meldungen (Abweichung 34).
+- **„Wähle oben dein Level“** statt „links“ (Abweichung 35, offene Frage 11).
+- **Namensreservierung** bleibt wie im Original (Auffälligkeit 26); **das Regelwerk darf jeder
+  ändern** (offene Frage 4).
+- Referenztests unverändert: Sie spielen die Level mit der Option
+  `original_mosterei_doppelabzug: true` und vergleichen den technischen Originaltext der
+  Fehler (`ValueError.message`); `tests/referenz/` ist unberührt. Die korrigierte Regel ist
+  in `tests/mosterei.test.ts` gegen alle Referenzwochen abgesichert (bis zum ersten
+  Mosterei-Verkauf Mo–Do identisch, an diesem Tag Saldo genau um die verkaufte Menge höher).
+- `beispiel-spielordner/` neu erzeugt (Ergebnisse ändern sich durch die Mosterei-Korrektur).
+
 ---
 
 ## 4. Bewusste Abweichungen
 
-Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
+Bis Phase 6 kein abweichendes Spielverhalten; seit 3m die vom Projektteam entschiedenen
+Änderungen 33–36. Strukturelle Entscheidungen der Portierung:
 
 1. **Namen wie in Python (snake_case)** für Felder, Methoden und Klassen, damit die
    Portierung Zeile für Zeile prüfbar bleibt und Feldnamen, die als Daten vorkommen
@@ -581,6 +604,32 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
     gewählten Spielordner übernimmt die Web-Version das Regelwerk nur für die Sitzung und zeigt
     zusätzlich den Hinweis „Kein Spielordner gewählt – das Regelwerk gilt nur für diese Sitzung
     und wird nicht gespeichert.“ (neuer Text).
+33. **Mosterei-Verkauf Mo–Do wird nur einmal abgezogen (Regeländerung, Entscheidung des
+    Projektteams).** Original: `saldo = zukauf - lieferung - an_mosterei`, obwohl `lieferung`
+    die Mosterei schon enthält (Auffälligkeit 1). Neu Mo–Do: `saldo = zukauf - lieferung`;
+    Freitag unverändert. Erlöse, Preise und die Prüfung „Verkauf übersteigt Bestand“ bleiben
+    gleich. Das Original-Verhalten ist per `Level1Optionen.original_mosterei_doppelabzug`
+    abrufbar (nur für die Referenztests; die App nutzt es nie). Folge: Bestand und
+    Wochenergebnis fallen in Wochen mit Mosterei-Verkauf Mo–Do anders aus als im Original;
+    migrierte alte Ergebnisse bleiben, wie sie gespielt wurden.
+34. **Freundliche Fehlermeldungen (Entscheidung des Projektteams).** `ValueError` trägt jetzt
+    zwei Texte: `message` = Originaltext (z. B. „Verkauf an Mosterei (500) uebersteigt den
+    verfuegbaren Bestand (122).“, weiter von den Referenztests geprüft) und `hinweis` = Text
+    für die Anzeige (z. B. „Du kannst heute höchstens 122 Äpfel an die Mosterei verkaufen –
+    mehr Überschuss hast du nicht.“). Angezeigt werden nur noch Hinweise: Fehlerkasten der
+    Spielseite („Das geht so nicht: …“ statt „ValueError: …“), Regelwerk-Seite („Das Regelwerk
+    wurde nicht gespeichert. …“), Warnungen zu `config.json`, Regler mit Mindest- ≥ Höchstwert
+    (statt der englischen `StreamlitAPIException`). Eigene Meldungen der Web-Version mit
+    Umlauten. Der Spielzustand hält `fehler` (Hinweis) und `fehler_technisch` (Originaltext).
+35. **„Wähle oben dein Level, um zu starten.“** statt „links“ – die Navigation liegt oben
+    (Auffälligkeit 25).
+36. **Importeur-Texte nennen ein Tageslimit:** Regelwerk-Seite „Obergrenze Importeur (pro Tag,
+    Mo–Mi)“ und „Zukauf von Montag bis Mittwoch, mit täglicher Obergrenze.“; Tutorial-Schritt
+    „Der Importeur“: „… und es gibt eine tägliche Obergrenze.“ Die Spiellogik prüft weiterhin nur
+    pro Tag (`_importeur_menge_woche` wird wie im Original nur mitgezählt). Tutorial-Änderungen
+    stehen mit Originaltext in `tests/daten/tutorial_abweichungen.json`; `tutorial.test.ts`
+    lässt genau diese Unterschiede zum Original zu, `tools/texte_exportieren.py` setzt sie beim
+    Schreiben von `tutorial.md` ein.
 
 ---
 
@@ -591,11 +640,13 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
    `saldo = zukauf - lieferung - an_mosterei` gerechnet. Beleg: `level1_grenzfaelle.json`,
    Fall `mosterei_maximal_mo_bis_do`, Montag: 200 − 90 − 10 − 100 ergibt Saldo −100 statt 0.
    Erlös wird nur einmal gutgeschrieben. Am Freitag tritt der Effekt nicht auf (dort ist
-   `an_mosterei` beim Berechnen von `lieferung` noch 0).
+   `an_mosterei` beim Berechnen von `lieferung` noch 0). **Seit 3m in der App korrigiert
+   (Abweichung 33).**
 2. **`importeur_limit` ist keine Wochengrenze.** Laut Kommentar „max. Äpfel Mo–Mi“, genutzt wird
    es aber nur als Slider-Maximum *pro Tag*. `_importeur_menge_woche` wird hochgezählt, aber nie
    geprüft. Die Logik akzeptiert auch Mengen über dem Slider-Maximum (Fall
-   `importeur_ueber_slider_max`).
+   `importeur_ueber_slider_max`). **Projektteam (3m): Das Tageslimit ist gewollt;** nur die
+   Texte wurden angepasst (Abweichung 36).
 3. **Teil-Mutation bei Fehler:** `_importeur_menge_woche` wird *vor* der Mosterei-Prüfung erhöht;
    schlägt diese fehl, bleibt die Erhöhung stehen (Fall `fehler_mosterei_nach_importeur`).
    Wirkt sich mangels Prüfung (Punkt 2) nicht aus.
@@ -677,7 +728,7 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
     Spieler.
 25. **„Wähle links dein Level“** (Meldung nach „Spiel starten“) verweist auf die
     Streamlit-Seitenleiste. In der Web-Version liegt die Navigation oben; der Text ist trotzdem
-    wörtlich übernommen (siehe offene Frage 11).
+    wörtlich übernommen (siehe offene Frage 11). **Seit 3m „oben“ (Abweichung 35).**
 26. **Neu gegründeter Händler hat noch keine Karte:** Namen kommen nur aus abgeschlossenen
     Wochen; bis zur ersten fertigen Woche erscheint der Händler nur in der Vorschau – und sein
     Name gilt noch nicht als vergeben (ein zweiter Spieler könnte ihn ebenfalls gründen).
@@ -685,31 +736,31 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
 27. **Tutorial-Texte widersprechen dem Spiel** (wörtlich übernommen): „100 Äpfel täglich“ beim
     Obstbauer und „80 Äpfel“ beim Schulessen sind die Regelwerk-Standardwerte, gespielt wird mit
     `config.json` (200 bzw. 90); „eine Obergrenze für die gesamte Woche“ beim Importeur stimmt
-    nicht – das Limit gilt nur als Slider-Maximum pro Tag (Auffälligkeit 2).
+    nicht – das Limit gilt nur als Slider-Maximum pro Tag (Auffälligkeit 2). **Importeur-Text
+    seit 3m korrigiert (Abweichung 36);** die Zahlen 100/80 sind weiter offen (offene Frage 12).
 28. **CSS-Absichten werden von Streamlit nicht dargestellt** (leere Rahmen, 16-px-Überschriften,
     schlichte Knöpfe) – im laufenden Original gemessen, siehe 3i und Abweichung 29.
 29. **Felder mit `key` auf der Regelwerk-Seite** (W1 und Nachfragemenge) springen bei
     „Standardwerte wiederherstellen“ nicht zurück; wer danach speichert, speichert die alten
     Eingaben (gemessen, nachgebildet). Die Erfolgsmeldung nach dem Zurücksetzen ist nie zu sehen
     (`st.rerun()` direkt danach; nachgebildet). Der Text „mit begrenzter Gesamtmenge“ beim
-    Importeur widerspricht dem tatsächlichen Tageslimit (Auffälligkeit 2).
+    Importeur widerspricht dem tatsächlichen Tageslimit (Auffälligkeit 2). **Text seit 3m
+    „mit täglicher Obergrenze“ (Abweichung 36).**
 
 ---
 
 ## 6. Offene Fragen
 
-1. **Fehlertexte:** ~~offen~~ In Phase 2 gemäß „Verhalten exakt erhalten“ wörtlich
-   übernommen (inkl. Python-Zahlenformat wie `301.0` und `:.0f`-Rundung); durch die
-   Referenztests abgesichert. Bitte widersprechen, falls freundlichere Texte gewünscht sind.
+1. ~~offen~~ **Fehlertexte:** Entschieden (3m): freundliche Texte in der Anzeige, Originaltexte
+   bleiben intern für die Referenztests (Abweichung 34).
 2. **Level-2-Mosterei-Fehler (Auffälligkeit 4):** ~~offen~~ Phase 6/1: Fehlerkasten mit der
    Originalmeldung, Tag bleibt offen, Eingaben bleiben erhalten (wie in Streamlit). Logik
    unverändert.
 3. **Speichern nach jedem Spieltag:** ~~offen~~ Umgesetzt in Phase 5: Unvollständige Wochen
    zählen nicht für Ranking/Dashboard/Namensprüfung (wie bisher).
-4. **Regelwerk-Seite:** ~~offen~~ Phase 5: `config.json` im gemeinsamen Ordner (neben
-   `spielstaende/`); ohne Datei gilt das eingebaute Regelwerk. Bitte widersprechen, falls das
-   Regelwerk z. B. nur vom Spielleiter änderbar sein soll (dann Schutz in Phase 6).
-5. **Auflösen des Unterordners:** Die Zielstruktur kollidiert mit dem Legacy-Code im
+4. ~~offen~~ **Regelwerk-Seite:** `config.json` im gemeinsamen Ordner (neben `spielstaende/`);
+   ohne Datei gilt das eingebaute Regelwerk. Entschieden (3m): jeder darf es ändern, kein Schutz.
+5. ~~offen~~ **Auflösen des Unterordners:** Erledigt (3m) wie vorgeschlagen. Die Zielstruktur kollidierte mit dem Legacy-Code im
    Wurzelverzeichnis (`config/`, `src/`, `tests/`, `README.md`). Vorschlag: Legacy-Code beim
    Auflösen nach `legacy/` verschieben (Pfad für `tools/referenz_erzeugen.py --legacy`
    anpassen), danach Inhalt von `apfelportfolio-web/` in die Wurzel.
@@ -728,5 +779,6 @@ Kein abweichendes Spielverhalten. Strukturelle Entscheidungen der Portierung:
 10. **Test auf einem echten Rechner** (spätestens in Phase 6): Ordner-Dialog auf dem
     Netzlaufwerk, Schreibrechte für mehrere Benutzer, gemerkter Ordner nach Browser-Neustart
     bei Start per Doppelklick.
-11. **Text „Wähle links dein Level, um zu starten.“** (Startseite): Die Navigation liegt jetzt
-    oben. Wörtlich lassen (aktueller Stand) oder in „Wähle oben dein Level …“ ändern?
+11. ~~offen~~ **Text „Wähle links dein Level, um zu starten.“:** Entschieden (3m): „oben“.
+12. **Tutorial-Zahlen** „100 Äpfel täglich“ (Obstbauer) und „80 Äpfel“ (Schulessen) passen nicht
+    zu `config.json` (200 bzw. 90, Auffälligkeit 27). Text anpassen oder lassen?

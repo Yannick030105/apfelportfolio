@@ -15,9 +15,11 @@
  * - Freitags-Ausgleich: Ueberschuss -> Mosterei, Fehlmenge -> Wochenmarkt (automatisch).
  * - Portfolioergebnis pro Tag = Erloese - Einkaufskosten.
  *
- * WICHTIG: Rechenreihenfolge und Eigenheiten (u. a. doppelter Abzug der
- * Mosterei-Menge Mo-Do, fehlende Wochenpruefung des Importeur-Limits) sind
- * bewusst unveraendert - siehe MIGRATION_NOTES, Auffaelligkeiten.
+ * WICHTIG: Rechenreihenfolge und Eigenheiten sind bewusst unveraendert - siehe
+ * MIGRATION_NOTES, Auffaelligkeiten. Ausnahme (Entscheidung nach der Migration):
+ * Der Mosterei-Verkauf Mo-Do wird nur noch einmal vom Bestand abgezogen; das
+ * Original-Verhalten bleibt per Option fuer die Referenztests erhalten.
+ * Das Importeur-Limit ist ein Tageslimit (Slider-Maximum) - keine Wochenpruefung.
  */
 import { ValueError } from "../domain/fehler";
 import { Regelwerk, Tagesabrechnung, Tagesmarkt, Tagesnachfrage, type Tageseinkauf } from "../domain/models";
@@ -52,16 +54,34 @@ export const BAECKEREI_MENGE_FAKTOR = 10.0;
 export const WOCHENMARKT_MAX_PRO_TAG = 140.0;
 export const IMPORTEUR_MAX_GESAMT_MO_MI = 200.0;
 
+/** Mengen fuer freundliche Hinweise: ganze Zahlen ohne Nachkommastellen. */
+export function mengenText(x: number): string {
+  return String(x);
+}
+
 function _pruefe_einkaufslimits(tag_index: number, einkauf: Tageseinkauf, regelwerk: Regelwerk): void {
   if (einkauf.wochenmarkt_menge > regelwerk.wochenmarkt_limit_tag) {
     throw new ValueError(
       `Wochenmarkt-Menge ${pythonRepr(einkauf.wochenmarkt_menge)} ueberschreitet ` +
         `das Tageslimit von ${pythonIntText(regelwerk.wochenmarkt_limit_tag)} Stueck.`,
+      `Am Wochenmarkt kannst du heute höchstens ${mengenText(regelwerk.wochenmarkt_limit_tag)} Äpfel kaufen.`,
     );
   }
   if (einkauf.importeur_menge > 0 && tag_index > LETZTER_IMPORTEUR_TAG_INDEX) {
-    throw new ValueError("Importeur kann nur Montag bis Mittwoch bestellt werden.");
+    throw new ValueError(
+      "Importeur kann nur Montag bis Mittwoch bestellt werden.",
+      "Beim Importeur kannst du nur von Montag bis Mittwoch bestellen.",
+    );
   }
+}
+
+export interface Level1Optionen {
+  /**
+   * Original-Verhalten: Der Mosterei-Verkauf Mo-Do wird doppelt vom Bestand abgezogen
+   * (Fehler des Python-Originals, MIGRATION_NOTES Auffaelligkeit 1). Nur fuer die
+   * Referenztests, die das Original bitgenau pruefen. Standard: korrigiert (einfach).
+   */
+  original_mosterei_doppelabzug?: boolean;
 }
 
 /** Python: max(a, b) - liefert a, ausser b ist echt groesser (wichtig nur fuer -0.0). */
@@ -77,8 +97,10 @@ export class Level1Grundlast {
   regelwerk: Regelwerk;
   portfoliostand: number;
   _importeur_menge_woche: number;
+  readonly optionen: Readonly<Level1Optionen>;
 
-  constructor(regelwerk: Regelwerk | null = null) {
+  constructor(regelwerk: Regelwerk | null = null, optionen: Level1Optionen = {}) {
+    this.optionen = Object.freeze({ ...optionen });
     this.regelwerk = regelwerk !== null ? regelwerk : new Regelwerk();
     this.portfoliostand = 0.0;
     this._importeur_menge_woche = 0.0;
@@ -140,9 +162,13 @@ export class Level1Grundlast {
     if (tag_index !== LETZTER_TAG_INDEX) {
       const verfuegbarer_bestand = this.portfoliostand + zukauf - an_schulessen - an_baeckerei;
       if (einkauf.mosterei_menge > pyMax(verfuegbarer_bestand, 0.0)) {
+        const moeglich = pythonInt(verfuegbarer_bestand);
         throw new ValueError(
           `Verkauf an Mosterei (${formatFixed(einkauf.mosterei_menge, 0)}) uebersteigt ` +
             `den verfuegbaren Bestand (${formatFixed(verfuegbarer_bestand, 0)}).`,
+          moeglich > 0
+            ? `Du kannst heute höchstens ${mengenText(moeglich)} Äpfel an die Mosterei verkaufen – mehr Überschuss hast du nicht.`
+            : "Du hast heute keinen Überschuss, den du an die Mosterei verkaufen könntest.",
         );
       }
       an_mosterei = einkauf.mosterei_menge;
@@ -163,9 +189,13 @@ export class Level1Grundlast {
       }
     }
 
-    // Unveraendert aus dem Original: lieferung enthaelt an_mosterei bereits (Mo-Do),
-    // hier wird es ein zweites Mal abgezogen (MIGRATION_NOTES, Auffaelligkeit 1).
-    const saldo = zukauf - lieferung - an_mosterei;
+    // Mo-Do ist der Mosterei-Verkauf bereits in "lieferung" enthalten; am Freitag kommt der
+    // automatische Mosterei-Ausgleich hinzu. Das Original zog den Verkauf Mo-Do ein zweites
+    // Mal ab (Auffaelligkeit 1) - auf Wunsch korrigiert, Original nur noch per Option.
+    const saldo =
+      tag_index === LETZTER_TAG_INDEX || this.optionen.original_mosterei_doppelabzug === true
+        ? zukauf - lieferung - an_mosterei
+        : zukauf - lieferung;
     this.portfoliostand += saldo;
 
     const erloes =

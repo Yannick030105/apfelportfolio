@@ -16,6 +16,7 @@
  * als Text), fuehren hier zu den Standardwerten - im Original waeren sie
  * uebernommen worden und das Spiel spaeter abgestuerzt.
  */
+import { ValueError } from "../domain/fehler";
 import { Regelwerk, REGELWERK_STANDARD, type RegelwerkFelder } from "../domain/models";
 import { pythonIntText, pythonRepr } from "../domain/pythonText";
 
@@ -34,11 +35,11 @@ const BESCHRIFTUNG: Readonly<Record<keyof RegelwerkFelder, string>> = {
   schulessen_preis: "Schulessen-Preis",
   obstbauer_menge: "Obstbauer-Menge",
   obstbauer_preis: "Obstbauer-Preis",
-  baeckerei_preis_aufschlag: "Baeckerei-Preisaufschlag",
+  baeckerei_preis_aufschlag: "Bäckerei-Preisaufschlag",
   baeckerei_preis_min: "W1-Minimum",
   baeckerei_preis_max: "W1-Maximum",
-  baeckerei_menge_min: "Baeckerei-Mengenminimum",
-  baeckerei_menge_max: "Baeckerei-Mengenmaximum",
+  baeckerei_menge_min: "Bäckerei-Mengenminimum",
+  baeckerei_menge_max: "Bäckerei-Mengenmaximum",
 };
 
 const FELDER = Object.keys(REGELWERK_STANDARD) as (keyof RegelwerkFelder)[];
@@ -78,7 +79,7 @@ export function pruefe_regelwerk_daten(daten: unknown, quelle = "config.json"): 
     const wert = roh[feld];
     if (wert === undefined) {
       warnungen.push(
-        `${quelle}: "${feld}" (${BESCHRIFTUNG[feld]}) fehlt - Standardwert ${zahlText(REGELWERK_STANDARD[feld])} wird verwendet.`,
+        `${quelle}: "${feld}" (${BESCHRIFTUNG[feld]}) fehlt – Standardwert ${zahlText(REGELWERK_STANDARD[feld])} wird verwendet.`,
       );
     } else {
       werte[feld] = wert as number;
@@ -88,7 +89,8 @@ export function pruefe_regelwerk_daten(daten: unknown, quelle = "config.json"): 
   try {
     new Regelwerk(werte).validiert();
   } catch (e) {
-    warnungen.push(`${quelle}: ${(e as Error).message} (Werte werden trotzdem verwendet, wie im Original.)`);
+    const hinweis = e instanceof ValueError ? e.hinweis : (e as Error).message;
+    warnungen.push(`${quelle}: ${hinweis} Die Werte werden trotzdem verwendet – bitte auf der Seite ⚙️ Regelwerk korrigieren.`);
   }
   return { regelwerk, fehler: [], warnungen };
 }
@@ -98,7 +100,7 @@ export function pruefe_regelwerk_text(text: string, quelle = "config.json"): Pru
   try {
     daten = JSON.parse(text);
   } catch (e) {
-    return standard([`${quelle}: kein gueltiges JSON (${(e as Error).message}). Es gelten die Standardwerte.`]);
+    return standard([`${quelle}: enthält kein gültiges JSON (${(e as Error).message}). Es gelten die Standardwerte.`]);
   }
   return pruefe_regelwerk_daten(daten, quelle);
 }

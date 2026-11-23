@@ -21,7 +21,7 @@
 import type { Regelwerk, Tagesabrechnung, Tageseinkauf, Tagesmarkt, Tagesnachfrage } from "../domain/models";
 import { waehleIndex, wuerfleBaeckereiMenge, wuerfleW1, type Wuerfelquelle } from "../domain/wuerfel";
 import type { Tageskontext } from "./effekte";
-import { eingabegrenzen_level1, Level1Grundlast, WOCHENTAGE } from "./level1Grundlast";
+import { eingabegrenzen_level1, Level1Grundlast, WOCHENTAGE, type Level1Optionen } from "./level1Grundlast";
 import {
   eingabegrenzen_level2,
   Level2Ereignisse,
@@ -101,8 +101,8 @@ class Level1Adapter implements SpielLevel {
   readonly hat_ereignisse = false;
   private readonly level: Level1Grundlast;
 
-  constructor(regelwerk: Regelwerk) {
-    this.level = new Level1Grundlast(regelwerk);
+  constructor(regelwerk: Regelwerk, optionen: Level1Optionen) {
+    this.level = new Level1Grundlast(regelwerk, optionen);
   }
 
   get nummer(): number {
@@ -178,8 +178,8 @@ class Level2Adapter implements SpielLevel {
   readonly hat_ereignisse = true;
   private readonly level: Level2Ereignisse;
 
-  constructor(regelwerk: Regelwerk) {
-    this.level = new Level2Ereignisse(regelwerk);
+  constructor(regelwerk: Regelwerk, optionen: Level1Optionen) {
+    this.level = new Level2Ereignisse(regelwerk, optionen);
   }
 
   get nummer(): number {
@@ -268,7 +268,8 @@ export interface LevelEintrag {
   readonly nummer: number;
   /** Navigationstitel wie in app.py */
   readonly navigationstitel: string;
-  readonly erzeuge: (regelwerk: Regelwerk) => SpielLevel;
+  /** optionen.original_mosterei_doppelabzug nur fuer Referenztests (Original-Verhalten) */
+  readonly erzeuge: (regelwerk: Regelwerk, optionen?: Level1Optionen) => SpielLevel;
 }
 
 export const LEVEL_REGISTRY: readonly LevelEintrag[] = Object.freeze([
@@ -276,13 +277,13 @@ export const LEVEL_REGISTRY: readonly LevelEintrag[] = Object.freeze([
     id: "level1" as const,
     nummer: 1,
     navigationstitel: "Level 1",
-    erzeuge: (regelwerk: Regelwerk): SpielLevel => new Level1Adapter(regelwerk),
+    erzeuge: (regelwerk: Regelwerk, optionen: Level1Optionen = {}): SpielLevel => new Level1Adapter(regelwerk, optionen),
   }),
   Object.freeze({
     id: "level2" as const,
     nummer: 2,
     navigationstitel: "Level 2",
-    erzeuge: (regelwerk: Regelwerk): SpielLevel => new Level2Adapter(regelwerk),
+    erzeuge: (regelwerk: Regelwerk, optionen: Level1Optionen = {}): SpielLevel => new Level2Adapter(regelwerk, optionen),
   }),
 ]);
 

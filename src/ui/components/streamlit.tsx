@@ -162,8 +162,8 @@ export function Schieberegler({
   if (min >= max) {
     return (
       <Meldung art="fehler">
-        <span class="fehlertyp">StreamlitAPIException:</span> Slider `min_value` must be less than the `max_value`. The
-        values were {min} and {max}.
+        Der Regler „{beschriftung}“ kann gerade nicht angezeigt werden: Der Höchstwert ({max}) muss größer sein als der
+        Mindestwert ({min}). Bitte prüfe die Werte auf der Seite ⚙️ Regelwerk.
       </Meldung>
     );
   }

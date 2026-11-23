@@ -5,7 +5,9 @@ src/content/texte/*.md (Quelle der Web-Version) und legt je Seite einen
 JSON-Abzug als Test-Soll unter tests/daten/ ab.
 
 Bisher: Tutorial (SCHRITTE aus ui/pages/4_tutorial.py) und Wiki (KAPITEL und
-REIHENFOLGE aus ui/pages/5_wiki.py).
+REIHENFOLGE aus ui/pages/5_wiki.py). In tutorial.md werden zusaetzlich die
+genehmigten Textaenderungen aus tests/daten/tutorial_abweichungen.json
+eingesetzt; der JSON-Abzug bleibt woertlich wie im Original.
 Format von tutorial.md je Schritt:
 
     ## <icon> | <titel>
@@ -52,12 +54,27 @@ def lade_seite(legacy: Path, datei: str):
     return modul
 
 
+ABWEICHUNGEN = DATEN / "tutorial_abweichungen.json"
+
+
+def genehmigte_abweichungen(schritte: list[dict]) -> list[dict]:
+    """Wendet tests/daten/tutorial_abweichungen.json auf eine Kopie der Schritte an."""
+    neu = [dict(s) for s in schritte]
+    for a in json.loads(ABWEICHUNGEN.read_text(encoding="utf-8"))["aenderungen"]:
+        treffer = [s for s in neu if s["titel"] == a["titel"]]
+        if len(treffer) != 1 or treffer[0][a["feld"]] != a["alt"]:
+            raise ValueError(f"Abweichung {a['titel']!r}/{a['feld']}: Originaltext passt nicht mehr")
+        treffer[0][a["feld"]] = a["neu"]
+    return neu
+
+
 def tutorial(legacy: Path) -> dict[Path, str]:
     schritte = lade_seite(legacy, "4_tutorial.py").SCHRITTE
     teile = ["<!-- Automatisch erzeugt aus SCHRITTE in ui/pages/4_tutorial.py "
              "(tools/texte_exportieren.py). Texte woertlich; Format: '## icon | titel', "
-             "Absatz = Erklaerung, '> ' = Beispiel. -->\n"]
-    for s in schritte:
+             "Absatz = Erklaerung, '> ' = Beispiel. Genehmigte Aenderungen: "
+             "tests/daten/tutorial_abweichungen.json. -->\n"]
+    for s in genehmigte_abweichungen(schritte):
         for feld in ("icon", "titel", "erklaerung", "beispiel"):
             if "\n" in s[feld] or (feld != "erklaerung" and " | " in s[feld]):
                 raise ValueError(f"Schritt {s['titel']!r}: Feld {feld} passt nicht ins Format")

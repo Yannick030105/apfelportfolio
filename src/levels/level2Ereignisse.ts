@@ -25,7 +25,7 @@ import {
 import { pythonIntText, pythonRepr } from "../domain/pythonText";
 import { pythonInt } from "../domain/runden";
 import { effekt_funktion, Tageskontext, zahltyp } from "./effekte";
-import { Level1Grundlast, WOCHENTAGE } from "./level1Grundlast";
+import { Level1Grundlast, mengenText, WOCHENTAGE, type Level1Optionen } from "./level1Grundlast";
 
 export { IMPORTEUR_SLIDER_MAX, Tageskontext } from "./effekte";
 
@@ -152,10 +152,12 @@ export class Level2Ereignisse {
 
   regelwerk: Regelwerk;
   _level1: Level1Grundlast;
+  readonly optionen: Readonly<Level1Optionen>;
 
-  constructor(regelwerk: Regelwerk | null = null) {
+  constructor(regelwerk: Regelwerk | null = null, optionen: Level1Optionen = {}) {
+    this.optionen = Object.freeze({ ...optionen });
     this.regelwerk = regelwerk !== null ? regelwerk : new Regelwerk();
-    this._level1 = new Level1Grundlast(this.regelwerk);
+    this._level1 = new Level1Grundlast(this.regelwerk, this.optionen);
   }
 
   // -- Zustand an Level 1 durchreichen -----------------------------------
@@ -164,7 +166,7 @@ export class Level2Ereignisse {
   }
 
   zuruecksetzen(): void {
-    this._level1 = new Level1Grundlast(this.regelwerk);
+    this._level1 = new Level1Grundlast(this.regelwerk, this.optionen);
   }
 
   importeur_verfuegbar(tag_index: number): boolean {
@@ -237,10 +239,16 @@ export class Level2Ereignisse {
 
   _pruefe_verfuegbarkeit(kontext: Tageskontext, einkauf: Tageseinkauf): void {
     if (!kontext.importeur_verfuegbar && einkauf.importeur_menge > 0) {
-      throw new ValueError("Der Importeur ist heute (Ereignis) nicht verfuegbar.");
+      throw new ValueError(
+        "Der Importeur ist heute (Ereignis) nicht verfuegbar.",
+        "Der Importeur liefert heute nicht – das Tagesereignis hat ihn gesperrt.",
+      );
     }
     if (!kontext.wochenmarkt_verfuegbar && einkauf.wochenmarkt_menge > 0) {
-      throw new ValueError("Der Wochenmarkt ist heute (Ereignis) geschlossen.");
+      throw new ValueError(
+        "Der Wochenmarkt ist heute (Ereignis) geschlossen.",
+        "Der Wochenmarkt hat heute wegen des Tagesereignisses geschlossen.",
+      );
     }
     if (einkauf.wochenmarkt_menge > kontext.wochenmarkt_limit) {
       const limit =
@@ -250,6 +258,7 @@ export class Level2Ereignisse {
       throw new ValueError(
         `Wochenmarkt-Menge ${pythonRepr(einkauf.wochenmarkt_menge)} ueberschreitet ` +
           `das heutige Limit von ${limit} Stueck.`,
+        `Am Wochenmarkt kannst du heute höchstens ${mengenText(kontext.wochenmarkt_limit)} Äpfel kaufen.`,
       );
     }
   }

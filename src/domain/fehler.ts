@@ -6,8 +6,18 @@
  * Der Name bleibt wie in Python, damit Aufrufer gezielt unterscheiden koennen.
  */
 
+/**
+ * message = Originaltext des Python-Codes (bleibt fuer die Referenztests erhalten),
+ * hinweis = freundlicher Text fuer die Anzeige (ohne Python-Begriffe und -Zahlenformate).
+ */
 export class ValueError extends Error {
   override readonly name = "ValueError";
+  readonly hinweis: string;
+
+  constructor(message: string, hinweis?: string) {
+    super(message);
+    this.hinweis = hinweis ?? message;
+  }
 }
 
 export class OverflowError extends Error {

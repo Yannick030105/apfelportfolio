@@ -10,6 +10,9 @@ import { WidgetZustand } from "../src/state/widgetZustand";
 import { arbeitsspeicher } from "../src/storage/speicher";
 import { abrechnung_dict, type FallRef, type ReferenzDokument } from "./hilfen/referenz";
 
+/** Referenzdaten stammen aus dem Original: Mosterei-Verkauf Mo-Do wie dort doppelt abziehen. */
+const ORIGINAL = { original_mosterei_doppelabzug: true } as const;
+
 const referenzen = import.meta.glob<ReferenzDokument>("./referenz/level*.json", { eager: true, import: "default" });
 const JETZT = () => new Date(2026, 10, 20, 9, 0, 0);
 
@@ -28,7 +31,7 @@ function wuerfelfolge(fall: FallRef, mitEreignis: boolean): number[] {
 
 async function spieleUeberZustand(levelId: LevelId, fall: FallRef) {
   const speicher = arbeitsspeicher();
-  const z = new Spielzustand({ wuerfel: festerWuerfel(wuerfelfolge(fall, levelId === "level2")), jetzt: JETZT });
+  const z = new Spielzustand({ wuerfel: festerWuerfel(wuerfelfolge(fall, levelId === "level2")), jetzt: JETZT, level_optionen: ORIGINAL });
   await z.verbinde_speicher(speicher);
   z.regelwerk = new Regelwerk(fall.regelwerk);
   z.waehle_spieler("Anna");
@@ -42,10 +45,14 @@ async function spieleUeberZustand(levelId: LevelId, fall: FallRef) {
     const tageVorher = sitzung.woche.tage.length;
     await z.schliesse_tag_ab(levelId, e.einkauf);
     if (s.fehler !== undefined) {
-      expect(sitzung.fehler, fall.name).toBe(s.fehler);
+      expect(sitzung.fehler_technisch, fall.name).toBe(s.fehler);
+      // angezeigt wird der freundliche Hinweis zum selben Fehler
+      expect(sitzung.fehler, fall.name).toBeTruthy();
+      expect(sitzung.fehler, fall.name).not.toBe(s.fehler);
       expect(sitzung.woche.tage.length).toBe(tageVorher);
     } else {
       expect(sitzung.fehler).toBeNull();
+      expect(sitzung.fehler_technisch).toBeNull();
       expect(abrechnung_dict(sitzung.woche.tage[tageVorher] as never), `${fall.name} ${s.tag}`).toEqual(s.abrechnung);
     }
     expect({ portfoliostand: sitzung.level.portfoliostand, importeur_menge_woche: sitzung.level.importeur_menge_woche }).toEqual(s.zustand_danach);
@@ -82,10 +89,12 @@ describe("Spielzustand – Einzelheiten", () => {
     z.waehle_spieler("Ben");
     const s = z.sitzung("level1");
     await z.schliesse_tag_ab("level1", { importeur_menge: 0, wochenmarkt_menge: 0, mosterei_menge: 99999 });
-    expect(s.fehler).toContain("Verkauf an Mosterei");
+    expect(s.fehler_technisch).toContain("Verkauf an Mosterei");
+    expect(s.fehler).toContain("Mosterei");
     expect(s.preishistorie.length).toBe(1);
     z.verwerfe_fehler("level1");
     expect(s.fehler).toBeNull();
+    expect(s.fehler_technisch).toBeNull();
     await z.schliesse_tag_ab("level1", { importeur_menge: 0, wochenmarkt_menge: 0, mosterei_menge: 0 });
     expect(s.preishistorie.length).toBe(2);
     expect(s.tag_index).toBe(1);

@@ -99,12 +99,12 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 32,
-        "bilanzkreis_saldo": -42,
+        "bilanzkreis_saldo": 18,
         "einkaufskosten": 70,
         "erloes": 71.2,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 60,
-        "portfoliostand": 176,
+        "portfoliostand": 236,
         "portfolioergebnis": 1.2000000000000028,
         "ereignis_titel": "Feiertag - Wochenmarkt geschlossen"
       }
@@ -143,12 +143,12 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 26,
-        "bilanzkreis_saldo": 94,
+        "bilanzkreis_saldo": 104,
         "einkaufskosten": 73,
         "erloes": 46.199999999999996,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 10,
-        "portfoliostand": 270,
+        "portfoliostand": 340,
         "portfolioergebnis": -26.800000000000004,
         "ereignis_titel": "Knappheit am Wochenmarkt"
       }
@@ -191,7 +191,7 @@
         "erloes": 48,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 0,
-        "portfoliostand": 360,
+        "portfoliostand": 430,
         "portfolioergebnis": -26,
         "ereignis_titel": "Streik beim Importeur"
       }
@@ -229,13 +229,13 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 16,
-        "bilanzkreis_saldo": -360,
+        "bilanzkreis_saldo": -430,
         "einkaufskosten": 120,
-        "erloes": 267.20000000000005,
+        "erloes": 295.20000000000005,
         "ausgleichskosten": 0,
-        "an_mosterei_geliefert": 554,
+        "an_mosterei_geliefert": 624,
         "portfoliostand": 0,
-        "portfolioergebnis": 147.20000000000005,
+        "portfolioergebnis": 175.20000000000005,
         "ereignis_titel": "Streik beim Importeur"
       }
     }
@@ -249,7 +249,7 @@
     "spieler": "Lena",
     "datum": "2026-11-18",
     "level": 2,
-    "endergebnis": 13.00000000000005,
+    "endergebnis": 41.00000000000005,
     "rest_long_short": 0,
     "anteil_spot": 0,
     "anteil_grundlast": 1,

@@ -56,12 +56,12 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 26,
-        "bilanzkreis_saldo": 44,
+        "bilanzkreis_saldo": 64,
         "einkaufskosten": 70,
         "erloes": 55.4,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 20,
-        "portfoliostand": 44,
+        "portfoliostand": 64,
         "portfolioergebnis": -14.600000000000001,
         "ereignis_titel": "Feiertag - Wochenmarkt geschlossen"
       }
@@ -105,7 +105,7 @@
         "erloes": 45,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 0,
-        "portfoliostand": 226,
+        "portfoliostand": 246,
         "portfolioergebnis": -61,
         "ereignis_titel": "Knappheit am Wochenmarkt"
       }
@@ -148,7 +148,7 @@
         "erloes": 46.5,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 0,
-        "portfoliostand": 301,
+        "portfoliostand": 321,
         "portfolioergebnis": -28.5,
         "ereignis_titel": "Ernteausfall beim Obstbauer"
       }
@@ -191,7 +191,7 @@
         "erloes": 47.1,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 0,
-        "portfoliostand": 374,
+        "portfoliostand": 394,
         "portfolioergebnis": -22.9,
         "ereignis_titel": "Ruhiger Tag"
       }
@@ -229,13 +229,13 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 28,
-        "bilanzkreis_saldo": -374,
+        "bilanzkreis_saldo": -394,
         "einkaufskosten": 70,
-        "erloes": 156.64000000000004,
+        "erloes": 161.44000000000003,
         "ausgleichskosten": 0,
-        "an_mosterei_geliefert": 456,
+        "an_mosterei_geliefert": 476,
         "portfoliostand": 0,
-        "portfolioergebnis": 86.64000000000004,
+        "portfolioergebnis": 91.44000000000003,
         "ereignis_titel": "Ruhiger Tag"
       }
     }
@@ -249,7 +249,7 @@
     "spieler": "Jonas",
     "datum": "2026-11-18",
     "level": 2,
-    "endergebnis": -40.35999999999996,
+    "endergebnis": -35.559999999999974,
     "rest_long_short": 0,
     "anteil_spot": 0,
     "anteil_grundlast": 1,

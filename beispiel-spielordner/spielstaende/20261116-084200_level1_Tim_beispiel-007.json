@@ -99,12 +99,12 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 25,
-        "bilanzkreis_saldo": 65,
+        "bilanzkreis_saldo": 75,
         "einkaufskosten": 70,
         "erloes": 58.3,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 10,
-        "portfoliostand": 229,
+        "portfoliostand": 239,
         "portfolioergebnis": -11.700000000000003,
         "ereignis_titel": ""
       }
@@ -147,7 +147,7 @@
         "erloes": 48.8,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 0,
-        "portfoliostand": 457,
+        "portfoliostand": 467,
         "portfolioergebnis": -57.2,
         "ereignis_titel": ""
       }
@@ -190,7 +190,7 @@
         "erloes": 62.400000000000006,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 0,
-        "portfoliostand": 534,
+        "portfoliostand": 544,
         "portfolioergebnis": -7.599999999999994,
         "ereignis_titel": ""
       }
@@ -228,13 +228,13 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 54,
-        "bilanzkreis_saldo": -534,
+        "bilanzkreis_saldo": -544,
         "einkaufskosten": 84,
-        "erloes": 420.79999999999995,
+        "erloes": 426.4,
         "ausgleichskosten": 0,
-        "an_mosterei_geliefert": 610,
+        "an_mosterei_geliefert": 620,
         "portfoliostand": 0,
-        "portfolioergebnis": 336.79999999999995,
+        "portfolioergebnis": 342.4,
         "ereignis_titel": ""
       }
     }
@@ -248,7 +248,7 @@
     "spieler": "Tim",
     "datum": "2026-11-16",
     "level": 1,
-    "endergebnis": 220.69999999999996,
+    "endergebnis": 226.29999999999998,
     "rest_long_short": 0,
     "anteil_spot": 0,
     "anteil_grundlast": 1,

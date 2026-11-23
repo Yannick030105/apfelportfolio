@@ -582,7 +582,7 @@ export function spielstand_aus_text(text: string, quelle = "Spielstand"): Spiels
   try {
     daten = JSON.parse(text);
   } catch (e) {
-    throw new SpielstandFehler(`${quelle}: kein gueltiges JSON (${(e as Error).message}).`);
+    throw new SpielstandFehler(`${quelle}: kein gültiges JSON (${(e as Error).message}).`);
   }
   return pruefe_spielstand(daten, quelle);
 }

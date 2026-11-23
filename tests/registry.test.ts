@@ -11,13 +11,16 @@ import { festerWuerfel } from "../src/domain/wuerfel";
 import { finde_level, LEVEL_REGISTRY, type LevelId } from "../src/levels/registry";
 import { abrechnung_dict, markt_dict, type FallRef, type ReferenzDokument } from "./hilfen/referenz";
 
+/** Referenzdaten stammen aus dem Original: Mosterei-Verkauf Mo-Do wie dort doppelt abziehen. */
+const ORIGINAL = { original_mosterei_doppelabzug: true } as const;
+
 const dokumente = import.meta.glob<ReferenzDokument>("./referenz/level*.json", {
   eager: true,
   import: "default",
 });
 
 function spieleUeberAdapter(levelId: LevelId, fall: FallRef): void {
-  const level = finde_level(levelId).erzeuge(new Regelwerk(fall.regelwerk));
+  const level = finde_level(levelId).erzeuge(new Regelwerk(fall.regelwerk), ORIGINAL);
   for (const [i, schritt] of fall.schritte.entries()) {
     const ort = `${fall.name}, Schritt ${i}`;
     const e = schritt.eingabe;

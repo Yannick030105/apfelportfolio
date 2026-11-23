@@ -99,12 +99,12 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 24,
-        "bilanzkreis_saldo": 86,
+        "bilanzkreis_saldo": 126,
         "einkaufskosten": 111,
         "erloes": 72,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 40,
-        "portfoliostand": 201,
+        "portfoliostand": 241,
         "portfolioergebnis": -39,
         "ereignis_titel": ""
       }
@@ -147,7 +147,7 @@
         "erloes": 64,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 0,
-        "portfoliostand": 365,
+        "portfoliostand": 405,
         "portfolioergebnis": -48,
         "ereignis_titel": ""
       }
@@ -164,7 +164,7 @@
       "einkauf": {
         "importeur_menge": 0,
         "wochenmarkt_menge": 50,
-        "mosterei_menge": 130
+        "mosterei_menge": 140
       },
       "abrechnung": {
         "tag": "Donnerstag",
@@ -177,7 +177,7 @@
         "einkauf": {
           "importeur_menge": 0,
           "wochenmarkt_menge": 50,
-          "mosterei_menge": 130
+          "mosterei_menge": 140
         },
         "nachfrage": {
           "schulessen": 90,
@@ -185,13 +185,13 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 49,
-        "bilanzkreis_saldo": -149,
+        "bilanzkreis_saldo": -29,
         "einkaufskosten": 105,
-        "erloes": 148,
+        "erloes": 153.6,
         "ausgleichskosten": 0,
-        "an_mosterei_geliefert": 130,
-        "portfoliostand": 216,
-        "portfolioergebnis": 43,
+        "an_mosterei_geliefert": 140,
+        "portfoliostand": 376,
+        "portfolioergebnis": 48.599999999999994,
         "ereignis_titel": ""
       }
     },
@@ -228,13 +228,13 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 25,
-        "bilanzkreis_saldo": -216,
+        "bilanzkreis_saldo": -376,
         "einkaufskosten": 70,
-        "erloes": 224.55999999999997,
+        "erloes": 314.15999999999997,
         "ausgleichskosten": 0,
-        "an_mosterei_geliefert": 301,
+        "an_mosterei_geliefert": 461,
         "portfoliostand": 0,
-        "portfolioergebnis": 154.55999999999997,
+        "portfolioergebnis": 244.15999999999997,
         "ereignis_titel": ""
       }
     }
@@ -248,7 +248,7 @@
     "spieler": "Lena",
     "datum": "2026-11-16",
     "level": 1,
-    "endergebnis": 77.05999999999997,
+    "endergebnis": 172.25999999999996,
     "rest_long_short": 0,
     "anteil_spot": 0,
     "anteil_grundlast": 1,

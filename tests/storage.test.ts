@@ -34,6 +34,9 @@ import { APP_VERSION } from "../src/version";
 import { FakeOrdner } from "./hilfen/fakeOrdner";
 import { abrechnung_dict, type FallRef, type ReferenzDokument } from "./hilfen/referenz";
 
+/** Referenzdaten stammen aus dem Original: Mosterei-Verkauf Mo-Do wie dort doppelt abziehen. */
+const ORIGINAL = { original_mosterei_doppelabzug: true } as const;
+
 const referenzen = import.meta.glob<ReferenzDokument>("./referenz/level*.json", { eager: true, import: "default" });
 const migriertEcht = import.meta.glob<unknown>("./daten/migration/spiellog/*.json", { eager: true, import: "default" });
 const migriertGrenz = import.meta.glob<unknown>("./daten/migration/grenzfaelle/*.json", { eager: true, import: "default" });
@@ -47,7 +50,7 @@ const JETZT = new Date(2026, 10, 19, 15, 30, 12); // lokale Zeit
 async function spieleMitSpeichern(levelId: LevelId, fall: FallRef, speicher: Speicher, spieler: string): Promise<Spielstand> {
   const eintrag = finde_level(levelId);
   const regelwerk = new Regelwerk(fall.regelwerk);
-  let level = eintrag.erzeuge(regelwerk);
+  let level = eintrag.erzeuge(regelwerk, ORIGINAL);
   let stand = neuer_spielstand({ spieler, levelId, level: eintrag.nummer, regelwerk: regelwerk.als_dict(), jetzt: JETZT, id: `id-${fall.name}` });
   await speicher.speichere(stand);
   const woche = new Wochenverlauf({ level: eintrag.nummer });
@@ -85,7 +88,7 @@ async function spieleMitSpeichern(levelId: LevelId, fall: FallRef, speicher: Spe
       // "Browser neu geladen": Stand aus dem Speicher, neue Level-Instanz
       const geladen = (await speicher.lade_alle()).spielstaende.find((s) => s.id === stand.id) as Spielstand;
       expect(geladen).toEqual(stand);
-      level = eintrag.erzeuge(new Regelwerk(geladen.regelwerk ?? undefined));
+      level = eintrag.erzeuge(new Regelwerk(geladen.regelwerk ?? undefined), ORIGINAL);
       level.setze_zustand(geladen.zustand as NonNullable<Spielstand["zustand"]>);
       stand = geladen;
     }
@@ -98,7 +101,7 @@ describe("Log-Zeile wie in 1_spielen.py / level_2.py", () => {
     it(`${pfad}: alle Wochen`, () => {
       const levelId: LevelId = doc.level === 1 ? "level1" : "level2";
       for (const fall of doc.faelle) {
-        const level = finde_level(levelId).erzeuge(new Regelwerk(fall.regelwerk));
+        const level = finde_level(levelId).erzeuge(new Regelwerk(fall.regelwerk), ORIGINAL);
         const woche = new Wochenverlauf({ level: doc.level });
         for (const s of fall.schritte) {
           if (s.abrechnung === undefined) continue;
@@ -182,7 +185,7 @@ describe("Schema und Pruefung", () => {
     ]);
     expect(spielstaende.length).toBe(1);
     expect(fehlerhaft.map((f) => f.datei)).toEqual(["b.json", "c.json"]);
-    expect(fehlerhaft[0]?.grund).toContain("kein gueltiges JSON");
+    expect(fehlerhaft[0]?.grund).toContain("kein gültiges JSON");
     expect(fehlerhaft[1]?.grund).toContain("gleiche Spielstand-Kennung wie a.json");
   });
 
@@ -377,7 +380,7 @@ describe("Regelwerk laden/pruefen/speichern (data/specs_repository.py)", () => {
   });
 
   it.each([
-    ["{ kaputt", "kein gueltiges JSON"],
+    ["{ kaputt", "kein gültiges JSON"],
     ["[1, 2]", "muss ein JSON-Objekt sein"],
     ['{"importeur_limit": 300, "farbe": "rot"}', 'Unbekannte Einstellung "farbe"'],
     ['{"importeur_limit": "300"}', '"importeur_limit" (Importeur-Obergrenze) muss eine Zahl sein'],
@@ -392,8 +395,8 @@ describe("Regelwerk laden/pruefen/speichern (data/specs_repository.py)", () => {
     expect(e.fehler).toEqual([]);
     expect(e.regelwerk.importeur_limit).toBe(-5);
     expect(e.regelwerk.wochenmarkt_limit_tag).toBe(140);
-    expect(e.warnungen.some((w) => w.includes('"wochenmarkt_limit_tag" (Wochenmarkt-Limit pro Tag) fehlt - Standardwert 140'))).toBe(true);
-    expect(e.warnungen.some((w) => w.includes("Importeur-Obergrenze darf nicht negativ sein."))).toBe(true);
+    expect(e.warnungen.some((w) => w.includes('"wochenmarkt_limit_tag" (Wochenmarkt-Limit pro Tag) fehlt – Standardwert 140'))).toBe(true);
+    expect(e.warnungen.some((w) => w.includes("Die Obergrenze beim Importeur darf nicht negativ sein."))).toBe(true);
   });
 
   it("unlesbare config.json -> eingebautes Regelwerk + Meldung", async () => {

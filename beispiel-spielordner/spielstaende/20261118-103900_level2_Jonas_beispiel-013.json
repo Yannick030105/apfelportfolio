@@ -143,12 +143,12 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 20,
-        "bilanzkreis_saldo": 150,
+        "bilanzkreis_saldo": 180,
         "einkaufskosten": 94,
         "erloes": 46.8,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 30,
-        "portfoliostand": 505,
+        "portfoliostand": 535,
         "portfolioergebnis": -47.2,
         "ereignis_titel": "Streik beim Importeur"
       }
@@ -165,7 +165,7 @@
       "einkauf": {
         "importeur_menge": 0,
         "wochenmarkt_menge": 0,
-        "mosterei_menge": 200
+        "mosterei_menge": 210
       },
       "abrechnung": {
         "tag": "Donnerstag",
@@ -178,7 +178,7 @@
         "einkauf": {
           "importeur_menge": 0,
           "wochenmarkt_menge": 0,
-          "mosterei_menge": 200
+          "mosterei_menge": 210
         },
         "nachfrage": {
           "schulessen": 90,
@@ -186,13 +186,13 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 27,
-        "bilanzkreis_saldo": -317,
+        "bilanzkreis_saldo": -127,
         "einkaufskosten": 70,
-        "erloes": 113.50000000000001,
+        "erloes": 116.70000000000002,
         "ausgleichskosten": 0,
-        "an_mosterei_geliefert": 200,
-        "portfoliostand": 188,
-        "portfolioergebnis": 43.500000000000014,
+        "an_mosterei_geliefert": 210,
+        "portfoliostand": 408,
+        "portfolioergebnis": 46.70000000000002,
         "ereignis_titel": "Ruhiger Tag"
       }
     },
@@ -229,13 +229,13 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 118,
-        "bilanzkreis_saldo": -188,
+        "bilanzkreis_saldo": -408,
         "einkaufskosten": 70,
-        "erloes": 152.60000000000002,
+        "erloes": 223.00000000000003,
         "ausgleichskosten": 0,
-        "an_mosterei_geliefert": 180,
+        "an_mosterei_geliefert": 400,
         "portfoliostand": 0,
-        "portfolioergebnis": 82.60000000000002,
+        "portfolioergebnis": 153.00000000000003,
         "ereignis_titel": "Grossauftrag der Baeckerei"
       }
     }
@@ -249,7 +249,7 @@
     "spieler": "Jonas",
     "datum": "2026-11-18",
     "level": 2,
-    "endergebnis": -54.89999999999998,
+    "endergebnis": 18.70000000000003,
     "rest_long_short": 0,
     "anteil_spot": 0,
     "anteil_grundlast": 1,

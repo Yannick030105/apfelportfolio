@@ -99,12 +99,12 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 41,
-        "bilanzkreis_saldo": 9,
+        "bilanzkreis_saldo": 59,
         "einkaufskosten": 94,
         "erloes": 88.7,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 50,
-        "portfoliostand": 244,
+        "portfoliostand": 294,
         "portfolioergebnis": -5.299999999999997,
         "ereignis_titel": ""
       }
@@ -147,7 +147,7 @@
         "erloes": 46.5,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 0,
-        "portfoliostand": 409,
+        "portfoliostand": 459,
         "portfolioergebnis": -41.5,
         "ereignis_titel": ""
       }
@@ -164,7 +164,7 @@
       "einkauf": {
         "importeur_menge": 0,
         "wochenmarkt_menge": 0,
-        "mosterei_menge": 140
+        "mosterei_menge": 150
       },
       "abrechnung": {
         "tag": "Donnerstag",
@@ -177,7 +177,7 @@
         "einkauf": {
           "importeur_menge": 0,
           "wochenmarkt_menge": 0,
-          "mosterei_menge": 140
+          "mosterei_menge": 150
         },
         "nachfrage": {
           "schulessen": 90,
@@ -185,13 +185,13 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 37,
-        "bilanzkreis_saldo": -207,
+        "bilanzkreis_saldo": -77,
         "einkaufskosten": 70,
-        "erloes": 129.1,
+        "erloes": 133.9,
         "ausgleichskosten": 0,
-        "an_mosterei_geliefert": 140,
-        "portfoliostand": 202,
-        "portfolioergebnis": 59.099999999999994,
+        "an_mosterei_geliefert": 150,
+        "portfoliostand": 382,
+        "portfolioergebnis": 63.900000000000006,
         "ereignis_titel": ""
       }
     },
@@ -228,13 +228,13 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 17,
-        "bilanzkreis_saldo": -202,
+        "bilanzkreis_saldo": -382,
         "einkaufskosten": 70,
-        "erloes": 113.60000000000001,
+        "erloes": 156.8,
         "ausgleichskosten": 0,
-        "an_mosterei_geliefert": 295,
+        "an_mosterei_geliefert": 475,
         "portfoliostand": 0,
-        "portfolioergebnis": 43.60000000000001,
+        "portfolioergebnis": 86.80000000000001,
         "ereignis_titel": ""
       }
     }
@@ -248,7 +248,7 @@
     "spieler": "Aylin",
     "datum": "2026-11-16",
     "level": 1,
-    "endergebnis": 3.4000000000000057,
+    "endergebnis": 51.40000000000002,
     "rest_long_short": 0,
     "anteil_spot": 0,
     "anteil_grundlast": 1,

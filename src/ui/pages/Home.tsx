@@ -173,7 +173,7 @@ export function Home() {
 
       {gestartet > 0 && aktueller_spieler !== null ? (
         <>
-          <Meldung art="erfolg">Los geht's, {aktueller_spieler}! Wähle links dein Level, um zu starten.</Meldung>
+          <Meldung art="erfolg">Los geht's, {aktueller_spieler}! Wähle oben dein Level, um zu starten.</Meldung>
           <Ballons key={gestartet} />
         </>
       ) : null}

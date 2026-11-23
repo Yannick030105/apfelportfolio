@@ -1,4 +1,4 @@
-<!-- Automatisch erzeugt aus SCHRITTE in ui/pages/4_tutorial.py (tools/texte_exportieren.py). Texte woertlich; Format: '## icon | titel', Absatz = Erklaerung, '> ' = Beispiel. -->
+<!-- Automatisch erzeugt aus SCHRITTE in ui/pages/4_tutorial.py (tools/texte_exportieren.py). Texte woertlich; Format: '## icon | titel', Absatz = Erklaerung, '> ' = Beispiel. Genehmigte Aenderungen: tests/daten/tutorial_abweichungen.json. -->
 
 ## 🍎 | Willkommen im Apfelportfolio
 
@@ -26,7 +26,7 @@ Die Bäckerei bestellt jeden Tag eine unterschiedliche Menge Äpfel – wie ein 
 
 ## 🚢 | Der Importeur – Zukauf mit Limit
 
-Reicht dein Bestand nicht aus, kannst du beim Importeur zukaufen. Das geht aber nur von Montag bis Mittwoch, und es gibt eine Obergrenze für die gesamte Woche. Der Preis schwankt täglich.
+Reicht dein Bestand nicht aus, kannst du beim Importeur zukaufen. Das geht aber nur von Montag bis Mittwoch, und es gibt eine tägliche Obergrenze. Der Preis schwankt täglich.
 
 > Beispiel: Am Donnerstag ist der Importeur nicht mehr verfügbar – plane deinen Zukauf rechtzeitig.
 

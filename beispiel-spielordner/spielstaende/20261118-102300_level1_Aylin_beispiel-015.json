@@ -99,12 +99,12 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 14,
-        "bilanzkreis_saldo": 56,
+        "bilanzkreis_saldo": 106,
         "einkaufskosten": 88,
         "erloes": 59,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 50,
-        "portfoliostand": 144,
+        "portfoliostand": 194,
         "portfolioergebnis": -29,
         "ereignis_titel": ""
       }
@@ -147,7 +147,7 @@
         "erloes": 77.6,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 0,
-        "portfoliostand": 302,
+        "portfoliostand": 352,
         "portfolioergebnis": -62.400000000000006,
         "ereignis_titel": ""
       }
@@ -190,7 +190,7 @@
         "erloes": 63.5,
         "ausgleichskosten": 0,
         "an_mosterei_geliefert": 0,
-        "portfoliostand": 407,
+        "portfoliostand": 457,
         "portfolioergebnis": -26.5,
         "ereignis_titel": ""
       }
@@ -228,13 +228,13 @@
         },
         "an_schulessen_geliefert": 90,
         "an_baeckerei_geliefert": 11,
-        "bilanzkreis_saldo": -407,
+        "bilanzkreis_saldo": -457,
         "einkaufskosten": 70,
-        "erloes": 161.84000000000003,
+        "erloes": 173.84000000000003,
         "ausgleichskosten": 0,
-        "an_mosterei_geliefert": 506,
+        "an_mosterei_geliefert": 556,
         "portfoliostand": 0,
-        "portfolioergebnis": 91.84000000000003,
+        "portfolioergebnis": 103.84000000000003,
         "ereignis_titel": ""
       }
     }
@@ -248,7 +248,7 @@
     "spieler": "Aylin",
     "datum": "2026-11-18",
     "level": 1,
-    "endergebnis": -44.659999999999975,
+    "endergebnis": -32.659999999999975,
     "rest_long_short": 0,
     "anteil_spot": 0,
     "anteil_grundlast": 1,

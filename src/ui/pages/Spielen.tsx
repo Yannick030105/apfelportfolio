@@ -12,8 +12,9 @@
  *   - Slider behalten ihren Wert, solange sich Beschriftung und Grenzen nicht
  *     aendern - auch ueber "Handel abschliessen" und "Neue Woche starten"
  *     hinweg; sonst beginnen sie wieder bei 0 (WidgetZustand).
- *   - Ein ValueError beim Abschliessen erscheint als Fehlerkasten unter dem
- *     Handelstisch; wie bei einer Streamlit-Ausnahme endet die Seite dort
+ *   - Ein abgelehnter Handel (ValueError) erscheint als Fehlerkasten unter dem
+ *     Handelstisch - mit freundlichem Hinweis statt Python-Meldung (bewusste
+ *     Abweichung); wie bei einer Streamlit-Ausnahme endet die Seite dort
  *     (keine Wochenuebersicht) bis zur naechsten Eingabe.
  */
 import { useEffect, useRef, useState } from "preact/hooks";
@@ -412,7 +413,7 @@ export function Spielen({ levelId }: { levelId: LevelId }) {
 
       {sitzung.fehler !== null ? (
         <Meldung art="fehler">
-          <span class="fehlertyp">ValueError:</span> {sitzung.fehler}
+          <strong>Das geht so nicht:</strong> {sitzung.fehler}
         </Meldung>
       ) : (
         <>
