@@ -41,7 +41,7 @@ SPIELER = ["Anna", "anna", "Ärne", "Ben", "Zoe", "Mia", "Leon", "Clara"]
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--legacy", type=Path, default=WEB_ROOT.parent)
+    parser.add_argument("--legacy", type=Path, default=WEB_ROOT / "legacy")
     parser.add_argument("--pruefen", action="store_true")
     args = parser.parse_args()
     legacy = args.legacy.resolve()

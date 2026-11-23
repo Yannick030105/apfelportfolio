@@ -1,11 +1,7 @@
-# Pipeline fuer apfelportfolio-web: Referenzpruefung, Tests, Build, Release.
-#
-# Solange die Web-Version im Unterordner apfelportfolio-web/ des Python-Repos liegt:
-#   GitLab > Settings > CI/CD > General pipelines > "CI/CD configuration file"
-#   auf "apfelportfolio-web/.gitlab-ci.yml" setzen und die CI/CD-Variable
-#   WEB_DIR = "apfelportfolio-web" anlegen.
-# Nach dem Aufloesen des Unterordners liegt die Datei im Repo-Wurzelverzeichnis,
-# WEB_DIR bleibt dann beim Standardwert ".".
+# Pipeline fuer Apfelportfolio (Web-Version): Referenzpruefung, Tests, Build, Release.
+# Die alte Python/Streamlit-Version liegt unter legacy/ und wird hier nicht gebaut.
+# WEB_DIR erlaubt es, die Web-Version bei Bedarf aus einem Unterordner zu bauen
+# (Standard: Repo-Wurzel).
 
 variables:
   WEB_DIR: "."

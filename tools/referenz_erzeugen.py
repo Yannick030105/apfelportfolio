@@ -2,8 +2,8 @@
 """
 Erzeugt die Referenzdaten (Soll-Ergebnisse) fuer die TypeScript-Portierung.
 
-Laeuft gegen das alte Python-Projekt (Standard: der Ordner oberhalb von
-apfelportfolio-web/) und schreibt nach apfelportfolio-web/tests/referenz/:
+Laeuft gegen das alte Python-Projekt (Standard: legacy/) und schreibt nach
+tests/referenz/:
 
     level1_wochen.json                    300 Zufallswochen, Regelwerk aus config/config.json
     level1_wochen_standardregelwerk.json   50 Zufallswochen, Regelwerk() mit Default-Werten
@@ -79,7 +79,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 WEB_ROOT = Path(__file__).resolve().parent.parent
-STANDARD_LEGACY = WEB_ROOT.parent
+STANDARD_LEGACY = WEB_ROOT / "legacy"
 STANDARD_ZIEL = WEB_ROOT / "tests" / "referenz"
 
 FORMAT_VERSION = 1

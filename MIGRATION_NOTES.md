@@ -6,7 +6,7 @@ Stand: Phase 6 abgeschlossen (alle 7 Durchläufe; alle Seiten portiert). Offen: 
 
 ## 1. Zuordnung alt → neu
 
-| Alt (Python, Repo-Wurzel) | Neu (`apfelportfolio-web/`) | Status |
+| Alt (Python, jetzt `legacy/`) | Neu (Repo-Wurzel, bis zum Umzug `apfelportfolio-web/`) | Status |
 |---|---|---|
 | `src/apfelportfolio/domain/models.py` | `src/domain/models.ts` | **erledigt (Phase 2)** |
 | – (Zufall war in den Level-Klassen) | `src/domain/wuerfel.ts` | **erledigt (Phase 2)** |

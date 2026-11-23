@@ -1,13 +1,12 @@
 # Projekt: Apfelportfolio – Migration Python/Streamlit → TypeScript (Single-File-HTML)
 
 ## Arbeitsort
-Die neue Anwendung entsteht vollständig im Unterordner `apfelportfolio-web/` des
-bestehenden Repos. Das alte Python-Projekt (Repo-Wurzel, `../` von hier aus) bleibt
-als Legacy-Code bestehen und wird nicht gelöscht. Am Ende wird der Unterordner
-"aufgelöst" (Inhalte an die Zielstelle verschoben) – erst nach ausdrücklicher Freigabe.
+Die Web-Version liegt im Repo-Wurzelverzeichnis. Das alte Python/Streamlit-Projekt liegt
+unveraendert als Legacy-Code unter `legacy/` und wird nicht geloescht (die Werkzeuge in
+`tools/` erzeugen daraus Soll-Werte, Standard `--legacy legacy`).
 
 ## Ziel
-Das bestehende Spiel (Python/Streamlit, `../`) wird funktional
+Das bestehende Spiel (Python/Streamlit, `legacy/`) wird funktional
 1:1 nach TypeScript übertragen. Ergebnis ist eine einzige HTML-Datei, die per
 Doppelklick vom Netzlaufwerk läuft und Spielstände über die File System Access API
 in einen Ordner schreibt (Fallback: Laden/Speichern per Dateidialog).
@@ -34,13 +33,16 @@ und in MIGRATION_NOTES.md unter "Auffälligkeiten" dokumentieren.
 
 ## Zielstruktur
 ```
-apfelportfolio-web/
+<Repo-Wurzel>/
 │   .gitlab-ci.yml          Pipeline: Tests, Build, Release
 │   .gitignore
 │   package.json            Abhängigkeiten, Version, Befehle (ersetzt tasks.py)
 │   tsconfig.json
 │   vite.config.ts          baut alles in eine einzige HTML-Datei
 │   index.html              Einstiegsseite
+│
+├───legacy/                 altes Python/Streamlit-Projekt (unveraendert)
+├───beispiel-spielordner/   Dummy-Spielstaende zum Ausprobieren
 │   README.md
 │   CHANGELOG.md
 │

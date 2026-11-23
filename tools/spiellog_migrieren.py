@@ -32,7 +32,7 @@ import unicodedata
 from pathlib import Path
 
 WEB_ROOT = Path(__file__).resolve().parent.parent
-STANDARD_CSV = WEB_ROOT.parent / "data_store" / "spiellog.csv"
+STANDARD_CSV = WEB_ROOT / "legacy" / "data_store" / "spiellog.csv"
 
 SPIELSTAND_FORMAT = "apfelportfolio-spielstand"
 SPIELSTAND_FORMAT_VERSION = 1
